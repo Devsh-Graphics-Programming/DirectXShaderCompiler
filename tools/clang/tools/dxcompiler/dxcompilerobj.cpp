@@ -9,6 +9,8 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include "clang/Sema/SemaHLSL.h"
+
 #include "clang/Basic/Diagnostic.h"
 #include "clang/Basic/FileManager.h"
 #include "clang/Basic/SourceManager.h"
@@ -625,6 +627,8 @@ public:
         opts.SpirvOptions.origSource.assign(
             static_cast<const char *>(pOrigUtf8Source->GetStringPointer()),
             pOrigUtf8Source->GetStringLength());
+
+        disableHLSLIntrinsicsGlobalVariableBecauseIDontCare = opts.SpirvOptions.devshDisableHLSLIntrinsics;
 
         CComPtr<IDxcResult> pSrcCodeResult;
         std::vector<LPCWSTR> PreprocessArgs;
