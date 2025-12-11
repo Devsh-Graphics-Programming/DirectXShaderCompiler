@@ -628,8 +628,6 @@ public:
             static_cast<const char *>(pOrigUtf8Source->GetStringPointer()),
             pOrigUtf8Source->GetStringLength());
 
-        disableHLSLIntrinsicsGlobalVariableBecauseIDontCare = opts.SpirvOptions.devshDisableHLSLIntrinsics;
-
         CComPtr<IDxcResult> pSrcCodeResult;
         std::vector<LPCWSTR> PreprocessArgs;
         PreprocessArgs.reserve(argCount + 1);
@@ -968,7 +966,8 @@ public:
         compiler.getCodeGenOpts().SpirvOptions = opts.SpirvOptions;
         clang::EmitSpirvAction action;
         FrontendInputFile file(pUtf8SourceName, IK_HLSL);
-        action.BeginSourceFile(compiler, file);
+        action.BeginSourceFile(
+            compiler, file, opts.SpirvOptions.devshDisableHLSLIntrinsics);
         action.Execute();
         action.EndSourceFile();
         outStream.flush();

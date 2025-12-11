@@ -24,19 +24,6 @@
 #include "clang/Sema/Template.h"
 #include "clang/Sema/TemplateDeduction.h"
 
-#include <optional>
-extern std::optional<bool> disableHLSLIntrinsicsGlobalVariableBecauseIDontCare;
-
-inline bool shouldDisableHLSLIntrinsics()
-{
-  assert(disableHLSLIntrinsicsGlobalVariableBecauseIDontCare.has_value());
-
-  if (!disableHLSLIntrinsicsGlobalVariableBecauseIDontCare.has_value())
-    exit(-1);
-
-  return disableHLSLIntrinsicsGlobalVariableBecauseIDontCare.value();
-}
-
 // Forward declarations.
 struct IDxcIntrinsicTable;
 namespace clang {

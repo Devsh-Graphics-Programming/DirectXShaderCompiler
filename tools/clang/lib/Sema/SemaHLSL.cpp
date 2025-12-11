@@ -53,8 +53,6 @@
 #include <bitset>
 #include <float.h>
 
-std::optional<bool> disableHLSLIntrinsicsGlobalVariableBecauseIDontCare = std::nullopt;
-
 enum ArBasicKind {
   AR_BASIC_BOOL,
   AR_BASIC_LITERAL_FLOAT,
@@ -2996,6 +2994,9 @@ static TypedefDecl *CreateGlobalTypedef(ASTContext *context, const char *ident,
 
 class HLSLExternalSource : public ExternalSemaSource {
 private:
+
+    const bool m_disableHLSLIntrinsics;
+
   // Inner types.
   struct FindStructBasicTypeResult {
     ArBasicKind Kind; // Kind of struct (eg, AR_OBJECT_TEXTURE2D)
@@ -4115,13 +4116,14 @@ private:
   }
 
 public:
-  HLSLExternalSource()
+  HLSLExternalSource(bool disableHLSLIntrinsics)
       : m_matrixTemplateDecl(nullptr), m_vectorTemplateDecl(nullptr),
         m_vkIntegralConstantTemplateDecl(nullptr),
         m_vkLiteralTemplateDecl(nullptr),
         m_vkBufferPointerTemplateDecl(nullptr), m_hlslNSDecl(nullptr),
         m_vkNSDecl(nullptr), m_dxNSDecl(nullptr), m_context(nullptr),
-        m_sema(nullptr), m_hlslStringTypedef(nullptr) {
+        m_sema(nullptr), m_hlslStringTypedef(nullptr),
+        m_disableHLSLIntrinsics(disableHLSLIntrinsics) {
     memset(m_matrixTypes, 0, sizeof(m_matrixTypes));
     memset(m_matrixShorthandTypes, 0, sizeof(m_matrixShorthandTypes));
     memset(m_vectorTypes, 0, sizeof(m_vectorTypes));
@@ -5133,8 +5135,11 @@ public:
   bool IsValidObjectElement(LPCSTR tableName, IntrinsicOp op,
                             QualType objectElement);
 
-  static bool checkIfIntrinsicIsAllowed(StringRef intrinsicNameIdentifier)
+  bool checkIfIntrinsicIsAllowed(StringRef intrinsicNameIdentifier)
   {
+    if (!m_disableHLSLIntrinsics)
+      return true;
+
     static const std::unordered_set<std::string> allowedHLSLIntrinsics = {
         "Abort",
         "AcceptHitAndEndSearch",
@@ -5220,10 +5225,7 @@ public:
         "TraceRay",
         "TraceRayInline",
         "WorldRayDirection",
-        "WorldRayOrigin",
-        "WorldToObject",
-        "WorldToObject3x4",
-        "WorldToObject4x3"
+        "WorldRayOrigin"
     };
 
     auto it = allowedHLSLIntrinsics.find(std::string(intrinsicNameIdentifier));
@@ -5237,7 +5239,7 @@ public:
                                                   StringRef nameIdentifier,
                                                   size_t argumentCount) {
     // TODO: only check if the flag "devsh-disable-hlsl-intrinsics" is enabled
-    if (shouldDisableHLSLIntrinsics() && !checkIfIntrinsicIsAllowed(nameIdentifier))
+    if (!checkIfIntrinsicIsAllowed(nameIdentifier))
     {
       return IntrinsicDefIter::CreateStart(
           table, tableSize, table + tableSize,
@@ -13560,8 +13562,8 @@ hlsl::TrySubscriptIndexInitialization(clang::Sema *self, clang::Expr *SrcExpr,
 
 /// <summary>Performs HLSL-specific initialization on the specified
 /// context.</summary>
-void hlsl::InitializeASTContextForHLSL(ASTContext &context) {
-  HLSLExternalSource *hlslSource = new HLSLExternalSource();
+void hlsl::InitializeASTContextForHLSL(ASTContext &context, bool ignoreHLSLIntrinsics) {
+  HLSLExternalSource *hlslSource = new HLSLExternalSource(ignoreHLSLIntrinsics);
   IntrusiveRefCntPtr<ExternalASTSource> externalSource(hlslSource);
   if (hlslSource->Initialize(context)) {
     context.setExternalSource(externalSource);
