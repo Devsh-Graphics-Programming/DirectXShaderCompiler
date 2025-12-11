@@ -602,5 +602,5 @@ def rw_decl_global_cb : Flag<["-", "/"], "decl-global-cb">, Group<hlslrewrite_Gr
 // Also removed: compress, decompress, /Gch (child effect), /Gpp (partial precision)
 // /Op - no support for preshaders.
 
-def devsh_disable_hlsl_intrinsics : Flag<["-"], "devsh-disable-hlsl-intrinsics">, Group<spirv_Group>, Flags<[CoreOption, DriverOption]>,
+def fvk_disable_hlsl_intrinsics : Flag<["-"], "fvk-disable-hlsl-intrinsics">, Group<spirv_Group>, Flags<[CoreOption, DriverOption]>,
   HelpText<"Disable HLSL intrinsics">;

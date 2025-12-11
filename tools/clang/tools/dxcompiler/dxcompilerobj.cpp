@@ -967,7 +967,7 @@ public:
         clang::EmitSpirvAction action;
         FrontendInputFile file(pUtf8SourceName, IK_HLSL);
         action.BeginSourceFile(
-            compiler, file, opts.SpirvOptions.devshDisableHLSLIntrinsics);
+            compiler, file, opts.SpirvOptions.disableHLSLIntrinsics);
         action.Execute();
         action.EndSourceFile();
         outStream.flush();

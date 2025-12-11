@@ -38,7 +38,7 @@ enum class SpirvLayoutRule {
 };
 
 struct SpirvCodeGenOptions {
-  bool devshDisableHLSLIntrinsics;
+  bool disableHLSLIntrinsics;
   /// Disable legalization and optimization and emit raw SPIR-V
   bool codeGenHighLevel;
   bool debugInfoFile;
