@@ -83,6 +83,12 @@ class SpecificDllLoader : public DllLoader {
       return hr;
     }
 #else
+#ifdef __EMSCRIPTEN__
+    m_dll = reinterpret_cast<HMODULE>(this);
+    m_createFn = &DxcCreateInstance;
+    m_createFn2 = &DxcCreateInstance2;
+    return S_OK;
+#endif
     m_dll = ::dlopen(
         dllName, RTLD_LAZY); // CodeQL [SM01925] This is by design, intended to
                              // be used to test multiple validators versions.
@@ -171,7 +177,12 @@ public:
 #ifdef _WIN32
       FreeLibrary(m_dll);
 #else
+#ifdef __EMSCRIPTEN__
+      // Emscripten path binds directly to in-module DxcCreateInstance* symbols.
+      // There is no runtime-loaded dynamic library to close.
+#else
       ::dlclose(m_dll);
+#endif
 #endif
       m_dll = nullptr;
     }

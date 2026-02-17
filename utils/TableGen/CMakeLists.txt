@@ -36,3 +36,7 @@ add_tablegen(llvm-tblgen LLVM
   TableGen.cpp
   CTagsEmitter.cpp
   )
+
+if(EMSCRIPTEN)
+  target_link_options(llvm-tblgen PRIVATE "SHELL:-sNODERAWFS=1")
+endif()

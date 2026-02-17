@@ -41,6 +41,10 @@ include_directories(${LLVM_SOURCE_DIR}/tools/clang/tools)
 
 add_dependencies(dxc dxclib dxcompiler)
 
+if(EMSCRIPTEN)
+  target_link_options(dxc PRIVATE "SHELL:-sNODERAWFS=1")
+endif()
+
 if(UNIX)
   set(CLANGXX_LINK_OR_COPY create_symlink)
 # Create a relative symlink

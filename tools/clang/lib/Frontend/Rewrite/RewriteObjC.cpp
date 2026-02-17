@@ -483,7 +483,8 @@ namespace {
         result =  Context->getObjCIdType();
       FunctionProtoType::ExtProtoInfo fpi;
       fpi.Variadic = variadic;
-      return Context->getFunctionType(result, args, fpi);
+      return Context->getFunctionType(result, args, fpi,
+                                      ArrayRef<hlsl::ParameterModifier>());
     }
 
     // Helper function: create a CStyleCastExpr with trivial type source info.

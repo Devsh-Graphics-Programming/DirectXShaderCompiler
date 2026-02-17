@@ -1,4 +1,4 @@
-function(llvm_create_cross_target_internal target_name toochain buildtype)
+function(llvm_create_cross_target_internal target_name toolchain buildtype)
 
   if(NOT DEFINED LLVM_${target_name}_BUILD)
     set(LLVM_${target_name}_BUILD "${CMAKE_BINARY_DIR}/${target_name}")
@@ -12,12 +12,45 @@ function(llvm_create_cross_target_internal target_name toochain buildtype)
         CACHE STRING "Toolchain file for ${target_name}")
   endif()
 
+  set(_native_compiler_flags_${target_name})
+  set(_native_config_flags_${target_name})
+  if(${target_name} STREQUAL "NATIVE")
+    if(NOT LLVM_NATIVE_C_COMPILER)
+      find_program(LLVM_NATIVE_C_COMPILER NAMES clang gcc cc)
+    endif()
+    if(NOT LLVM_NATIVE_CXX_COMPILER)
+      find_program(LLVM_NATIVE_CXX_COMPILER NAMES clang++ g++ c++)
+    endif()
+    if(LLVM_NATIVE_C_COMPILER)
+      list(APPEND _native_compiler_flags_${target_name} -DCMAKE_C_COMPILER=${LLVM_NATIVE_C_COMPILER})
+    endif()
+    if(LLVM_NATIVE_CXX_COMPILER)
+      list(APPEND _native_compiler_flags_${target_name} -DCMAKE_CXX_COMPILER=${LLVM_NATIVE_CXX_COMPILER})
+    endif()
+    list(APPEND _native_config_flags_${target_name}
+      -DLLVM_INCLUDE_TESTS=OFF
+      -DHLSL_INCLUDE_TESTS=OFF
+      -DSPIRV_BUILD_TESTS=OFF
+      -DLLVM_INCLUDE_EXAMPLES=OFF)
+    if(DEFINED LLVM_ENABLE_EH)
+      list(APPEND _native_config_flags_${target_name} -DLLVM_ENABLE_EH=${LLVM_ENABLE_EH})
+    endif()
+    if(DEFINED LLVM_ENABLE_RTTI)
+      list(APPEND _native_config_flags_${target_name} -DLLVM_ENABLE_RTTI=${LLVM_ENABLE_RTTI})
+    endif()
+    if(DEFINED ENABLE_SPIRV_CODEGEN)
+      list(APPEND _native_config_flags_${target_name} -DENABLE_SPIRV_CODEGEN=${ENABLE_SPIRV_CODEGEN})
+    endif()
+  endif()
+
   add_custom_command(OUTPUT ${LLVM_${target_name}_BUILD}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${LLVM_${target_name}_BUILD}
     COMMENT "Creating ${LLVM_${target_name}_BUILD}...")
 
   add_custom_command(OUTPUT ${LLVM_${target_name}_BUILD}/CMakeCache.txt
     COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}"
+        ${_native_compiler_flags_${target_name}}
+        ${_native_config_flags_${target_name}}
         ${CROSS_TOOLCHAIN_FLAGS_${target_name}} ${CMAKE_SOURCE_DIR}
     WORKING_DIRECTORY ${LLVM_${target_name}_BUILD}
     DEPENDS ${LLVM_${target_name}_BUILD}
@@ -42,6 +75,8 @@ function(llvm_create_cross_target_internal target_name toochain buildtype)
     endif()
     execute_process(COMMAND ${CMAKE_COMMAND} ${build_type_flags}
         -G "${CMAKE_GENERATOR}" -DLLVM_TARGETS_TO_BUILD=${LLVM_TARGETS_TO_BUILD}
+        ${_native_compiler_flags_${target_name}}
+        ${_native_config_flags_${target_name}}
         ${CROSS_TOOLCHAIN_FLAGS_${target_name}} ${CMAKE_SOURCE_DIR}
       WORKING_DIRECTORY ${LLVM_${target_name}_BUILD} )
   endif(NOT IS_DIRECTORY ${LLVM_${target_name}_BUILD})

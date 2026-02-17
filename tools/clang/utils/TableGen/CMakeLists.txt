@@ -11,3 +11,7 @@ add_tablegen(clang-tblgen CLANG
   NeonEmitter.cpp
   TableGen.cpp
   )
+
+if(EMSCRIPTEN)
+  target_link_options(clang-tblgen PRIVATE "SHELL:-sNODERAWFS=1")
+endif()
