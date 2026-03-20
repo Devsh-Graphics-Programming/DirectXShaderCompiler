@@ -1579,6 +1579,7 @@ private:
   /// Note: legalization specific code
   bool needsLegalization;
   bool needsLegalizationLoopUnroll;
+  bool needsLegalizationSsaRewrite;
 
   /// Whether the translated SPIR-V binary passes --before-hlsl-legalization
   /// option to spirv-val because of illegal function parameter scope.

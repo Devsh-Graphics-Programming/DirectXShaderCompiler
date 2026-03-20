@@ -594,6 +594,7 @@ SpirvEmitter::SpirvEmitter(CompilerInstance &ci)
       curFunction(nullptr), curThis(nullptr), seenPushConstantAt(),
       isSpecConstantMode(false), needsLegalization(false),
       needsLegalizationLoopUnroll(false),
+      needsLegalizationSsaRewrite(false),
       beforeHlslLegalization(false), mainSourceFile(nullptr) {
 
   // Get ShaderModel from command line hlsl profile option.
@@ -955,6 +956,9 @@ void SpirvEmitter::HandleTranslationUnit(ASTContext &context) {
       declIdMapper.requiresFlatteningCompositeResources() ||
       !dsetbindingsToCombineImageSampler.empty() ||
       spirvOptions.signaturePacking;
+  needsLegalizationSsaRewrite =
+      needsLegalizationSsaRewrite ||
+      !dsetbindingsToCombineImageSampler.empty();
 
   // Run legalization passes
   if (spirvOptions.codeGenHighLevel) {
@@ -5827,6 +5831,7 @@ SpirvInstruction *SpirvEmitter::createImageSample(
   if (varOffset) {
     needsLegalization = true;
     needsLegalizationLoopUnroll = true;
+    needsLegalizationSsaRewrite = true;
   }
 
   // SampleDref* instructions in SPIR-V always return a scalar.
@@ -16669,7 +16674,8 @@ bool SpirvEmitter::spirvToolsLegalize(std::vector<uint32_t> *mod,
         spvtools::CreateInterfaceVariableScalarReplacementPass());
   }
   optimizer.RegisterLegalizationPasses(spirvOptions.preserveInterface,
-                                       needsLegalizationLoopUnroll);
+                                       needsLegalizationLoopUnroll,
+                                       needsLegalizationSsaRewrite);
   // Add flattening of resources if needed.
   if (spirvOptions.flattenResourceArrays) {
     optimizer.RegisterPass(
