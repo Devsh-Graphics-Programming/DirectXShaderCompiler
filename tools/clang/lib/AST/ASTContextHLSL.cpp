@@ -662,6 +662,9 @@ void hlsl::AddRaytracingConstants(ASTContext &context) {
   AddConstUInt(context, StringRef("HIT_KIND_TRIANGLE_BACK_FACE"),
                (unsigned)DXIL::HitKind::TriangleBackFace);
 
+  // static const uint CLUSTER_ID_INVALID = 0xffffffff;
+  AddConstUInt(context, StringRef("CLUSTER_ID_INVALID"), 0xffffffff);
+
   AddConstUInt(
       context,
       StringRef(
@@ -1369,6 +1372,24 @@ CXXRecordDecl *hlsl::DeclareNodeOrRecordType(
 }
 
 #ifdef ENABLE_SPIRV_CODEGEN
+CXXRecordDecl *hlsl::DeclareVkSampledTextureType(ASTContext &context,
+                                                 DeclContext *declContext,
+                                                 llvm::StringRef hlslTypeName,
+                                                 QualType defaultParamType) {
+  BuiltinTypeDeclBuilder Builder(declContext, hlslTypeName,
+                                 TagDecl::TagKind::TTK_Struct);
+
+  TemplateTypeParmDecl *TyParamDecl =
+      Builder.addTypeTemplateParam("SampledTextureType", defaultParamType);
+
+  Builder.startDefinition();
+
+  QualType paramType = QualType(TyParamDecl->getTypeForDecl(), 0);
+  CXXRecordDecl *recordDecl = Builder.getRecordDecl();
+
+  return recordDecl;
+}
+
 CXXRecordDecl *hlsl::DeclareVkBufferPointerType(ASTContext &context,
                                                 DeclContext *declContext) {
   BuiltinTypeDeclBuilder Builder(declContext, "BufferPointer",

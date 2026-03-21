@@ -1263,6 +1263,21 @@ SpirvVariable *DeclResultIdMapper::createExternVar(const VarDecl *var,
     // another variable or function parameter
     needsLegalization = true;
   }
+
+  // If we have a multi-dimensional array of resources, we need to run
+  // legalization to flatten the array.
+  if (const auto *arrayType = astContext.getAsConstantArrayType(type)) {
+    if (astContext.getAsConstantArrayType(arrayType->getElementType())) {
+      QualType elemType = arrayType->getElementType();
+      while (const auto *innerArrayType =
+                 astContext.getAsConstantArrayType(elemType)) {
+        elemType = innerArrayType->getElementType();
+      }
+      if (hlsl::IsHLSLResourceType(elemType))
+        needsLegalization = true;
+    }
+  }
+
   if (vkImgFeatures.isCombinedImageSampler || vkImgFeatures.format) {
     spvContext.registerVkImageFeaturesForSpvVariable(varInstr, vkImgFeatures);
   }
@@ -4239,6 +4254,8 @@ SpirvVariable *DeclResultIdMapper::getBuiltinVar(spv::BuiltIn builtIn,
   case spv::BuiltIn::LocalInvocationIndex:
   case spv::BuiltIn::RemainingRecursionLevelsAMDX:
   case spv::BuiltIn::ShaderIndexAMDX:
+  case spv::BuiltIn::SubgroupId:
+  case spv::BuiltIn::NumSubgroups:
     sc = spv::StorageClass::Input;
     break;
   case spv::BuiltIn::TaskCountNV:

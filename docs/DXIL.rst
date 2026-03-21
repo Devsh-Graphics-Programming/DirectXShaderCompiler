@@ -3062,9 +3062,9 @@ Given width, offset:
 
 Opcode Table ExperimentalOps, id=32768: Experimental DXIL operations
 
-========== ======================================== ==================================================================
+========== ======================================== ===================================================================================================================
 ID         Name                                     Description
-========== ======================================== ==================================================================
+========== ======================================== ===================================================================================================================
 2147483648 ExperimentalNop                          nop does nothing
 2147483649 GetGroupWaveIndex                        returns the index of the wave in the thread group
 2147483650 GetGroupWaveCount                        returns the number of waves in the thread group
@@ -3076,7 +3076,31 @@ ID         Name                                     Description
 2147483656 RayQuery_CandidateTriangleObjectPosition returns candidate triangle vertices in object space as <9 x float>
 2147483657 RayQuery_CommittedTriangleObjectPosition returns committed triangle vertices in object space as <9 x float>
 2147483658 HitObject_TriangleObjectPosition         returns triangle vertices in object space as <9 x float>
-========== ======================================== ==================================================================
+2147483659 LinAlgMatrixMultiplyAccumulate           Returns the resulting matrix from multiplying A and B and accumulating into C
+2147483660 LinAlgFillMatrix                         fills a matrix with a scalar value
+2147483661 LinAlgCopyConvertMatrix                  Converts and copies the element and use type of the source matrix to the destination matrix with optional transpose
+2147483662 LinAlgMatrixLoadFromDescriptor           fills a matrix with data from a [RW]ByteAddressBuffer
+2147483663 LinAlgMatrixLoadFromMemory               fills a matrix with data from a groupshared array
+2147483664 LinAlgMatrixLength                       returns the number of elements stored in thread-local storage on the active thread for the provided matrix
+2147483665 LinAlgMatrixGetCoordinate                returns a two element vector containing the column and row of the matrix that the thread-local index corresponds to
+2147483666 LinAlgMatrixGetElement                   returns the element of the matrix corresponding to the provided thread-local index
+2147483667 LinAlgMatrixSetElement                   sets the element of the matrix corresponding to the provided thread-local index
+2147483668 LinAlgMatrixStoreToDescriptor            stores a matrix to a RWByteAddressBuffer
+2147483669 LinAlgMatrixStoreToMemory                stores a matrix to groupshared memory
+2147483670 LinAlgMatrixQueryAccumulatorLayout       returns comptime 0 when accumulator matrix are A layout, 1 when B layout
+2147483671 LinAlgMatrixMultiply                     Returns the resulting matrix from multiplying A and B
+2147483672 LinAlgMatrixAccumulate                   accumulate A or B matrix into Accumulator matrix following LHS += RHS
+2147483673 LinAlgMatVecMul                          Multiplies a MxK dimension matrix and a K sized input vector
+2147483674 LinAlgMatVecMulAdd                       Multiplies a MxK dimension matrix and a K sized input vector then adds a M sized bias vector
+2147483675 LinAlgMatrixAccumulateToDescriptor       accumulates a matrix to a RWByteAddressBuffer
+2147483676 LinAlgMatrixAccumulateToMemory           accumulates a matrix to groupshared memory
+2147483677 LinAlgMatrixOuterProduct                 Outer products an M sized vector and a N sized vector producing an MxN matrix
+2147483678 ReservedD1                               reserved
+2147483679 ReservedD2                               reserved
+2147483680 ReservedD3                               reserved
+2147483681 DebugBreak                               triggers a breakpoint if a debugger is attached
+2147483682 IsDebuggerPresent                        returns true if a debugger is attached
+========== ======================================== ===================================================================================================================
 
 
 .. OPCODES-RST:END
@@ -3305,6 +3329,7 @@ SM.CSNOSIGNATURES                                             Compute shaders mu
 SM.DOMAINLOCATIONIDXOOB                                       DomainLocation component index out of bounds for the domain.
 SM.DSINPUTCONTROLPOINTCOUNTRANGE                              DS input control point count must be [0..%0].  %1 specified.
 SM.DXILVERSION                                                Target shader model requires specific Dxil Version
+SM.EXPLICITTGSMSIZEONENTRY                                    Total Thread Group Shared Memory used by entry must not exceed limit specified by entry attribute.
 SM.GSINSTANCECOUNTRANGE                                       GS instance count must be [1..%0].  %1 specified.
 SM.GSOUTPUTVERTEXCOUNTRANGE                                   GS output vertex count must be [0..%0].  %1 specified.
 SM.GSTOTALOUTPUTVERTEXDATARANGE                               Declared output vertex count (%0) multiplied by the total number of declared scalar components of output data (%1) equals %2.  This value cannot be greater than %3.
@@ -3327,8 +3352,7 @@ SM.INVALIDSAMPLERFEEDBACKTYPE                                 Invalid sampler fe
 SM.INVALIDTEXTUREKINDONUAV                                    TextureCube[Array] resources are not supported with UAVs.
 SM.ISOLINEOUTPUTPRIMITIVEMISMATCH                             Hull Shader declared with IsoLine Domain must specify output primitive point or line. Triangle_cw or triangle_ccw output are not compatible with the IsoLine Domain.
 SM.ISSPECIALFLOAT                                             16 bit IsSpecialFloat overloads require Shader Model 6.9 or higher.
-SM.MAXMSSMSIZE                                                Total Thread Group Shared Memory storage is %0, exceeded %1.
-SM.MAXTGSMSIZE                                                Total Thread Group Shared Memory storage is %0, exceeded %1.
+SM.MAXTGSMSIZEONENTRY                                         Total Thread Group Shared Memory used by entry must not exceed maximum for shader model.
 SM.MAXTHEADGROUP                                              Declared Thread Group Count %0 (X*Y*Z) is beyond the valid maximum of %1.
 SM.MESHPSIGROWCOUNT                                           For shader '%0', primitive output signatures are taking up more than %1 rows.
 SM.MESHSHADERINOUTSIZE                                        For shader '%0', payload plus output size is greater than %1.

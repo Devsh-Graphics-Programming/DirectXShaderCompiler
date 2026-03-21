@@ -16,11 +16,6 @@ RWStructuredBuffer<T> t_output;
 // COL: OpMemberDecorate %S 0 RowMajor
 // ROW: OpMemberDecorate %S 0 ColMajor
 
-// The DXIL generated for the two cases seem to produce the same results,
-// and this matches that behaviour.
-// CHECK: [[array_const:%[0-9]+]] = OpConstantComposite %_arr_float_uint_6 %float_0 %float_1 %float_2 %float_3 %float_4 %float_5
-// CHECK: [[t:%[0-9]+]] = OpConstantComposite %T [[array_const]]
-
 // The DXIL that is generates different order for the values depending on
 // whether the matrix is column or row major. However, for SPIR-V, the value
 // stored in both cases is the same because the decoration, which is checked
@@ -40,13 +35,16 @@ void main() {
       s.a[i][j] = i*3+j;
     }
   }
-// CHECK: [[ac:%[0-9]+]] = OpAccessChain %_ptr_Uniform_T %t_output %int_0 %uint_0
-// CHECK: OpStore [[ac]] [[t]]
+// CHECK: [[tptr:%[0-9]+]] = OpAccessChain %_ptr_Uniform_T %t_output %int_0 %uint_0
+// CHECK: [[tarr:%[0-9]+]] = OpCompositeConstruct %_arr_float_uint_6
+// CHECK: [[tval:%[0-9]+]] = OpCompositeConstruct %T [[tarr]]
+// CHECK: OpStore [[tptr]] [[tval]]
   T t = (T)(s);
   t_output[0] = t;
 
-// CHECK: [[ac:%[0-9]+]] = OpAccessChain %_ptr_Uniform_S %s_output %int_0 %uint_0
-// CHECK: OpStore [[ac]] [[s]]
+// CHECK: [[sptr:%[0-9]+]] = OpAccessChain %_ptr_Uniform_S %s_output %int_0 %uint_0
+// CHECK: [[sval:%[0-9]+]] = OpCompositeConstruct %S
+// CHECK: OpStore [[sptr]] [[sval]]
   s = (S)t;
   s_output[0] = s;
 }

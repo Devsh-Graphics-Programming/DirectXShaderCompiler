@@ -2349,6 +2349,28 @@ static void ValidateDxilOperationCallInProfile(CallInst *CI,
         ValCtx.EmitInstrError(CI, ValidationRule::InstrNoReadingUninitialized);
     DxilInst_HitObject_TraceRay HOTraceRay(CI);
   } break;
+
+  // Clustered Geometry & Triangle Object Positions intrinsics
+  case DXIL::OpCode::RayQuery_CandidateClusterID:
+  case DXIL::OpCode::RayQuery_CommittedClusterID:
+  case DXIL::OpCode::RayQuery_CandidateTriangleObjectPosition:
+  case DXIL::OpCode::RayQuery_CommittedTriangleObjectPosition: {
+    // Validate rayQueryHandle is not undef
+    Value *RayQueryHandle = CI->getArgOperand(1);
+    if (isa<UndefValue>(RayQueryHandle))
+      ValCtx.EmitInstrError(CI, ValidationRule::InstrNoReadingUninitialized);
+    break;
+  }
+
+  case DXIL::OpCode::HitObject_ClusterID:
+  case DXIL::OpCode::HitObject_TriangleObjectPosition: {
+    // Validate HitObject is not undef
+    Value *HitObject = CI->getArgOperand(1);
+    if (isa<UndefValue>(HitObject))
+      ValCtx.EmitInstrError(CI, ValidationRule::InstrUndefHitObject);
+    break;
+  }
+
   case DXIL::OpCode::AtomicBinOp:
   case DXIL::OpCode::AtomicCompareExchange: {
     Type *pOverloadType = OP::GetOverloadType(Opcode, CI->getCalledFunction());
@@ -2637,6 +2659,19 @@ static bool IsDxilBuiltinStructType(StructType *ST, hlsl::OP *HlslOP) {
   }
 }
 
+static bool IsValidIntBitWidth(unsigned Width) {
+  switch (Width) {
+  case 1:
+  case 8:
+  case 16:
+  case 32:
+  case 64:
+    return true;
+  default:
+    return false;
+  }
+}
+
 // outer type may be: [ptr to][1 dim array of]( UDT struct | scalar )
 // inner type (UDT struct member) may be: [N dim array of]( UDT struct | scalar
 // ) scalar type may be: ( float(16|32|64) | int(16|32|64) )
@@ -2695,8 +2730,7 @@ static bool ValidateType(Type *Ty, ValidationContext &ValCtx,
     return true;
   }
   if (Ty->isIntegerTy()) {
-    unsigned Width = Ty->getIntegerBitWidth();
-    if (Width != 1 && Width != 8 && Width != 16 && Width != 32 && Width != 64) {
+    if (!IsValidIntBitWidth(Ty->getIntegerBitWidth())) {
       ValCtx.EmitTypeError(Ty, ValidationRule::TypesIntWidth);
       return false;
     }
@@ -3366,10 +3400,13 @@ static void ValidateFunctionBody(Function *F, ValidationContext &ValCtx) {
           }
         }
         if (IntegerType *IT = dyn_cast<IntegerType>(op->getType())) {
-          if (IT->getBitWidth() == 8) {
+          unsigned BW = IT->getBitWidth();
+          if (BW == 8) {
             // We always fail if we see i8 as operand type of a non-lifetime
             // instruction.
             ValCtx.EmitInstrError(&I, ValidationRule::TypesI8);
+          } else {
+            ValidateType(IT, ValCtx);
           }
         }
       }
@@ -3380,12 +3417,15 @@ static void ValidateFunctionBody(Function *F, ValidationContext &ValCtx) {
       while (isa<ArrayType>(Ty))
         Ty = Ty->getArrayElementType();
       if (IntegerType *IT = dyn_cast<IntegerType>(Ty)) {
-        if (IT->getBitWidth() == 8) {
+        unsigned BW = IT->getBitWidth();
+        if (BW == 8) {
           // Allow i8* cast for llvm.lifetime.* intrinsics.
           if (!SupportsLifetimeIntrinsics || !isa<BitCastInst>(I) ||
               !onlyUsedByLifetimeMarkers(&I)) {
             ValCtx.EmitInstrError(&I, ValidationRule::TypesI8);
           }
+        } else {
+          ValidateType(IT, ValCtx);
         }
       }
 
@@ -3894,58 +3934,156 @@ static void ValidateGlobalVariables(ValidationContext &ValCtx) {
   DxilModule &M = ValCtx.DxilMod;
 
   const ShaderModel *pSM = ValCtx.DxilMod.GetShaderModel();
-  bool TGSMAllowed = pSM->IsCS() || pSM->IsAS() || pSM->IsMS() || pSM->IsLib();
-
-  unsigned TGSMSize = 0;
-  std::vector<StoreInst *> FixAddrTGSMList;
   const DataLayout &DL = M.GetModule()->getDataLayout();
+  std::vector<StoreInst *> FixAddrTGSMList;
+
+  auto isTGSMEntry = [](DXIL::ShaderKind Kind) -> bool {
+    return Kind == DXIL::ShaderKind::Compute ||
+           Kind == DXIL::ShaderKind::Amplification ||
+           Kind == DXIL::ShaderKind::Mesh || Kind == DXIL::ShaderKind::Node;
+  };
+
+  auto getMaxTGSM = [](const DxilFunctionProps &Props) -> unsigned {
+    if (Props.groupSharedLimitBytes >= 0)
+      return static_cast<unsigned>(Props.groupSharedLimitBytes);
+    if (Props.IsCS() || Props.IsAS() || Props.IsNode())
+      return DXIL::kMaxTGSMSize;
+    else if (Props.IsMS())
+      return DXIL::kMaxMSSMSize;
+    return 0;
+  };
+
+  DenseMap<const Function *, uint32_t> TGSMInFunc;
+  // Initialize all function TGSM usage to zero
+  for (auto &function : M.GetModule()->getFunctionList())
+    TGSMInFunc[&function] = 0;
+
+  // Map TGSM overages per function, used for error reporting
+  // Tracks first user per GV that caused overage.
+  typedef MapVector<GlobalVariable *, Instruction *> FirstUserMap;
+  typedef DenseMap<const Function *, FirstUserMap> TGSMOverageMap;
+  TGSMOverageMap TGSMOverages;
+
+  auto ReportTGSMOverages = [&](Function *EntryFunc) {
+    unsigned Size = TGSMInFunc[EntryFunc];
+    if (!Size)
+      return; // No TGSM used.
+
+    // Several possibilities:
+    // - Entry point or library function with function properties
+    // - Patch constant function without function properties, TGSM not allowed
+    // - No-inline function without function properties, TGSM counted in entry
+    DXIL::ShaderKind Kind = DXIL::ShaderKind::Invalid;
+    bool IsPatchConstant = M.IsPatchConstantShader(EntryFunc);
+    if (M.HasDxilFunctionProps(EntryFunc))
+      Kind = M.GetDxilEntryProps(EntryFunc).props.shaderKind;
+    else if (!IsPatchConstant)
+      return; // no-inline function, accounted for in entry
+
+    auto Overages = TGSMOverages.find(EntryFunc);
+    if (Overages == TGSMOverages.end())
+      return;
+
+    unsigned MaxSize = 0;
+    ValidationRule Rule = ValidationRule::SmMaxTGSMSizeOnEntry;
+
+    // Props only exist if not a patch constant function.
+    if (!IsPatchConstant) {
+      DxilFunctionProps &Props = M.GetDxilFunctionProps(EntryFunc);
+      MaxSize = getMaxTGSM(Props);
+      Rule = Props.groupSharedLimitBytes !=
+                     DxilFunctionProps::kGroupSharedLimitUnset
+                 ? ValidationRule::SmExplicitTGSMSizeOnEntry
+                 : ValidationRule::SmMaxTGSMSizeOnEntry;
+    }
+
+    for (auto &GVAndUser : Overages->second) {
+      Instruction *UseInst = GVAndUser.second;
+      if (!isTGSMEntry(Kind))
+        ValCtx.EmitInstrFormatError(UseInst, ValidationRule::SmTGSMUnsupported,
+                                    {"from non-compute entry points"});
+      else
+        ValCtx.EmitInstrFormatError(UseInst, Rule,
+                                    {EntryFunc->getName(), std::to_string(Size),
+                                     std::to_string(MaxSize)});
+    }
+  };
+
+  struct WorkListEntry {
+    User *U;
+    // FirstUser tracks the first (inner-most) instruction user of the TGSM
+    // variable for this worklist entry.
+    Instruction *FirstUser;
+  };
+
+  // Collect total groupshared memory potentially used by every function
   for (GlobalVariable &GV : M.GetModule()->globals()) {
     ValidateGlobalVariable(GV, ValCtx);
     if (GV.getType()->getAddressSpace() == DXIL::kTGSMAddrSpace) {
-      if (!TGSMAllowed)
-        ValCtx.EmitGlobalVariableFormatError(
-            &GV, ValidationRule::SmTGSMUnsupported,
-            {std::string("in Shader Model ") + M.GetShaderModel()->GetName()});
-      // Lib targets need to check the usage to know if it's allowed
-      if (pSM->IsLib()) {
-        for (User *U : GV.users()) {
-          if (Instruction *I = dyn_cast<Instruction>(U)) {
-            llvm::Function *F = I->getParent()->getParent();
+      SmallPtrSet<llvm::Function *, 8> completeFuncs;
+      SmallVector<WorkListEntry, 16> WorkList;
+      auto AddUsers = [&WorkList](User *U, Instruction *FirstUser) {
+        for (User *U : U->users()) {
+          if (!FirstUser && isa<Instruction>(U))
+            WorkList.push_back({U, cast<Instruction>(U)});
+          else
+            WorkList.push_back({U, FirstUser});
+        }
+      };
+      uint32_t GVSize = DL.getTypeAllocSize(GV.getType()->getElementType());
+
+      AddUsers(&GV, nullptr);
+
+      while (!WorkList.empty()) {
+        WorkListEntry Info = WorkList.pop_back_val();
+        // If const, keep going until we find something we can use
+        if (isa<Constant>(Info.U)) {
+          AddUsers(Info.U, Info.FirstUser);
+          continue;
+        }
+
+        if (Instruction *I = dyn_cast<Instruction>(Info.U)) {
+          llvm::Function *F = I->getParent()->getParent();
+          if (completeFuncs.insert(F).second) {
+            // If function is new, process it and its users
+            // Add users to the worklist
+            Instruction *FirstUser = Info.FirstUser ? Info.FirstUser : I;
+            AddUsers(F, FirstUser);
+            // Add groupshared size to function's total
+            unsigned &TotalSize = TGSMInFunc[F];
+            TotalSize += GVSize;
+            // If this is an entry function, check the TotalSize against the
+            // limits.
             if (M.HasDxilEntryProps(F)) {
-              DxilFunctionProps &Props = M.GetDxilEntryProps(F).props;
-              if (!Props.IsCS() && !Props.IsAS() && !Props.IsMS() &&
-                  !Props.IsNode()) {
-                ValCtx.EmitInstrFormatError(I,
-                                            ValidationRule::SmTGSMUnsupported,
-                                            {"from non-compute entry points"});
-              }
+              const DxilFunctionProps &Props = M.GetDxilEntryProps(F).props;
+              unsigned MaxSize = getMaxTGSM(Props);
+              if (TotalSize > MaxSize && TGSMOverages[F].count(&GV) == 0)
+                TGSMOverages[F][&GV] = FirstUser;
+            } else if (M.IsPatchConstantShader(F)) {
+              // Collect illegal usage for error reporting
+              if (TGSMOverages[F].count(&GV) == 0)
+                TGSMOverages[F][&GV] = FirstUser;
             }
           }
         }
       }
-      TGSMSize += DL.getTypeAllocSize(GV.getType()->getElementType());
       CollectFixAddressAccess(&GV, FixAddrTGSMList);
     }
   }
 
-  ValidationRule Rule = ValidationRule::SmMaxTGSMSize;
-  unsigned MaxSize = DXIL::kMaxTGSMSize;
-
-  if (M.GetShaderModel()->IsMS()) {
-    Rule = ValidationRule::SmMaxMSSMSize;
-    MaxSize = DXIL::kMaxMSSMSize;
-  }
-  if (TGSMSize > MaxSize) {
-    Module::global_iterator GI = M.GetModule()->global_end();
-    GlobalVariable *GV = &*GI;
-    do {
-      GI--;
-      GV = &*GI;
-      if (GV->getType()->getAddressSpace() == hlsl::DXIL::kTGSMAddrSpace)
-        break;
-    } while (GI != M.GetModule()->global_begin());
-    ValCtx.EmitGlobalVariableFormatError(
-        GV, Rule, {std::to_string(TGSMSize), std::to_string(MaxSize)});
+  if (pSM->IsLib()) {
+    for (auto &F : M.GetModule()->functions()) {
+      if (F.isDeclaration() ||
+          !(M.HasDxilEntryProps(&F) || M.IsPatchConstantShader(&F)))
+        continue;
+      ReportTGSMOverages(&F);
+    }
+  } else {
+    Function *EntryFunc = M.GetEntryFunction();
+    if (EntryFunc)
+      ReportTGSMOverages(EntryFunc);
+    if (pSM->IsHS())
+      ReportTGSMOverages(M.GetPatchConstantFunction());
   }
 
   if (!FixAddrTGSMList.empty()) {

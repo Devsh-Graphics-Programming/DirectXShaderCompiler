@@ -10499,5 +10499,685 @@ struct DxilInst_HitObject_TriangleObjectPosition {
   llvm::Value *get_hitObject() const { return Instr->getOperand(1); }
   void set_hitObject(llvm::Value *val) { Instr->setOperand(1, val); }
 };
+
+/// This instruction Returns the resulting matrix from multiplying A and B and
+/// accumulating into C
+struct DxilInst_LinAlgMatrixMultiplyAccumulate {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixMultiplyAccumulate(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixMultiplyAccumulate);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (4 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrixA = 1,
+    arg_matrixB = 2,
+    arg_matrixC = 3,
+  };
+  // Accessors
+  llvm::Value *get_matrixA() const { return Instr->getOperand(1); }
+  void set_matrixA(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_matrixB() const { return Instr->getOperand(2); }
+  void set_matrixB(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_matrixC() const { return Instr->getOperand(3); }
+  void set_matrixC(llvm::Value *val) { Instr->setOperand(3, val); }
+};
+
+/// This instruction fills a matrix with a scalar value
+struct DxilInst_LinAlgFillMatrix {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgFillMatrix(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
+                                          hlsl::OP::OpCode::LinAlgFillMatrix);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (2 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_value = 1,
+  };
+  // Accessors
+  llvm::Value *get_value() const { return Instr->getOperand(1); }
+  void set_value(llvm::Value *val) { Instr->setOperand(1, val); }
+};
+
+/// This instruction Converts and copies the element and use type of the source
+/// matrix to the destination matrix with optional transpose
+struct DxilInst_LinAlgCopyConvertMatrix {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgCopyConvertMatrix(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgCopyConvertMatrix);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (3 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_srcMatrix = 1,
+    arg_transpose = 2,
+  };
+  // Accessors
+  llvm::Value *get_srcMatrix() const { return Instr->getOperand(1); }
+  void set_srcMatrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_transpose() const { return Instr->getOperand(2); }
+  void set_transpose(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction fills a matrix with data from a [RW]ByteAddressBuffer
+struct DxilInst_LinAlgMatrixLoadFromDescriptor {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixLoadFromDescriptor(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixLoadFromDescriptor);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (5 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_handle = 1,
+    arg_offset = 2,
+    arg_stride = 3,
+    arg_layout = 4,
+  };
+  // Accessors
+  llvm::Value *get_handle() const { return Instr->getOperand(1); }
+  void set_handle(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_offset() const { return Instr->getOperand(2); }
+  void set_offset(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_stride() const { return Instr->getOperand(3); }
+  void set_stride(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_layout() const { return Instr->getOperand(4); }
+  void set_layout(llvm::Value *val) { Instr->setOperand(4, val); }
+};
+
+/// This instruction fills a matrix with data from a groupshared array
+struct DxilInst_LinAlgMatrixLoadFromMemory {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixLoadFromMemory(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixLoadFromMemory);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (5 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_memory = 1,
+    arg_offset = 2,
+    arg_stride = 3,
+    arg_layout = 4,
+  };
+  // Accessors
+  llvm::Value *get_memory() const { return Instr->getOperand(1); }
+  void set_memory(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_offset() const { return Instr->getOperand(2); }
+  void set_offset(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_stride() const { return Instr->getOperand(3); }
+  void set_stride(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_layout() const { return Instr->getOperand(4); }
+  void set_layout(llvm::Value *val) { Instr->setOperand(4, val); }
+};
+
+/// This instruction returns the number of elements stored in thread-local
+/// storage on the active thread for the provided matrix
+struct DxilInst_LinAlgMatrixLength {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixLength(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
+                                          hlsl::OP::OpCode::LinAlgMatrixLength);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (2 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+};
+
+/// This instruction returns a two element vector containing the column and row
+/// of the matrix that the thread-local index corresponds to
+struct DxilInst_LinAlgMatrixGetCoordinate {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixGetCoordinate(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixGetCoordinate);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (3 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_threadLocalIndex = 2,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_threadLocalIndex() const { return Instr->getOperand(2); }
+  void set_threadLocalIndex(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction returns the element of the matrix corresponding to the
+/// provided thread-local index
+struct DxilInst_LinAlgMatrixGetElement {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixGetElement(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixGetElement);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (3 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_threadLocalIndex = 2,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_threadLocalIndex() const { return Instr->getOperand(2); }
+  void set_threadLocalIndex(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction sets the element of the matrix corresponding to the
+/// provided thread-local index
+struct DxilInst_LinAlgMatrixSetElement {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixSetElement(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixSetElement);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (4 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_threadLocalIndex = 2,
+    arg_value = 3,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_threadLocalIndex() const { return Instr->getOperand(2); }
+  void set_threadLocalIndex(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_value() const { return Instr->getOperand(3); }
+  void set_value(llvm::Value *val) { Instr->setOperand(3, val); }
+};
+
+/// This instruction stores a matrix to a RWByteAddressBuffer
+struct DxilInst_LinAlgMatrixStoreToDescriptor {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixStoreToDescriptor(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixStoreToDescriptor);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_handle = 2,
+    arg_offset = 3,
+    arg_stride = 4,
+    arg_layout = 5,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_handle() const { return Instr->getOperand(2); }
+  void set_handle(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_offset() const { return Instr->getOperand(3); }
+  void set_offset(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_stride() const { return Instr->getOperand(4); }
+  void set_stride(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_layout() const { return Instr->getOperand(5); }
+  void set_layout(llvm::Value *val) { Instr->setOperand(5, val); }
+};
+
+/// This instruction stores a matrix to groupshared memory
+struct DxilInst_LinAlgMatrixStoreToMemory {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixStoreToMemory(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixStoreToMemory);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_memory = 2,
+    arg_offset = 3,
+    arg_stride = 4,
+    arg_layout = 5,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_memory() const { return Instr->getOperand(2); }
+  void set_memory(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_offset() const { return Instr->getOperand(3); }
+  void set_offset(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_stride() const { return Instr->getOperand(4); }
+  void set_stride(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_layout() const { return Instr->getOperand(5); }
+  void set_layout(llvm::Value *val) { Instr->setOperand(5, val); }
+};
+
+/// This instruction returns comptime 0 when accumulator matrix are A layout, 1
+/// when B layout
+struct DxilInst_LinAlgMatrixQueryAccumulatorLayout {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixQueryAccumulatorLayout(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixQueryAccumulatorLayout);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (1 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+};
+
+/// This instruction Returns the resulting matrix from multiplying A and B
+struct DxilInst_LinAlgMatrixMultiply {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixMultiply(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixMultiply);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (3 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrixA = 1,
+    arg_matrixB = 2,
+  };
+  // Accessors
+  llvm::Value *get_matrixA() const { return Instr->getOperand(1); }
+  void set_matrixA(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_matrixB() const { return Instr->getOperand(2); }
+  void set_matrixB(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction accumulate A or B matrix into Accumulator matrix following
+/// LHS += RHS
+struct DxilInst_LinAlgMatrixAccumulate {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixAccumulate(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixAccumulate);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (3 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrixLHS = 1,
+    arg_matrixRHS = 2,
+  };
+  // Accessors
+  llvm::Value *get_matrixLHS() const { return Instr->getOperand(1); }
+  void set_matrixLHS(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_matrixRHS() const { return Instr->getOperand(2); }
+  void set_matrixRHS(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction Multiplies a MxK dimension matrix and a K sized input
+/// vector
+struct DxilInst_LinAlgMatVecMul {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatVecMul(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
+                                          hlsl::OP::OpCode::LinAlgMatVecMul);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (4 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_inputVector = 2,
+    arg_interpretation = 3,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_inputVector() const { return Instr->getOperand(2); }
+  void set_inputVector(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_interpretation() const { return Instr->getOperand(3); }
+  void set_interpretation(llvm::Value *val) { Instr->setOperand(3, val); }
+};
+
+/// This instruction Multiplies a MxK dimension matrix and a K sized input
+/// vector then adds a M sized bias vector
+struct DxilInst_LinAlgMatVecMulAdd {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatVecMulAdd(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
+                                          hlsl::OP::OpCode::LinAlgMatVecMulAdd);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_inputVector = 2,
+    arg_inputInterpretation = 3,
+    arg_biasVector = 4,
+    arg_biasInterpretation = 5,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_inputVector() const { return Instr->getOperand(2); }
+  void set_inputVector(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_inputInterpretation() const { return Instr->getOperand(3); }
+  void set_inputInterpretation(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_biasVector() const { return Instr->getOperand(4); }
+  void set_biasVector(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_biasInterpretation() const { return Instr->getOperand(5); }
+  void set_biasInterpretation(llvm::Value *val) { Instr->setOperand(5, val); }
+};
+
+/// This instruction accumulates a matrix to a RWByteAddressBuffer
+struct DxilInst_LinAlgMatrixAccumulateToDescriptor {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixAccumulateToDescriptor(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixAccumulateToDescriptor);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_handle = 2,
+    arg_offset = 3,
+    arg_stride = 4,
+    arg_layout = 5,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_handle() const { return Instr->getOperand(2); }
+  void set_handle(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_offset() const { return Instr->getOperand(3); }
+  void set_offset(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_stride() const { return Instr->getOperand(4); }
+  void set_stride(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_layout() const { return Instr->getOperand(5); }
+  void set_layout(llvm::Value *val) { Instr->setOperand(5, val); }
+};
+
+/// This instruction accumulates a matrix to groupshared memory
+struct DxilInst_LinAlgMatrixAccumulateToMemory {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixAccumulateToMemory(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixAccumulateToMemory);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_matrix = 1,
+    arg_memory = 2,
+    arg_offset = 3,
+    arg_stride = 4,
+    arg_layout = 5,
+  };
+  // Accessors
+  llvm::Value *get_matrix() const { return Instr->getOperand(1); }
+  void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_memory() const { return Instr->getOperand(2); }
+  void set_memory(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_offset() const { return Instr->getOperand(3); }
+  void set_offset(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_stride() const { return Instr->getOperand(4); }
+  void set_stride(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_layout() const { return Instr->getOperand(5); }
+  void set_layout(llvm::Value *val) { Instr->setOperand(5, val); }
+};
+
+/// This instruction Outer products an M sized vector and a N sized vector
+/// producing an MxN matrix
+struct DxilInst_LinAlgMatrixOuterProduct {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgMatrixOuterProduct(llvm::Instruction *pInstr)
+      : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(
+        Instr, hlsl::OP::OpCode::LinAlgMatrixOuterProduct);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (3 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_vectorA = 1,
+    arg_vectorB = 2,
+  };
+  // Accessors
+  llvm::Value *get_vectorA() const { return Instr->getOperand(1); }
+  void set_vectorA(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_vectorB() const { return Instr->getOperand(2); }
+  void set_vectorB(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction triggers a breakpoint if a debugger is attached
+struct DxilInst_DebugBreak {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_DebugBreak(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr, hlsl::OP::OpCode::DebugBreak);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (1 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+};
+
+/// This instruction returns true if a debugger is attached
+struct DxilInst_IsDebuggerPresent {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_IsDebuggerPresent(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
+                                          hlsl::OP::OpCode::IsDebuggerPresent);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (1 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+};
 // INSTR-HELPER:END
 } // namespace hlsl
