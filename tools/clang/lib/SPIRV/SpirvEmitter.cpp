@@ -8077,7 +8077,7 @@ SpirvInstruction *SpirvEmitter::createVectorSplat(const Expr *scalarExpr,
   // Should find a more meaningful one.
   if (auto *constVal = dyn_cast<SpirvConstant>(scalarVal)) {
     llvm::SmallVector<SpirvConstant *, 4> elements(size_t(size), constVal);
-    const bool isSpecConst = constVal->getopcode() == spv::Op::OpSpecConstant;
+    const bool isSpecConst = constVal->isSpecConstant();
     auto *value =
         spvBuilder.getConstantComposite(vecType, elements, isSpecConst);
     if (!value)
@@ -16697,9 +16697,15 @@ bool SpirvEmitter::spirvToolsLegalize(std::vector<uint32_t> *mod,
     optimizer.RegisterPass(
         spvtools::CreateInterfaceVariableScalarReplacementPass());
   }
-  optimizer.RegisterLegalizationPasses(spirvOptions.preserveInterface,
-                                       needsLegalizationLoopUnroll,
-                                       needsLegalizationSsaRewrite);
+  auto legalizationSsaRewriteMode = spvtools::SSARewriteMode::None;
+  if (needsLegalizationLoopUnroll) {
+    legalizationSsaRewriteMode = spvtools::SSARewriteMode::All;
+  } else if (needsLegalizationSsaRewrite) {
+    legalizationSsaRewriteMode = spvtools::SSARewriteMode::OpaqueOnly;
+  }
+  optimizer.RegisterLegalizationPasses(
+      spirvOptions.preserveInterface, needsLegalizationLoopUnroll,
+      legalizationSsaRewriteMode);
   // Add flattening of resources if needed.
   if (spirvOptions.flattenResourceArrays) {
     optimizer.RegisterPass(
