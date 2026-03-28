@@ -1,0 +1,40 @@
+Computer Name	DESKTOP-GHAQI9Q
+Operating System	Windows 11 (25H2)
+Operating System Build	10.0.26200
+Processor	AMD Ryzen 5 5600G with Radeon Graphics
+RAM Usage	26880 MiB / 65328 MiB (41.1%)
+Device Name	NVIDIA GeForce RTX 4070
+Chip Name	AD104
+Driver Version	581.42
+Hardware Scheduling	Disabled
+VRAM Requested	321 MiB / 11244 MiB (2.9%)
+VRAM Committed	329 MiB / 11244 MiB (2.9%)
+VRAM Bytes Demoted	0 MiB
+Product Version	2026.1.0.0 (build 37556978) (public-release)
+Process File Name	C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\host\windows-desktop-nomad-x64\ngfx-replay.exe
+Command Line	"C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\host\windows-desktop-nomad-x64\ngfx-replay.exe" C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\fastpath31\artifacts\nsight_graphics_probe\2026-03-28_1run_frame1000_compare\devshfixes_upstream\run01\devshfixes_upstream_frame1000_run01.ngfx-capture --present-hidden --vsync-off
+Graphics Capture File	C:/Users/anastaziuk/Desktop/DevshGraphicsProgramming/Nabla/worktrees/fastpath31/artifacts/nsight_graphics_probe/2026-03-28_1run_frame1000_compare/devshfixes_upstream/run01/devshfixes_upstream_frame1000_run01.ngfx-capture
+API	Vulkan
+Troubleshooting Collection Controls	API Timestamps, metrics, sampling oldest, instrumented, FECS, warp state sampling control=31
+Start After	Replay Pass Start
+Max Duration 	1000 ms
+Limited To	1 Frames
+Allocated Event Buffer Memory (kB)	20000
+Allocated Timestamps	100000
+V-Sync Mode	Enforced Off
+GPU Clocks	Locked to Base
+Force Repaint	No
+Force D3D12 Background Optimizations	No
+Max Vulkan SC Internal CBs per Queue	24
+Max Vulkan SC Internal CB Memory (kB)	16
+Collect Screenshot	Yes
+Time Every Action	No
+Trace Shader Bindings	Yes
+Collect Shader Pipelines	Yes
+Collect External Shader Debug Info	Yes
+Warp State Sampling Interval	N/A (Warp State Sampling Disabled)
+Enable NVTX Ranges	Yes
+Recompile Cached Vulkan Shader Modules	Yes
+Metric Set	Top-Level Triage
+Real-Time Shader Profiler	Disabled
+Multi-Pass Metrics	Disabled

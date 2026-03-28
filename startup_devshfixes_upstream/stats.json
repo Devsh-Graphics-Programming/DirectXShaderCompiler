@@ -1,0 +1,32 @@
+{
+    "variant":  "devshfixes_upstream",
+    "run_count":  1,
+    "wall_to_window_ms":  {
+                              "min":  10312.088,
+                              "max":  10312.088,
+                              "mean":  10312.088,
+                              "median":  10312.088,
+                              "stddev":  0
+                          },
+    "first_render_submit_ms":  {
+                                   "min":  7083,
+                                   "max":  7083,
+                                   "mean":  7083,
+                                   "median":  7083,
+                                   "stddev":  0
+                               },
+    "main_shader_ready_ms":  {
+                                 "min":  561,
+                                 "max":  561,
+                                 "mean":  561,
+                                 "median":  561,
+                                 "stddev":  0
+                             },
+    "main_pipeline_build_ms":  {
+                                   "min":  743,
+                                   "max":  743,
+                                   "mean":  743,
+                                   "median":  743,
+                                   "stddev":  0
+                               }
+}

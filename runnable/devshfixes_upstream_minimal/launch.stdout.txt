@@ -1,0 +1,209 @@
+[37m[28.03.2026 13:24:55:938927][INFO]: Logger Created!
+[0m[37m[28.03.2026 13:24:56:109708][INFO]: No valid vk_loader_settings.json file found, no loader settings will be active
+[0m[37m[28.03.2026 13:24:56:111395][INFO]: windows_get_app_package_manifest_path: Failed to find mapping layers packages by family name
+[0m[37m[28.03.2026 13:24:56:112297][INFO]: Checking for Layer Manifest files in Registry at HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers
+[0m[37m[28.03.2026 13:24:56:113345][INFO]: windows_add_json_entry: Located json file "C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json" from PnP registry: E
+[0m[37m[28.03.2026 13:24:56:113679][INFO]: Located json file "C:\ProgramData\obs-studio-hook\obs-vulkan64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:113811][INFO]: Located json file "C:\Program Files\RenderDoc\renderdoc.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:113932][INFO]: Located json file "C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_nomad_release_public_2026_1_0.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:114054][INFO]: Located json file "C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_GPU_Trace_release_public_2026_1_0.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:114173][INFO]: Located json file "C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_ngfx_capture_release_public_2026_1_0.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:114295][INFO]: Located json file "C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_shader_debugger_release_public_2026_1_0.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:114416][INFO]: Located json file "C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:114534][INFO]: Located json file "C:\Program Files (x86)\Steam\SteamFossilizeVulkanLayer64.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ImplicitLayers"
+[0m[37m[28.03.2026 13:24:56:114836][INFO]: Found manifest file C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json (file version 1.0.1)
+[0m[37m[28.03.2026 13:24:56:115375][INFO]: Found manifest file C:\ProgramData\obs-studio-hook\obs-vulkan64.json (file version 1.1.2)
+[0m[37m[28.03.2026 13:24:56:115748][INFO]: Found manifest file C:\Program Files\RenderDoc\renderdoc.json (file version 1.1.2)
+[0m[37m[28.03.2026 13:24:56:116128][INFO]: Found manifest file C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_nomad_release_public_2026_1_0.json (file version 1.1.0)
+[0m[37m[28.03.2026 13:24:56:116452][INFO]: Found manifest file C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_GPU_Trace_release_public_2026_1_0.json (file version 1.1.0)
+[0m[37m[28.03.2026 13:24:56:116749][INFO]: Found manifest file C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_ngfx_capture_release_public_2026_1_0.json (file version 1.1.0)
+[0m[37m[28.03.2026 13:24:56:117033][INFO]: Found manifest file C:\Program Files\NVIDIA Corporation\Nsight Graphics 2026.1.0\target\windows-desktop-nomad-x64\VK_LAYER_NV_shader_debugger_release_public_2026_1_0.json (file version 1.2.1)
+[0m[37m[28.03.2026 13:24:56:117316][INFO]: Found manifest file C:\Program Files (x86)\Steam\SteamOverlayVulkanLayer64.json (file version 1.0.0)
+[0m[37m[28.03.2026 13:24:56:117661][INFO]: Found manifest file C:\Program Files (x86)\Steam\SteamFossilizeVulkanLayer64.json (file version 1.0.0)
+[0m[37m[28.03.2026 13:24:56:117858][INFO]: Checking for Layer Manifest files in Registry at HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers
+[0m[37m[28.03.2026 13:24:56:118214][INFO]: windows_get_device_registry_files: opening device PCI\VEN_10DE&DEV_2786&SUBSYS_271419DA&REV_A1\4&7d659fe&0&0009
+[0m[37m[28.03.2026 13:24:56:118372][INFO]: windows_get_device_registry_entry: Device ID(1) Does not contain a value for "VulkanExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:118509][INFO]: windows_get_device_registry_files: Opening child device 2 - DISPLAY\GSM81CD\5&F408621&0&UID4352
+[0m[37m[28.03.2026 13:24:56:118635][INFO]: windows_get_device_registry_files: GUID for 2 is not SoftwareComponent skipping
+[0m[37m[28.03.2026 13:24:56:118784][INFO]: windows_get_device_registry_files: found no registry files
+[0m[37m[28.03.2026 13:24:56:118968][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_api_dump.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:119118][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_gfxreconstruct.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:119278][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_synchronization2.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:119446][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:119614][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_monitor.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:119780][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_screenshot.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:119925][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_profiles.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:120060][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_shader_object.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:120186][INFO]: Located json file "C:\VulkanSDK\1.4.341.1\Bin\VkLayer_crash_diagnostic.json" from registry "HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\ExplicitLayers"
+[0m[37m[28.03.2026 13:24:56:120590][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_api_dump.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:120913][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_gfxreconstruct.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:121219][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_synchronization2.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:121757][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:122144][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_monitor.json (file version 1.0.0)
+[0m[37m[28.03.2026 13:24:56:122366][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_screenshot.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:122785][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_profiles.json (file version 1.2.1)
+[0m[37m[28.03.2026 13:24:56:123109][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_shader_object.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:123649][INFO]: Found manifest file C:\VulkanSDK\1.4.341.1\Bin\VkLayer_crash_diagnostic.json (file version 1.2.0)
+[0m[37m[28.03.2026 13:24:56:124033][INFO]: windows_get_app_package_manifest_path: Failed to find mapping layers packages by family name
+[0m[37m[28.03.2026 13:24:56:124295][INFO]: Checking for Driver Manifest files in Registry at HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers
+[0m[37m[28.03.2026 13:24:56:124621][INFO]: windows_add_json_entry: Located json file "C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json" from PnP registry: E
+[0m[37m[28.03.2026 13:24:56:125157][INFO]: Found no registry files in HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\Vulkan\Drivers
+[0m[37m[28.03.2026 13:24:56:125525][INFO]: Found ICD manifest file C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json, version 1.0.1
+[0m[37m[28.03.2026 13:24:56:125694][INFO]: Searching for ICD drivers named .\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:129981][INFO]: Loading layer library C:\VulkanSDK\1.4.341.1\Bin\.\VkLayer_khronos_validation.dll
+[0m[37m[28.03.2026 13:24:56:130293][INFO]: Insert instance layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.dll)
+[0m[37m[28.03.2026 13:24:56:131316][INFO]: Loading layer library C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll
+[0m[37m[28.03.2026 13:24:56:131519][INFO]: Insert instance layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\graphics-hook64.dll)
+[0m[37m[28.03.2026 13:24:56:131711][INFO]: Loading layer library C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\.\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:131946][INFO]: Insert instance layer "VK_LAYER_NV_present" (C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll)
+[0m[37m[28.03.2026 13:24:56:132139][INFO]: Loading layer library C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\.\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:132361][INFO]: Insert instance layer "VK_LAYER_NV_optimus" (C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll)
+[0m[37m[28.03.2026 13:24:56:133113][INFO]: vkCreateInstance layer callstack setup to:
+[0m[37m[28.03.2026 13:24:56:133388][INFO]:    <Application>
+[0m[37m[28.03.2026 13:24:56:133592][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:133766][INFO]:    <Loader>
+[0m[37m[28.03.2026 13:24:56:133884][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:133996][INFO]:    VK_LAYER_NV_optimus
+[0m[37m[28.03.2026 13:24:56:134135][INFO]:            Type: Implicit
+[0m[37m[28.03.2026 13:24:56:134302][INFO]:            Enabled By: Implicit Layer
+[0m[37m[28.03.2026 13:24:56:134419][INFO]:                Disable Env Var:  DISABLE_LAYER_NV_OPTIMUS_1
+[0m[37m[28.03.2026 13:24:56:134531][INFO]:            Manifest: C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json
+[0m[37m[28.03.2026 13:24:56:134657][INFO]:            Library:  C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:134846][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:134966][INFO]:    VK_LAYER_NV_present
+[0m[37m[28.03.2026 13:24:56:135071][INFO]:            Type: Implicit
+[0m[37m[28.03.2026 13:24:56:135175][INFO]:            Enabled By: Implicit Layer
+[0m[37m[28.03.2026 13:24:56:135280][INFO]:                Disable Env Var:  DISABLE_LAYER_NV_GR2608_1
+[0m[37m[28.03.2026 13:24:56:135418][INFO]:            Manifest: C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json
+[0m[37m[28.03.2026 13:24:56:135556][INFO]:            Library:  C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:135687][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:135827][INFO]:    VK_LAYER_OBS_HOOK
+[0m[37m[28.03.2026 13:24:56:135991][INFO]:            Type: Implicit
+[0m[37m[28.03.2026 13:24:56:136145][INFO]:            Enabled By: Implicit Layer
+[0m[37m[28.03.2026 13:24:56:136335][INFO]:                Disable Env Var:  DISABLE_VULKAN_OBS_CAPTURE
+[0m[37m[28.03.2026 13:24:56:136478][INFO]:            Manifest: C:\ProgramData\obs-studio-hook\obs-vulkan64.json
+[0m[37m[28.03.2026 13:24:56:136596][INFO]:            Library:  C:\ProgramData\obs-studio-hook\graphics-hook64.dll
+[0m[37m[28.03.2026 13:24:56:136713][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:136829][INFO]:    VK_LAYER_KHRONOS_validation
+[0m[37m[28.03.2026 13:24:56:136940][INFO]:            Type: Explicit
+[0m[37m[28.03.2026 13:24:56:137049][INFO]:            Enabled By: By the Application
+[0m[37m[28.03.2026 13:24:56:137154][INFO]:            Manifest: C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.json
+[0m[37m[28.03.2026 13:24:56:137264][INFO]:            Library:  C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.dll
+[0m[37m[28.03.2026 13:24:56:137414][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:137551][INFO]:    <Drivers>
+[0m[37m[28.03.2026 13:24:56:195248][INFO]: Enumerating Physical Device: { Name = NVIDIA GeForce RTX 4070 }, { Driver Version = 2437578752 }, { api Version = 939525121 }
+[0m[37m[28.03.2026 13:24:56:432258][INFO]: A keyboard 000002543392E270 has been connected
+[0m[37m[28.03.2026 13:24:56:432931][INFO]: A mouse 000002543392E430 has been connected
+[0m[37m[28.03.2026 13:24:56:433153][INFO]: A keyboard 000002543392EC10 has been connected
+[0m[37m[28.03.2026 13:24:56:433361][INFO]: A keyboard 000002543392EDD0 has been connected
+[0m[37m[28.03.2026 13:24:56:433547][INFO]: A mouse 000002543392D2B0 has been connected
+[0m[37m[28.03.2026 13:24:56:434303][INFO]: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.dll)
+[0m[37m[28.03.2026 13:24:56:434495][INFO]: Inserted device layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\graphics-hook64.dll)
+[0m[37m[28.03.2026 13:24:56:434643][INFO]: Inserted device layer "VK_LAYER_NV_present" (C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll)
+[0m[37m[28.03.2026 13:24:56:434812][INFO]: Inserted device layer "VK_LAYER_NV_optimus" (C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll)
+[0m[37m[28.03.2026 13:24:56:434957][INFO]: vkCreateDevice layer callstack setup to:
+[0m[37m[28.03.2026 13:24:56:435074][INFO]:    <Application>
+[0m[37m[28.03.2026 13:24:56:435188][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:435296][INFO]:    <Loader>
+[0m[37m[28.03.2026 13:24:56:435406][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:435538][INFO]:    VK_LAYER_NV_optimus
+[0m[37m[28.03.2026 13:24:56:435673][INFO]:            Type: Implicit
+[0m[37m[28.03.2026 13:24:56:435831][INFO]:            Enabled By: Implicit Layer
+[0m[37m[28.03.2026 13:24:56:435944][INFO]:                Disable Env Var:  DISABLE_LAYER_NV_OPTIMUS_1
+[0m[37m[28.03.2026 13:24:56:436054][INFO]:            Manifest: C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json
+[0m[37m[28.03.2026 13:24:56:436159][INFO]:            Library:  C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:436274][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:436422][INFO]:    VK_LAYER_NV_present
+[0m[37m[28.03.2026 13:24:56:436559][INFO]:            Type: Implicit
+[0m[37m[28.03.2026 13:24:56:436707][INFO]:            Enabled By: Implicit Layer
+[0m[37m[28.03.2026 13:24:56:436833][INFO]:                Disable Env Var:  DISABLE_LAYER_NV_GR2608_1
+[0m[37m[28.03.2026 13:24:56:436965][INFO]:            Manifest: C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nv-vk64.json
+[0m[37m[28.03.2026 13:24:56:437089][INFO]:            Library:  C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll
+[0m[37m[28.03.2026 13:24:56:437219][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:437339][INFO]:    VK_LAYER_OBS_HOOK
+[0m[37m[28.03.2026 13:24:56:437551][INFO]:            Type: Implicit
+[0m[37m[28.03.2026 13:24:56:437790][INFO]:            Enabled By: Implicit Layer
+[0m[37m[28.03.2026 13:24:56:437902][INFO]:                Disable Env Var:  DISABLE_VULKAN_OBS_CAPTURE
+[0m[37m[28.03.2026 13:24:56:438029][INFO]:            Manifest: C:\ProgramData\obs-studio-hook\obs-vulkan64.json
+[0m[37m[28.03.2026 13:24:56:438193][INFO]:            Library:  C:\ProgramData\obs-studio-hook\graphics-hook64.dll
+[0m[37m[28.03.2026 13:24:56:438312][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:438430][INFO]:    VK_LAYER_KHRONOS_validation
+[0m[37m[28.03.2026 13:24:56:438542][INFO]:            Type: Explicit
+[0m[37m[28.03.2026 13:24:56:438653][INFO]:            Enabled By: By the Application
+[0m[37m[28.03.2026 13:24:56:438762][INFO]:            Manifest: C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.json
+[0m[37m[28.03.2026 13:24:56:438870][INFO]:            Library:  C:\VulkanSDK\1.4.341.1\Bin\VkLayer_khronos_validation.dll
+[0m[37m[28.03.2026 13:24:56:438984][INFO]:      ||
+[0m[37m[28.03.2026 13:24:56:439087][INFO]:    <Device>
+[0m[37m[28.03.2026 13:24:56:441103][INFO]:        Using "NVIDIA GeForce RTX 4070" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_901d8cfde13e2b8b\nvoglv64.dll"
+[0m[37m[28.03.2026 13:24:56:583832][INFO]: PATH_TRACER pipeline cache path: C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\blob\Release\Nabla_v0.0.0_Vulkan_8b221d34ae09c361bfbce053ae15b39b.bin
+[0m[37m[28.03.2026 13:24:56:584210][INFO]: PATH_TRACER trimmed shader cache path: C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release
+[0m[37m[28.03.2026 13:24:56:584407][INFO]: PATH_TRACER validated shader cache path: C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release
+[0m[37m[28.03.2026 13:24:56:584687][INFO]: PATH_TRACER_PIPELINE_CACHE init clear=0 loaded_from_disk=1 loaded_bytes=7169429 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\blob\Release\Nabla_v0.0.0_Vulkan_8b221d34ae09c361bfbce053ae15b39b.bin
+[0m[37m[28.03.2026 13:24:56:584883][INFO]: Loaded PATH_TRACER pipeline cache blob: C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\blob\Release\Nabla_v0.0.0_Vulkan_8b221d34ae09c361bfbce053ae15b39b.bin
+[0m[37m[28.03.2026 13:24:56:596971][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=main bytes=305088 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\b5b37bfa4701c27a5cf4e81e30816fc6641861383352f2987a759ddc20e5fb20.spv
+[0m[37m[28.03.2026 13:24:56:600453][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=main wall_ms=5 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:24:56:877123][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=main wall_ms=283 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:516523][INFO]: PATH_TRACER_STARTUP first_frame_loop_ms=6578
+[0m[37m[28.03.2026 13:25:02:518235][INFO]: PATH_TRACER_STARTUP first_render_dispatch_ms=6580
+[0m[37m[28.03.2026 13:25:02:519181][INFO]: PATH_TRACER_STARTUP first_render_submit_ms=6581
+[0m[37m[28.03.2026 13:25:02:519419][INFO]: PATH_TRACER_PIPELINE_CACHE warmup_start queued_jobs=21 max_parallel=11 logical_threads=12 current_geometry=0 current_method=2
+[0m[37m[28.03.2026 13:25:02:527994][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistent bytes=309432 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\1dee35cfd953b79a156875bc4910515c2f9ea181d107a26573967e6081ab55c3.spv
+[0m[37m[28.03.2026 13:25:02:528285][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=main bytes=328804 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\5766a524a558ded68e7b2d6d458a1b79133099800584048b20904622f4d0f55a.spv
+[0m[37m[28.03.2026 13:25:02:528629][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=main bytes=326272 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\05457fba03c725c4f5d97df145da7a4418b2931a80fb10cdaaba9fe4b2bafc2c.spv
+[0m[37m[28.03.2026 13:25:02:528824][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistent bytes=306900 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\da4a929a82d50912dd98a96bdb6ff1f2b812b366d445d46f264da424978af426.spv
+[0m[37m[28.03.2026 13:25:02:529081][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistent bytes=331080 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\bf6357968ab8fca79bf8ab074ce3f497dc1639b5ded3544591e6dc9390d5186c.spv
+[0m[37m[28.03.2026 13:25:02:530676][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=main bytes=307620 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\7b181301e423e3336095ba1a77c9ef9df169eadbd2d061cc4792677d50065e43.spv
+[0m[37m[28.03.2026 13:25:02:531060][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistent bytes=328548 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\d2bed40baf4af4b6057523d66ebdd078bbfbbdb435c7fc51026efd739a395776.spv
+[0m[37m[28.03.2026 13:25:02:531290][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainArea bytes=305840 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\a6afac672cdd23ac5428cfdd993bdf5f6608afa93fc554c565344cfef7be093a.spv
+[0m[37m[28.03.2026 13:25:02:532041][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistentArea bytes=310648 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\6e2ba24fade7238314cb4002da0fefe2a40d9f9abca63f1261cf743544492695.spv
+[0m[37m[28.03.2026 13:25:02:532315][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainArea bytes=308372 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\fe6f83d96131c15e3fbd01f1875ca6fa5a9a836700b4f016c5aac777e1c8a548.spv
+[0m[37m[28.03.2026 13:25:02:532517][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistentArea bytes=308116 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\220ddc4d08758816796e49e66bc4f79e913cb96acde1d3d73dd4ef8eb4b4c535.spv
+[0m[37m[28.03.2026 13:25:02:533440][INFO]: PATH_TRACER_PIPELINE_CACHE save bytes=7204527 wall_ms=13 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\blob\Release\Nabla_v0.0.0_Vulkan_8b221d34ae09c361bfbce053ae15b39b.bin
+[0m[37m[28.03.2026 13:25:02:533633][INFO]: Saved PATH_TRACER pipeline cache blob: C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\blob\Release\Nabla_v0.0.0_Vulkan_8b221d34ae09c361bfbce053ae15b39b.bin
+[0m[37m[28.03.2026 13:25:02:536425][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=main wall_ms=12 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:536763][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistent wall_ms=13 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:536955][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=main wall_ms=11 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:537329][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistent wall_ms=12 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:537679][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistent wall_ms=11 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:538020][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=main wall_ms=11 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:538316][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainArea wall_ms=11 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:538862][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistentArea wall_ms=12 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:539083][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistent wall_ms=12 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:540940][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainArea wall_ms=13 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:542664][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistentArea wall_ms=15 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:834894][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistentArea wall_ms=312 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:835622][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=main wall_ms=315 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:845653][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistentArea wall_ms=323 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:846026][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistent wall_ms=325 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:846219][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistent wall_ms=326 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:862304][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=main wall_ms=342 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:864792][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainArea wall_ms=343 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:865096][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainArea wall_ms=344 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:865278][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=main wall_ms=345 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:868132][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistentSolidAngle bytes=319752 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\57ab893e21e6ebb17563c78d8a0ad4106c09d573906cbcce6a8142e76209b673.spv
+[0m[37m[28.03.2026 13:25:02:868401][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainSolidAngle bytes=314936 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\6ece8f38e9a53f3d65dba8e66bf3e4d755c510ca21ebc4fde74a9f960892688e.spv
+[0m[37m[28.03.2026 13:25:02:868954][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainSolidAngle bytes=317468 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\96e159e4feba38867c395cc3decf25b05f8e126eaf05a29dff0086f01824f7cf.spv
+[0m[37m[28.03.2026 13:25:02:869799][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=main bytes=318600 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\fb6266730100869a8d93e64b877d674c5c6d1cee418bbba7d9cbcc179ef79b15.spv
+[0m[37m[28.03.2026 13:25:02:871908][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainSolidAngle wall_ms=6 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:872501][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=main bytes=298004 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\25838ecebb1bcf7b451dd05c76080c91b46c638a322603b0b8ea8d6d4fee80d3.spv
+[0m[37m[28.03.2026 13:25:02:872943][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainSolidAngle wall_ms=6 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:873189][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistentSolidAngle bytes=317220 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\24a4b46099e78f5dde4ac102c9917f822878ed6c816b8e580c494187a1f5e17c.spv
+[0m[37m[28.03.2026 13:25:02:873838][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistentSolidAngle wall_ms=8 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:876526][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=main wall_ms=10 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:877583][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=main wall_ms=10 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:877781][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistentSolidAngle wall_ms=11 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:884050][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistent wall_ms=363 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:898940][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistent wall_ms=378 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:02:911976][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=resolve bytes=22720 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\9317d411ede5a48b4da0bde2a11540dbd668e68b903bc986bbccc17f8563a857.spv
+[0m[37m[28.03.2026 13:25:02:913663][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistent bytes=299904 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\7ea640d03a23cf4033b9a317642978af80eafab0146919638d1a93f89f290d3d.spv
+[0m[37m[28.03.2026 13:25:02:913947][INFO]: PATH_TRACER_SHADER_CACHE load entrypoint=mainPersistent bytes=320412 path=C:\Users\anastaziuk\AppData\Local\nabla/examples/31_HLSLPathTracer/pipeline/cache\spirv\Release\cd572e95a8aab3ee2fa91b444b260449c2916aef84a359ccc1ecb4bb4a1b8fa8.spv
+[0m[37m[28.03.2026 13:25:02:915365][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=resolve wall_ms=5 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:916985][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistent wall_ms=6 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:917469][INFO]: PATH_TRACER_SHADER_CACHE ready entrypoint=mainPersistent wall_ms=7 from_disk=1 trimmed=0
+[0m[37m[28.03.2026 13:25:02:922854][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=resolve wall_ms=14 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:03:140585][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainSolidAngle wall_ms=278 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:03:156478][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainSolidAngle wall_ms=289 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:03:163336][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=main wall_ms=288 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:03:163615][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=mainPersistentSolidAngle wall_ms=290 cache_loaded_from_disk=1
+[0m[37m[28.03.2026 13:25:03:170074][INFO]: PATH_TRACER_PIPELINE_BUILD entrypoint=main wall_ms=307 cache_loaded_from_disk=1
+[0m

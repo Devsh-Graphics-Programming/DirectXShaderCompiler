@@ -1,0 +1,40 @@
+{
+    "variant":  "devshfixes_upstream",
+    "run_count":  1,
+    "capture_frame":  1000,
+    "gpu_frame_ms":  {
+                         "min":  19.6157,
+                         "max":  19.6157,
+                         "mean":  19.6157,
+                         "median":  19.6157,
+                         "stddev":  0
+                     },
+    "dispatch_count":  {
+                           "min":  2,
+                           "max":  2,
+                           "mean":  2,
+                           "median":  2,
+                           "stddev":  0
+                       },
+    "compute_active_pct":  {
+                               "min":  82.9923,
+                               "max":  82.9923,
+                               "mean":  82.9923,
+                               "median":  82.9923,
+                               "stddev":  0
+                           },
+    "sm_throughput_pct":  {
+                              "min":  38.2916,
+                              "max":  38.2916,
+                              "mean":  38.2916,
+                              "median":  38.2916,
+                              "stddev":  0
+                          },
+    "pcie_write_gbps":  {
+                            "min":  2.64694,
+                            "max":  2.64694,
+                            "mean":  2.64694,
+                            "median":  2.64694,
+                            "stddev":  0
+                        }
+}

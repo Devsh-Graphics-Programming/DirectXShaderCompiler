@@ -1,0 +1,2 @@
+"run","gpu_frame_ms","dispatch_count","compute_active_pct","sm_throughput_pct","pcie_write_gbps"
+"1","21.5935","2","83.9945","34.3346","2.62212"

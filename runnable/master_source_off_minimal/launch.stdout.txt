@@ -1,0 +1,2 @@
+[31m[28.03.2026 13:24:55:108926][ERROR]: Could not load shader: 
+[0m

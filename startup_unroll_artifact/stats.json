@@ -1,0 +1,32 @@
+{
+    "variant":  "unroll_artifact",
+    "run_count":  1,
+    "wall_to_window_ms":  {
+                              "min":  9969.814,
+                              "max":  9969.814,
+                              "mean":  9969.814,
+                              "median":  9969.814,
+                              "stddev":  0
+                          },
+    "first_render_submit_ms":  {
+                                   "min":  6895,
+                                   "max":  6895,
+                                   "mean":  6895,
+                                   "median":  6895,
+                                   "stddev":  0
+                               },
+    "main_shader_ready_ms":  {
+                                 "min":  11,
+                                 "max":  11,
+                                 "mean":  11,
+                                 "median":  11,
+                                 "stddev":  0
+                             },
+    "main_pipeline_build_ms":  {
+                                   "min":  293,
+                                   "max":  293,
+                                   "mean":  293,
+                                   "median":  293,
+                                   "stddev":  0
+                               }
+}

@@ -1,0 +1,12 @@
+[34m[28.03.2026 13:31:27:283878][PERFORMANCE]: ELG_SPHERE Pipeline Executable Report:
+======== CS ========
+Compute Shader
+Subgroup Size: 32
+Register Count: 255               // Number of temporary registers used by this shader stage
+Binary Size: 195328               // Size in bytes of the executable for this stage
+Stack Size: 0                     // Size in bytes required for the shader stack
+Local Memory Size: 68719478176    // Size in bytes required per-thread for local memory
+Shared Memory Size: 15104         // Size in bytes used for shared memory
+
+
+[0m
