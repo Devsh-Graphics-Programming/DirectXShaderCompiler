@@ -81,7 +81,7 @@ The up-to-date `unroll_v2` follow-up, measured with the new `-O1experimental` fl
 
 Taken together, the measured runtime cost points at the `unroll` side of the experiment, not at the generic `DXC/SPIRV-Tools upstream refresh`. That tradeoff is also aligned with the intent of the experiment: reduce shader build time aggressively while accepting a small runtime cost.
 
-In practice this is also a strong argument for a development-oriented DXC optimization profile, for example an `-O1`-style mode. For the Nabla Path Tracer builds behind this comparison the shader-build wall time is about `10x` worse without that profile, while the newest `unroll_v2` follow-up is already faster than the current `master` baseline on this measured path. That is exactly the profile proposed in the paired PRs: for development use it delivers a major build-time win while keeping runtime impact favorable on the measured workload.
+In practice this is also a strong argument for the new explicit `-O1experimental` path. For the Nabla Path Tracer builds behind this comparison the shader-build wall time is about `10x` worse without `-O1experimental`, while the newest `unroll_v2` follow-up is already faster than the current `master` baseline on this measured path. On this workload `-O1experimental` delivers the intended development tradeoff directly: a major build-time win together with favorable measured runtime.
 
 `unroll_v2` is the current local follow-up checkpoint after those latest changes. It keeps the same high-level workload shape (`dispatch_count = 2`) and shows where the updated `-O1experimental` line lands relative to the published `unroll_artifact` and the current `master` baseline.
 
