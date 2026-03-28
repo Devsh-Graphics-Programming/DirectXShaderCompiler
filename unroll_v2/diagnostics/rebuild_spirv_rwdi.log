@@ -1,0 +1,16 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  11>pt.misc.spv.config (pt.misc.proxy.hlsl)
+  4>pt.compute.sphere.rwmc.spv.config (pt.compute.sphere.rwmc.proxy.hlsl)
+  2>pt.compute.triangle.rwmc.persistent.spv.config (pt.compute.triangle.rwmc.persistent.proxy.hlsl)
+  3>pt.compute.triangle.linear.spv.config (pt.compute.triangle.linear.proxy.hlsl)
+  5>pt.compute.triangle.persistent.spv.config (pt.compute.triangle.persistent.proxy.hlsl)
+  7>pt.compute.rectangle.rwmc.linear.spv.config (pt.compute.rectangle.rwmc.linear.proxy.hlsl)
+  9>pt.compute.rectangle.spv.config (pt.compute.rectangle.proxy.hlsl)
+  8>pt.compute.rectangle.rwmc.persistent.spv.config (pt.compute.rectangle.rwmc.persistent.proxy.hlsl)
+  1>pt.compute.sphere.spv.config (pt.compute.sphere.proxy.hlsl)
+  10>pt.compute.resolve.spv.config (resolve.comp.hlsl)
+  6>pt.compute.triangle.rwmc.linear.spv.config (pt.compute.triangle.rwmc.linear.proxy.hlsl)
+  Building Custom Rule C:/Users/anastaziuk/Desktop/DevshGraphicsProgramming/Nabla/worktrees/unroll_o1_local/examples_tests/31_HLSLPathTracer/CMakeLists.txt
+EXIT_CODE=0
+WALL_SECONDS=28.4751281

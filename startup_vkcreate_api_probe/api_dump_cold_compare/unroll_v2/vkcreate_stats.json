@@ -1,0 +1,27 @@
+{
+  "call_count": 2,
+  "first_create_time_us": 3092868.0,
+  "last_create_time_us": 8251324.0,
+  "summed_start_to_next_us": 354707.0,
+  "summed_start_to_next_ms": 354.707,
+  "create_calls": [
+    {
+      "index": 328,
+      "thread": 1,
+      "frame": 0,
+      "time_us": 3092868.0,
+      "next_name": "vkSetDebugUtilsObjectNameEXT",
+      "next_time_us": 3447575.0,
+      "delta_to_next_us": 354707.0
+    },
+    {
+      "index": 8044,
+      "thread": 2,
+      "frame": 188,
+      "time_us": 8251324.0,
+      "next_name": null,
+      "next_time_us": null,
+      "delta_to_next_us": null
+    }
+  ]
+}

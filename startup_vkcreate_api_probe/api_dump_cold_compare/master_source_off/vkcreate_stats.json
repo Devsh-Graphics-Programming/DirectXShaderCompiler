@@ -1,0 +1,124 @@
+{
+  "call_count": 13,
+  "summed_start_to_next_us": 3737110.0,
+  "summed_start_to_next_ms": 3737.11,
+  "create_calls": [
+    {
+      "index": 268,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 23083264,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 23372000,
+      "delta_to_next_us": 288736
+    },
+    {
+      "index": 275,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 56646264,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 56974673,
+      "delta_to_next_us": 328409
+    },
+    {
+      "index": 282,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 80449525,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 80739311,
+      "delta_to_next_us": 289786
+    },
+    {
+      "index": 289,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 114476712,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 114772378,
+      "delta_to_next_us": 295666
+    },
+    {
+      "index": 298,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 138675051,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 138987914,
+      "delta_to_next_us": 312863
+    },
+    {
+      "index": 305,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 173145661,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 173464638,
+      "delta_to_next_us": 318977
+    },
+    {
+      "index": 312,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 197832924,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 198159371,
+      "delta_to_next_us": 326447
+    },
+    {
+      "index": 319,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 233026374,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 233349421,
+      "delta_to_next_us": 323047
+    },
+    {
+      "index": 328,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 256217903,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 256523556,
+      "delta_to_next_us": 305653
+    },
+    {
+      "index": 335,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 289588948,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 289899012,
+      "delta_to_next_us": 310064
+    },
+    {
+      "index": 342,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 313339957,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 313652547,
+      "delta_to_next_us": 312590
+    },
+    {
+      "index": 349,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 347063311,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 347381086,
+      "delta_to_next_us": 317775
+    },
+    {
+      "index": 357,
+      "thread": 0,
+      "frame": 0,
+      "time_us": 351591170,
+      "next_name": "vkGetPipelineExecutablePropertiesKHR",
+      "next_time_us": 351598267,
+      "delta_to_next_us": 7097
+    }
+  ]
+}

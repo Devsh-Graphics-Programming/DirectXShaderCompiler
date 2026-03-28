@@ -1,0 +1,32 @@
+{
+  "variant": "unroll_v2",
+  "run_count": 1,
+  "wall_to_window_ms": {
+    "min": 6034,
+    "max": 6034,
+    "mean": 6034,
+    "median": 6034,
+    "stddev": 0
+  },
+  "first_render_submit_ms": {
+    "min": 6034,
+    "max": 6034,
+    "mean": 6034,
+    "median": 6034,
+    "stddev": 0
+  },
+  "main_shader_ready_ms": {
+    "min": 2168,
+    "max": 2168,
+    "mean": 2168,
+    "median": 2168,
+    "stddev": 0
+  },
+  "main_pipeline_build_ms": {
+    "min": 3032,
+    "max": 3032,
+    "mean": 3032,
+    "median": 3032,
+    "stddev": 0
+  }
+}

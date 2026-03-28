@@ -1,0 +1,172 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  1>
+  1>
+  aesGladman.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\aesGladman.dir\RelWithDebInfo\aesGladman.lib
+  1>Checking target "dxc"'s git repository for changes...
+  2>Checking target "nabla"'s git repository for changes...
+  1>
+  lzma.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\lzma.dir\RelWithDebInfo\lzma.lib
+  lz4.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\lz4.dir\RelWithDebInfo\lz4.lib
+  vulkaninfo.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\vulkaninfo\vulkaninfo.dir\RelWithDebInfo\vulkaninfo.lib
+  spirv_cross.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\spirv_cross.dir\RelWithDebInfo\spirv_cross.lib
+  MSBuild version 17.14.40+3e7442088 for .NET Framework
+  
+    Updating DxcDisassembler.inc...
+    Verifying clang-format results...
+    Updating DxcOptimizer.inc...
+    Updating gen_intrin_main_tables_15.h...
+    Verifying clang-format results...
+    Updating DxilValidationImpl.inc...
+    Updating DxilPIXPasses.inc...
+    Verifying clang-format results...
+    Updating DxilValidation.inc...
+    Verifying clang-format results...
+    Verifying clang-format results...
+    Verifying clang-format results...
+    LLVMTableGen.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMTableGen.lib
+    LLVMMSSupport.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMMSSupport.lib
+    LLVMSupport.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMSupport.lib
+    clang-tblgen.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\bin\clang-tblgen.exe
+    llvm-tblgen.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\bin\llvm-tblgen.exe
+    Updating AttrImpl.inc...
+    Updating DeclNodes.inc...
+    Updating CommentHTMLTagsProperties.inc...
+    Updating DiagnosticCommonKinds.inc...
+    Updating AttrDump.inc...
+    Updating DiagnosticIndexName.inc...
+    Updating AttrParserStringSwitches.inc...
+    Updating CommentCommandInfo.inc...
+    Updating AttrList.inc...
+    Updating DiagnosticDriverKinds.inc...
+    Updating AttrParsedAttrKinds.inc...
+    Updating AttrHasAttributeImpl.inc...
+    Updating AttrParsedAttrImpl.inc...
+    Updating AttrPCHRead.inc...
+    Updating AttrPCHWrite.inc...
+    Updating CommentNodes.inc...
+    Updating CommentHTMLTags.inc...
+    Updating Attrs.inc...
+    Updating CommentHTMLNamedCharacterReferences.inc...
+    Updating AttrVisitor.inc...
+    Updating DiagnosticFrontendKinds.inc...
+    Updating AttrParsedAttrList.inc...
+    Updating StmtNodes.inc...
+    Updating AttrTemplateInstantiate.inc...
+    Updating DiagnosticCommentKinds.inc...
+    Updating DiagnosticAnalysisKinds.inc...
+    Updating CommentCommandList.inc...
+    Updating DiagnosticSemaKinds.inc...
+    Updating DiagnosticASTKinds.inc...
+    Updating DiagnosticGroups.inc...
+    Updating DiagnosticLexKinds.inc...
+    Updating DiagnosticParseKinds.inc...
+    Updating DiagnosticSerializationKinds.inc...
+    Updating AttrSpellingListIndex.inc...
+    Updating Intrinsics.gen...
+    LLVMOption.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMOption.lib
+    LLVMDxilHash.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilHash.lib
+    Updating Options.inc...
+    Touch GetCommitInfo.py to trigger rebuild
+    LLVMPasses.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMPasses.lib
+    LLVMIRReader.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMIRReader.lib
+    LLVMTarget.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMTarget.lib
+    LLVMDXIL.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDXIL.lib
+    LLVMBitWriter.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMBitWriter.lib
+    LLVMPassPrinters.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMPassPrinters.lib
+    LLVMAsmParser.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMAsmParser.lib
+    LLVMVectorize.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMVectorize.lib
+    LLVMDxilPIXPasses.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilPIXPasses.lib
+    LLVMLinker.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMLinker.lib
+    LLVMDxcSupport.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxcSupport.lib
+    LLVMDxilValidation.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilValidation.lib
+    LLVMProfileData.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMProfileData.lib
+    LLVMipa.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMipa.lib
+    LLVMDxcBindingTable.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxcBindingTable.lib
+    LLVMHLSL.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMHLSL.lib
+    LLVMDxilRootSignature.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilRootSignature.lib
+    LLVMAnalysis.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMAnalysis.lib
+    LLVMDxilContainer.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilContainer.lib
+    LLVMDxilCompression.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilCompression.lib
+    LLVMCore.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMCore.lib
+    LLVMBitReader.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMBitReader.lib
+    LLVMDxilDia.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMDxilDia.lib
+    Collect Git commit info for versioning
+    SPIRV-Tools-static.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\lib\Release\SPIRV-Tools.lib
+    clangRewrite.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangRewrite.lib
+    clangDriver.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangDriver.lib
+    clangEdit.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangEdit.lib
+    clangASTMatchers.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangASTMatchers.lib
+    clangTooling.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangTooling.lib
+    clangAnalysis.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangAnalysis.lib
+    clangBasic.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangBasic.lib
+    clangIndex.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangIndex.lib
+    clangFormat.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangFormat.lib
+    clangAST.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangAST.lib
+    LLVMInstCombine.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMInstCombine.lib
+    clangCodeGen.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangCodeGen.lib
+    clangParse.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangParse.lib
+    libclang.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\libclang.lib
+    clangSema.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangSema.lib
+    SPIRV-Tools-opt.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\lib\Release\SPIRV-Tools-opt.lib
+    clangSPIRV.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangSPIRV.lib
+    LLVMTransformUtils.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMTransformUtils.lib
+    clangLex.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangLex.lib
+    dxcvalidator.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\dxcvalidator.lib
+    clangRewriteFrontend.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangRewriteFrontend.lib
+    clangToolingCore.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangToolingCore.lib
+    clangFrontend.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\clangFrontend.lib
+    LLVMipo.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMipo.lib
+    LLVMScalarOpts.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\lib\LLVMScalarOpts.lib
+    dxcompiler.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\dxc\build\Release\bin\dxcompiler.dll
+  gtml.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\RelWithDebInfo\gtml.lib
+  blake3.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\blake\c\RelWithDebInfo\blake3.lib
+  boost_container.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\container\RelWithDebInfo\boost_container.lib
+  Imath.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\imath\src\Imath\RelWithDebInfo\Imath-3_2.lib
+  libdeflate_static.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\libdeflate\RelWithDebInfo\deflatestatic.lib
+  boost_atomic.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\atomic\RelWithDebInfo\boost_atomic.lib
+  Iex.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\openexr\src\lib\Iex\RelWithDebInfo\Iex-3_3.lib
+  volk.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\volk\RelWithDebInfo\volk.lib
+  bz2_static.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\bzip2\RelWithDebInfo\bz2_static.lib
+  1>
+  1>
+  simdjson.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\simdjson\RelWithDebInfo\simdjson.lib
+  zlibstatic.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\zlib\zlibstaticrwdi.lib
+  1>
+  1>
+  boost_exception.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\exception\RelWithDebInfo\boost_exception.lib
+  1>
+  png_static.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\libpng\RelWithDebInfo\libpng16_static.lib
+  OpenEXRCore.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\openexr\src\lib\OpenEXRCore\RelWithDebInfo\OpenEXRCore-3_3.lib
+  boost_date_time.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\date_time\RelWithDebInfo\boost_date_time.lib
+  IlmThread.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\openexr\src\lib\IlmThread\RelWithDebInfo\IlmThread-3_3.lib
+  1>
+  boost_chrono.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\chrono\RelWithDebInfo\boost_chrono.lib
+  boost_filesystem.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\filesystem\RelWithDebInfo\boost_filesystem.lib
+  boost_thread.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\thread\RelWithDebInfo\boost_thread.lib
+  SPIRV-Tools-static.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\SPIRV-Tools\source\RelWithDebInfo\SPIRV-Tools.lib
+  boost_serialization.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\serialization\RelWithDebInfo\boost_serialization.lib
+  OpenEXR.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\openexr\src\lib\OpenEXR\RelWithDebInfo\OpenEXR-3_3.lib
+  OpenEXRUtil.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\openexr\src\lib\OpenEXRUtil\RelWithDebInfo\OpenEXRUtil-3_3.lib
+  boost_wave.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\boost\superproject\libs\wave\RelWithDebInfo\boost_wave.lib
+  SPIRV-Tools-opt.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\SPIRV-Tools\source\opt\RelWithDebInfo\SPIRV-Tools-opt.lib
+  glslang.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\glslang\glslang\RelWithDebInfo\glslang.lib
+  SPIRV.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\glslang\SPIRV\RelWithDebInfo\SPIRV.lib
+  shaderc_util.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\shaderc\libshaderc_util\RelWithDebInfo\shaderc_util.lib
+  shaderc.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\shaderc\libshaderc\RelWithDebInfo\shaderc.lib
+  Nabla.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\src\nbl\RelWithDebInfo\devshgraphicsprogramming.nabla\Nabla_relwithdebinfo.dll
+  nsc.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\tools\nsc\bin\nsc_rwdi.exe
+  NblExtFULL_SCREEN_TRIANGLE.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\src\nbl\ext\FullScreenTriangle\RelWithDebInfo\NblExtFULL_SCREEN_TRIANGLE_rwdi.lib
+  NblExtExamplesAPI.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\examples_tests\common\RelWithDebInfo\NblExtExamplesAPI_rwdi.lib
+  freetype.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\freetype2\RelWithDebInfo\freetype.lib
+  imgui.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\RelWithDebInfo\imgui.lib
+  imguizmo.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\RelWithDebInfo\imguizmo.lib
+  implot.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\RelWithDebInfo\implot.lib
+  imtestsuite.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\RelWithDebInfo\imtestsuite.lib
+  imtestengine.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\3rdparty\RelWithDebInfo\imtestengine.lib
+  NblExtIMGUI_UI.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\build\dynamic\src\nbl\ext\ImGui\RelWithDebInfo\NblExtIMGUI_UI_rwdi.lib
+  Copying PDB for PCH reuse from NblExtExamplesAPI for 31_hlslpathtracer
+  31_hlslpathtracer.vcxproj -> C:\Users\anastaziuk\Desktop\DevshGraphicsProgramming\Nabla\worktrees\unroll_o1_local\examples_tests\31_HLSLPathTracer\bin\31_hlslpathtracer_rwdi.exe
+EXIT_CODE=0
+WALL_SECONDS=12.7817278

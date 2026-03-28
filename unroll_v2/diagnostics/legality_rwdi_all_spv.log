@@ -1,0 +1,24 @@
+SPIRV_VAL=C:\VulkanSDK\1.4.341.1\Bin\spirv-val.exe
+=== pt.compute.rectangle.rwmc.linear.spv ===
+EXIT_CODE=0
+=== pt.compute.rectangle.rwmc.persistent.spv ===
+EXIT_CODE=0
+=== pt.compute.rectangle.spv ===
+EXIT_CODE=0
+=== pt.compute.resolve.spv ===
+EXIT_CODE=0
+=== pt.compute.sphere.rwmc.spv ===
+EXIT_CODE=0
+=== pt.compute.sphere.spv ===
+EXIT_CODE=0
+=== pt.compute.triangle.linear.spv ===
+EXIT_CODE=0
+=== pt.compute.triangle.persistent.spv ===
+EXIT_CODE=0
+=== pt.compute.triangle.rwmc.linear.spv ===
+EXIT_CODE=0
+=== pt.compute.triangle.rwmc.persistent.spv ===
+EXIT_CODE=0
+=== pt.misc.spv ===
+EXIT_CODE=0
+FAILED=
