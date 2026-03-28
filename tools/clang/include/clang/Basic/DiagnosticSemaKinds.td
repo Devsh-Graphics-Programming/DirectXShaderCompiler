@@ -1597,6 +1597,13 @@ def warn_hlsl_sometimes_uninit_out_param : Warning<
   "its declaration is reached|"
   "%3 is called}2">,
   InGroup<HLSLParameterUsage>;
+def warn_hlsl_groupshared_202x: Warning<
+  "Support for groupshared parameter annotation not added until HLSL 202x">,
+  InGroup<HLSLParameterUsage>;
+def warn_hlsl_groupshared_inout: Warning<
+  "Passing groupshared variable to a parameter annotated with inout. See "
+  "'groupshared' parameter annotation added in 202x.">,
+  InGroup<HLSLParameterUsage>;
 // HLSL Change End - Add warning for uninitialized out param
 def warn_maybe_uninit_var : Warning<
   "variable %0 may be uninitialized when "
@@ -8035,26 +8042,21 @@ def err_hlsl_linalg_matrix_dim_must_be_greater_than_zero: Error<
 def err_hlsl_linalg_matrix_layout_invalid : Error<
   "matrix layout %0 is not valid, must be in the range [%1, %2]">;
 
-def err_hlsl_linalg_mul_muladd_output_vector_size_not_equal_to_matrix_M : Error<
-  "output vector length must be equal to Matrix M dimension in a linalg Mul/MulAdd operation">;
-def err_hlsl_linalg_mul_muladd_unpacked_input_vector_size_not_equal_to_matrix_K : Error<
-  "unpacked input vector length must be equal to Matrix K dimension in a linalg Mul/MulAdd operation">;
-def err_hlsl_linalg_mul_muladd_packed_input_vector_size_incorrect : Error<
-  "packed input vector length must be the smallest number that can hold matrix dim K values of the "
-  "packed(smaller) type in linalg mul/muladd operations">;
-def err_hlsl_linalg_mul_muladd_isUnsigned_for_packed_input_must_be_true : Error<
-  "IsInputUnsigned must be true for packed input interpretations in linalg mul/muladd operations">;
-def err_hlsl_linalg_mul_muladd_packed_input_vector_must_be_uint : Error<
-  "packed input vector type must be a 32-bit unsigned int type in linalg mul/muladd operations">;
-def err_hlsl_linalg_mul_muladd_invalid_dim: Error<
-  "matrix dimension %select{M|K when using unpacked input vectors|K "
-  "when using packed input vectors}0 must be less than %1, in a linalg "
-  "Mul/MulAdd operation">;
+// SM 6.10 Linear Algebra Operations
+def err_hlsl_linalg_matrix_attribute_arg_not_int_or_enum
+    : Error<"argument is not an integer%select{| or enumeration}0">;
+def err_hlsl_linalg_matrix_attribute_arg_not_constant_value
+    : Error<"matrix attributes argument %1 is not a constant value">;
+def err_hlsl_linalg_matrix_invalid_enum_attribute_value
+    : Error<"matrix attribute %0 has invalid value %1, must be in the range "
+            "[%2, %3]">;
+def err_hlsl_linalg_matrix_attribute_on_invalid_type
+    : Error<"matrix attributes can only be applied to %0">;
+def err_hlsl_linalg_attributed_matrix_required
+    : Error<"argument must be linear algebra matrix type">;
 
-def err_hlsl_linalg_outer_prod_acc_vector_type_mismatch : Error<
-  "input vectors of outerproductaccumulate must have the same element type">;
-def err_hlsl_linalg_outer_prod_acc_matrix_layout_must_be_outer_prod_acc_optimal : Error<
-  "matrix layout for outerproductaccumulate must be %0">;
+def err_hlsl_linalg_unsupported_stage : Error<
+   "builtin unavailable in shader stage '%0' (requires 'compute', 'mesh' or 'amplification')">;
 
 // HLSL Change Ends
 

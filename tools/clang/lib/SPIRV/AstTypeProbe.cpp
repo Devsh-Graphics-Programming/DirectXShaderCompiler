@@ -926,10 +926,31 @@ bool isTexture(QualType type) {
   return false;
 }
 
+bool isSampledTexture(QualType type) {
+  if (const auto *rt = type->getAs<RecordType>()) {
+    const auto name = rt->getDecl()->getName();
+    // TODO(https://github.com/microsoft/DirectXShaderCompiler/issues/7979): Add
+    // other sampled texture types as needed.
+    if (name == "SampledTexture2D" || name == "SampledTexture2DArray" ||
+        name == "SampledTexture2DMS" || name == "SampledTexture2DMSArray")
+      return true;
+  }
+  return false;
+}
+
 bool isTextureMS(QualType type) {
   if (const auto *rt = type->getAs<RecordType>()) {
     const auto name = rt->getDecl()->getName();
     if (name == "Texture2DMS" || name == "Texture2DMSArray")
+      return true;
+  }
+  return false;
+}
+
+bool isSampledTextureMS(QualType type) {
+  if (const auto *rt = type->getAs<RecordType>()) {
+    const auto name = rt->getDecl()->getName();
+    if (name == "SampledTexture2DMS" || name == "SampledTexture2DMSArray")
       return true;
   }
   return false;
