@@ -200,10 +200,15 @@ enum ArBasicKind {
   AR_OBJECT_VK_SPV_INTRINSIC_TYPE,
   AR_OBJECT_VK_SPV_INTRINSIC_RESULT_ID,
   AR_OBJECT_VK_BUFFER_POINTER,
+  AR_OBJECT_VK_SAMPLED_TEXTURE1D,
+  AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY,
   AR_OBJECT_VK_SAMPLED_TEXTURE2D,
   AR_OBJECT_VK_SAMPLED_TEXTURE2D_ARRAY,
   AR_OBJECT_VK_SAMPLED_TEXTURE2DMS,
   AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY,
+  AR_OBJECT_VK_SAMPLED_TEXTURECUBE,
+  AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY,
+  AR_OBJECT_VK_SAMPLED_TEXTURE3D,
 #endif // ENABLE_SPIRV_CODEGEN
   // SPIRV change ends
 
@@ -564,10 +569,15 @@ const UINT g_uBasicKindProps[] = {
     BPROP_OBJECT, // AR_OBJECT_VK_SPV_INTRINSIC_TYPE use recordType
     BPROP_OBJECT, // AR_OBJECT_VK_SPV_INTRINSIC_RESULT_ID use recordType
     BPROP_OBJECT, // AR_OBJECT_VK_BUFFER_POINTER use recordType
+    BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE1D
+    BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY
     BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE2D
     BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE2D_ARRAY
     BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE2DMS
     BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY
+    BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURECUBE
+    BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY
+    BPROP_OBJECT | BPROP_RBUFFER, // AR_OBJECT_VK_SAMPLED_TEXTURE3D
 #endif            // ENABLE_SPIRV_CODEGEN
     // SPIRV change ends
 
@@ -1276,6 +1286,10 @@ static const ArBasicKind g_LinAlgMatrixCT[] = {AR_OBJECT_LINALG_MATRIX,
 #ifdef ENABLE_SPIRV_CODEGEN
 static const ArBasicKind g_VKBufferPointerCT[] = {AR_OBJECT_VK_BUFFER_POINTER,
                                                   AR_BASIC_UNKNOWN};
+static const ArBasicKind g_VKSampledTexture1DCT[] = {
+    AR_OBJECT_VK_SAMPLED_TEXTURE1D, AR_BASIC_UNKNOWN};
+static const ArBasicKind g_VKSampledTexture1DArrayCT[] = {
+    AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY, AR_BASIC_UNKNOWN};
 static const ArBasicKind g_VKSampledTexture2DCT[] = {
     AR_OBJECT_VK_SAMPLED_TEXTURE2D, AR_BASIC_UNKNOWN};
 static const ArBasicKind g_VKSampledTexture2DArrayCT[] = {
@@ -1284,6 +1298,12 @@ static const ArBasicKind g_VKSampledTexture2DMSCT[] = {
     AR_OBJECT_VK_SAMPLED_TEXTURE2DMS, AR_BASIC_UNKNOWN};
 static const ArBasicKind g_VKSampledTexture2DMSArrayCT[] = {
     AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY, AR_BASIC_UNKNOWN};
+static const ArBasicKind g_VKSampledTextureCUBECT[] = {
+    AR_OBJECT_VK_SAMPLED_TEXTURECUBE, AR_BASIC_UNKNOWN};
+static const ArBasicKind g_VKSampledTextureCUBEArrayCT[] = {
+    AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY, AR_BASIC_UNKNOWN};
+static const ArBasicKind g_VKSampledTexture3DCT[] = {
+    AR_OBJECT_VK_SAMPLED_TEXTURE3D, AR_BASIC_UNKNOWN};
 #endif
 
 // Basic kinds, indexed by a LEGAL_INTRINSIC_COMPTYPES value.
@@ -1347,10 +1367,15 @@ const ArBasicKind *g_LegalIntrinsicCompTypes[] = {
     g_BuiltInTrianglePositionsCT, // LICOMPTYPE_BUILTIN_TRIANGLE_POSITIONS
 #ifdef ENABLE_SPIRV_CODEGEN
     g_VKBufferPointerCT,           // LICOMPTYPE_VK_BUFFER_POINTER
+    g_VKSampledTexture1DCT,        // LICOMPTYPE_VK_SAMPLED_TEXTURE1D
+    g_VKSampledTexture1DArrayCT,   // LICOMPTYPE_VK_SAMPLED_TEXTURE1D_ARRAY
     g_VKSampledTexture2DCT,        // LICOMPTYPE_VK_SAMPLED_TEXTURE2D
     g_VKSampledTexture2DArrayCT,   // LICOMPTYPE_VK_SAMPLED_TEXTURE2D_ARRAY
     g_VKSampledTexture2DMSCT,      // LICOMPTYPE_VK_SAMPLED_TEXTURE2DMS
     g_VKSampledTexture2DMSArrayCT, // LICOMPTYPE_VK_SAMPLED_TEXTURE2DMS_ARRAY
+    g_VKSampledTextureCUBECT,      // LICOMPTYPE_VK_SAMPLED_TEXTURECUBE
+    g_VKSampledTextureCUBEArrayCT, // LICOMPTYPE_VK_SAMPLED_TEXTURECUBE_ARRAY
+    g_VKSampledTexture3DCT,        // LICOMPTYPE_VK_SAMPLED_TEXTURE3D
 #endif
 };
 static_assert(
@@ -1410,9 +1435,11 @@ static const ArBasicKind g_ArBasicKindsAsTypes[] = {
     AR_OBJECT_VK_SPIRV_TYPE, AR_OBJECT_VK_SPIRV_OPAQUE_TYPE,
     AR_OBJECT_VK_INTEGRAL_CONSTANT, AR_OBJECT_VK_LITERAL,
     AR_OBJECT_VK_SPV_INTRINSIC_TYPE, AR_OBJECT_VK_SPV_INTRINSIC_RESULT_ID,
-    AR_OBJECT_VK_BUFFER_POINTER, AR_OBJECT_VK_SAMPLED_TEXTURE2D,
+    AR_OBJECT_VK_BUFFER_POINTER, AR_OBJECT_VK_SAMPLED_TEXTURE1D,
+    AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY, AR_OBJECT_VK_SAMPLED_TEXTURE2D,
     AR_OBJECT_VK_SAMPLED_TEXTURE2D_ARRAY, AR_OBJECT_VK_SAMPLED_TEXTURE2DMS,
-    AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY,
+    AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY, AR_OBJECT_VK_SAMPLED_TEXTURECUBE,
+    AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY, AR_OBJECT_VK_SAMPLED_TEXTURE3D,
 #endif // ENABLE_SPIRV_CODEGEN
     // SPIRV change ends
 
@@ -1524,10 +1551,15 @@ static const uint8_t g_ArBasicKindsTemplateCount[] = {
     1, // AR_OBJECT_VK_SPV_INTRINSIC_TYPE
     1, // AR_OBJECT_VK_SPV_INTRINSIC_RESULT_ID
     2, // AR_OBJECT_VK_BUFFER_POINTER
+    1, // AR_OBJECT_VK_SAMPLED_TEXTURE1D
+    1, // AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY
     1, // AR_OBJECT_VK_SAMPLED_TEXTURE2D
     1, // AR_OBJECT_VK_SAMPLED_TEXTURE2D_ARRAY
     1, // AR_OBJECT_VK_SAMPLED_TEXTURE2DMS
     1, // AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY
+    1, // AR_OBJECT_VK_SAMPLED_TEXTURECUBE
+    1, // AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY
+    1, // AR_OBJECT_VK_SAMPLED_TEXTURE3D
 #endif // ENABLE_SPIRV_CODEGEN
     // SPIRV change ends
 
@@ -1681,10 +1713,15 @@ static const SubscriptOperatorRecord g_ArBasicKindsSubscripts[] = {
     {0, MipsFalse, SampleFalse}, // AR_OBJECT_VK_SPV_INTRINSIC_TYPE
     {0, MipsFalse, SampleFalse}, // AR_OBJECT_VK_SPV_INTRINSIC_RESULT_ID
     {0, MipsFalse, SampleFalse}, // AR_OBJECT_VK_BUFFER_POINTER
+    {1, MipsTrue, SampleFalse},  // AR_OBJECT_VK_SAMPLED_TEXTURE1D
+    {2, MipsTrue, SampleFalse},  // AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY
     {2, MipsTrue, SampleFalse},  // AR_OBJECT_VK_SAMPLED_TEXTURE2D
     {3, MipsTrue, SampleFalse},  // AR_OBJECT_VK_SAMPLED_TEXTURE2D_ARRAY
     {2, MipsFalse, SampleTrue},  // AR_OBJECT_VK_SAMPLED_TEXTURE2DMS
     {3, MipsFalse, SampleTrue},  // AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY
+    {0, MipsFalse, SampleFalse}, // AR_OBJECT_VK_SAMPLED_TEXTURECUBE
+    {0, MipsFalse, SampleFalse}, // AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY
+    {3, MipsTrue, SampleFalse},  // AR_OBJECT_VK_SAMPLED_TEXTURE3D
 #endif                           // ENABLE_SPIRV_CODEGEN
     // SPIRV change ends
 
@@ -1854,10 +1891,15 @@ static const char *g_ArBasicTypeNames[] = {
     "ext_type",
     "ext_result_id",
     "BufferPointer",
+    "SampledTexture1D",
+    "SampledTexture1DArray",
     "SampledTexture2D",
     "SampledTexture2DArray",
     "SampledTexture2DMS",
     "SampledTexture2DMSArray",
+    "SampledTextureCUBE",
+    "SampledTextureCUBEArray",
+    "SampledTexture3D",
 #endif // ENABLE_SPIRV_CODEGEN
     // SPIRV change ends
 
@@ -2514,6 +2556,14 @@ static void GetIntrinsicMethods(ArBasicKind kind,
     *intrinsicCount = _countof(g_RayQueryMethods);
     break;
 #ifdef ENABLE_SPIRV_CODEGEN
+  case AR_OBJECT_VK_SAMPLED_TEXTURE1D:
+    *intrinsics = g_VkSampledTexture1DMethods;
+    *intrinsicCount = _countof(g_VkSampledTexture1DMethods);
+    break;
+  case AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY:
+    *intrinsics = g_VkSampledTexture1DArrayMethods;
+    *intrinsicCount = _countof(g_VkSampledTexture1DArrayMethods);
+    break;
   case AR_OBJECT_VK_SAMPLED_TEXTURE2D:
     *intrinsics = g_VkSampledTexture2DMethods;
     *intrinsicCount = _countof(g_VkSampledTexture2DMethods);
@@ -2529,6 +2579,18 @@ static void GetIntrinsicMethods(ArBasicKind kind,
   case AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY:
     *intrinsics = g_VkSampledTexture2DMSArrayMethods;
     *intrinsicCount = _countof(g_VkSampledTexture2DMSArrayMethods);
+    break;
+  case AR_OBJECT_VK_SAMPLED_TEXTURECUBE:
+    *intrinsics = g_VkSampledTextureCUBEMethods;
+    *intrinsicCount = _countof(g_VkSampledTextureCUBEMethods);
+    break;
+  case AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY:
+    *intrinsics = g_VkSampledTextureCUBEArrayMethods;
+    *intrinsicCount = _countof(g_VkSampledTextureCUBEArrayMethods);
+    break;
+  case AR_OBJECT_VK_SAMPLED_TEXTURE3D:
+    *intrinsics = g_VkSampledTexture3DMethods;
+    *intrinsicCount = _countof(g_VkSampledTexture3DMethods);
     break;
 #endif
   case AR_OBJECT_HIT_OBJECT:
@@ -4137,10 +4199,15 @@ private:
         recordDecl = DeclareVkBufferPointerType(*m_context, m_vkNSDecl);
         recordDecl->setImplicit(true);
         m_vkBufferPointerTemplateDecl = recordDecl->getDescribedClassTemplate();
-      } else if (kind == AR_OBJECT_VK_SAMPLED_TEXTURE2D ||
+      } else if (kind == AR_OBJECT_VK_SAMPLED_TEXTURE1D ||
+                 kind == AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY ||
+                 kind == AR_OBJECT_VK_SAMPLED_TEXTURE2D ||
                  kind == AR_OBJECT_VK_SAMPLED_TEXTURE2D_ARRAY ||
                  kind == AR_OBJECT_VK_SAMPLED_TEXTURE2DMS ||
-                 kind == AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY) {
+                 kind == AR_OBJECT_VK_SAMPLED_TEXTURE2DMS_ARRAY ||
+                 kind == AR_OBJECT_VK_SAMPLED_TEXTURE3D ||
+                 kind == AR_OBJECT_VK_SAMPLED_TEXTURECUBE ||
+                 kind == AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY) {
         if (!m_vkNSDecl)
           continue;
         QualType float4Type =
@@ -5077,6 +5144,9 @@ public:
     DXASSERT_VALIDBASICKIND(BasicKind);
     switch (BasicKind) {
     case AR_OBJECT_TEXTURE1D:
+#ifdef ENABLE_SPIRV_CODEGEN
+    case AR_OBJECT_VK_SAMPLED_TEXTURE1D:
+#endif
       ResKind = DXIL::ResourceKind::Texture1D;
       ResClass = DXIL::ResourceClass::SRV;
       return true;
@@ -5086,6 +5156,9 @@ public:
       ResClass = DXIL::ResourceClass::UAV;
       return true;
     case AR_OBJECT_TEXTURE1D_ARRAY:
+#ifdef ENABLE_SPIRV_CODEGEN
+    case AR_OBJECT_VK_SAMPLED_TEXTURE1D_ARRAY:
+#endif
       ResKind = DXIL::ResourceKind::Texture1DArray;
       ResClass = DXIL::ResourceClass::SRV;
       return true;
@@ -5119,6 +5192,9 @@ public:
       ResClass = DXIL::ResourceClass::UAV;
       return true;
     case AR_OBJECT_TEXTURE3D:
+#ifdef ENABLE_SPIRV_CODEGEN
+    case AR_OBJECT_VK_SAMPLED_TEXTURE3D:
+#endif
       ResKind = DXIL::ResourceKind::Texture3D;
       ResClass = DXIL::ResourceClass::SRV;
       return true;
@@ -5128,10 +5204,16 @@ public:
       ResClass = DXIL::ResourceClass::UAV;
       return true;
     case AR_OBJECT_TEXTURECUBE:
+#ifdef ENABLE_SPIRV_CODEGEN
+    case AR_OBJECT_VK_SAMPLED_TEXTURECUBE:
+#endif
       ResKind = DXIL::ResourceKind::TextureCube;
       ResClass = DXIL::ResourceClass::SRV;
       return true;
     case AR_OBJECT_TEXTURECUBE_ARRAY:
+#ifdef ENABLE_SPIRV_CODEGEN
+    case AR_OBJECT_VK_SAMPLED_TEXTURECUBE_ARRAY:
+#endif
       ResKind = DXIL::ResourceKind::TextureCubeArray;
       ResClass = DXIL::ResourceClass::SRV;
       return true;
@@ -5289,8 +5371,8 @@ public:
   /// use for the signature, with the first being the return type.</remarks>
   bool MatchArguments(const IntrinsicDefIter &cursor, QualType objectType,
                       QualType objectElement, QualType functionTemplateTypeArg,
-                      ArrayRef<Expr *> Args, std::vector<QualType> *,
-                      size_t &badArgIdx);
+                      unsigned functionTemplateIntArg, ArrayRef<Expr *> Args,
+                      std::vector<QualType> *, size_t &badArgIdx);
 
   /// <summary>Validate object element on intrinsic to catch case like integer
   /// on Sample.</summary> <param name="tableName">Intrinsic function to
@@ -5442,6 +5524,19 @@ public:
                                            nameIdentifier, argumentCount));
   }
 
+  static unsigned GetIntegralTemplateArg(ASTContext &context,
+                                         const TemplateArgument &arg) {
+    if (arg.getKind() == TemplateArgument::Integral)
+      return arg.getAsIntegral().getZExtValue();
+    if (arg.getKind() == TemplateArgument::Expression) {
+      llvm::APSInt result;
+      Expr *expr = arg.getAsExpr();
+      if (expr != nullptr && expr->isIntegerConstantExpr(result, context))
+        return result.getZExtValue();
+    }
+    return 0;
+  }
+
   bool AddOverloadedCallCandidates(UnresolvedLookupExpr *ULE,
                                    ArrayRef<Expr *> Args,
                                    OverloadCandidateSet &CandidateSet, Scope *S,
@@ -5536,11 +5631,22 @@ public:
                  "otherwise g_MaxIntrinsicParamCount needs to be updated for "
                  "wider signatures");
 
+        QualType templateTypeArg;
+        unsigned templateIntArg = 0;
         std::vector<QualType> functionArgTypes;
         size_t badArgIdx;
+        if (ULE->hasExplicitTemplateArgs() && ULE->getNumTemplateArgs() >= 1) {
+          const TemplateArgumentLoc &TypeArgLoc = ULE->getTemplateArgs()[0];
+          if (TypeArgLoc.getArgument().getKind() == TemplateArgument::Type)
+            templateTypeArg = TypeArgLoc.getArgument().getAsType();
+          if (ULE->getNumTemplateArgs() >= 2)
+            templateIntArg = GetIntegralTemplateArg(
+                *m_context, ULE->getTemplateArgs()[1].getArgument());
+        }
+
         bool argsMatch =
-            MatchArguments(cursor, QualType(), QualType(), QualType(), Args,
-                           &functionArgTypes, badArgIdx);
+            MatchArguments(cursor, QualType(), QualType(), templateTypeArg,
+                           templateIntArg, Args, &functionArgTypes, badArgIdx);
         if (!functionArgTypes.size())
           return false;
 
@@ -6314,7 +6420,23 @@ public:
     if (IsBuiltinTable(tableName) && intrinOp == IntrinsicOp::MOP_SampleBias) {
       // Remove this when update intrinsic table not affect other things.
       // Change vector<float,1> into float for bias.
-      const unsigned biasOperandID = 3; // return type, sampler, coord, bias.
+      // The bias operand is the 3rd operand for normal texture types, but 2nd
+      // operand for sampledtexture types.
+      const bool firstArgIsSampler =
+          intrinsic->uNumArgs > 1 && ([&]() {
+            switch (intrinsic->pArgs[1].uLegalComponentTypes) {
+            case LICOMPTYPE_SAMPLER1D:
+            case LICOMPTYPE_SAMPLER2D:
+            case LICOMPTYPE_SAMPLER3D:
+            case LICOMPTYPE_SAMPLERCUBE:
+            case LICOMPTYPE_SAMPLERCMP:
+            case LICOMPTYPE_SAMPLER:
+              return true;
+            default:
+              return false;
+            }
+          })();
+      const unsigned biasOperandID = firstArgIsSampler ? 3 : 2;
       DXASSERT(parameterTypeCount > biasOperandID,
                "else operation was misrecognized");
       if (const ExtVectorType *VecTy =
@@ -6933,8 +7055,9 @@ bool HLSLExternalSource::IsValidObjectElement(LPCSTR tableName,
 
 bool HLSLExternalSource::MatchArguments(
     const IntrinsicDefIter &cursor, QualType objectType, QualType objectElement,
-    QualType functionTemplateTypeArg, ArrayRef<Expr *> Args,
-    std::vector<QualType> *argTypesVector, size_t &badArgIdx) {
+    QualType functionTemplateTypeArg, unsigned functionTemplateIntArg,
+    ArrayRef<Expr *> Args, std::vector<QualType> *argTypesVector,
+    size_t &badArgIdx) {
   const HLSL_INTRINSIC *pIntrinsic = *cursor;
   LPCSTR tableName = cursor.GetTableName();
   IntrinsicOp builtinOp = IntrinsicOp::Num_Intrinsics;
@@ -7426,7 +7549,51 @@ bool HLSLExternalSource::MatchArguments(
       if (i == 0 &&
           (builtinOp == hlsl::IntrinsicOp::IOP_Vkreinterpret_pointer_cast ||
            builtinOp == hlsl::IntrinsicOp::IOP_Vkstatic_pointer_cast)) {
-        pNewType = Args[0]->getType();
+#ifdef ENABLE_SPIRV_CODEGEN
+        if (functionTemplateTypeArg.isNull()) {
+          badArgIdx = std::min(badArgIdx, i);
+          continue;
+        }
+
+        // Build BufferPointer<T, A> where T is the template type argument and
+        // A is the template alignment argument (or the alignment of the
+        // source pointer if none is given).
+        unsigned srcAlignment =
+            functionTemplateIntArg
+                ? functionTemplateIntArg
+                : hlsl::GetVKBufferPointerAlignment(Args[0]->getType());
+        TemplateArgument TemplateArgs[] = {
+            TemplateArgument(functionTemplateTypeArg),
+            TemplateArgument(*m_context,
+                             llvm::APSInt(llvm::APInt(32, srcAlignment)),
+                             m_context->UnsignedIntTy)};
+        void *InsertPos = nullptr;
+        ClassTemplateSpecializationDecl *Spec =
+            m_vkBufferPointerTemplateDecl->findSpecialization(
+                llvm::ArrayRef<TemplateArgument>(TemplateArgs, 2), InsertPos);
+        if (!Spec) {
+          Spec = ClassTemplateSpecializationDecl::Create(
+              *m_context, TagDecl::TagKind::TTK_Struct,
+              m_vkBufferPointerTemplateDecl->getDeclContext(), SourceLocation(),
+              SourceLocation(), m_vkBufferPointerTemplateDecl, TemplateArgs, 2,
+              nullptr);
+          m_vkBufferPointerTemplateDecl->AddSpecialization(Spec, InsertPos);
+          Spec->setImplicit(true);
+          DXVERIFY_NOMSG(
+              false ==
+              getSema()->InstantiateClassTemplateSpecialization(
+                  SourceLocation(), Spec,
+                  TemplateSpecializationKind::TSK_ImplicitInstantiation, true));
+        }
+
+        pNewType = m_context->getTemplateSpecializationType(
+            TemplateName(m_vkBufferPointerTemplateDecl), TemplateArgs, 2,
+            m_context->getTypeDeclType(Spec));
+#else
+        // The IOP_Vk* opcodes are only reachable when ENABLE_SPIRV_CODEGEN is
+        // defined.
+        llvm_unreachable("vk:: pointer cast intrinsics require SPIR-V codegen");
+#endif // ENABLE_SPIRV_CODEGEN
       } else {
         badArgIdx = std::min(badArgIdx, i);
       }
@@ -7882,6 +8049,7 @@ unsigned HLSLExternalSource::GetNumElements(QualType anyType) {
   case AR_TOBJ_BASIC:
   case AR_TOBJ_OBJECT:
   case AR_TOBJ_STRING:
+  case AR_TOBJ_LINALG_MATRIX:
     return 1;
   case AR_TOBJ_COMPOUND: {
     // TODO: consider caching this value for perf
@@ -8017,6 +8185,7 @@ QualType HLSLExternalSource::GetNthElementType(QualType type, unsigned index) {
   case AR_TOBJ_BASIC:
   case AR_TOBJ_OBJECT:
   case AR_TOBJ_STRING:
+  case AR_TOBJ_LINALG_MATRIX:
     return (index == 0) ? type : QualType();
   case AR_TOBJ_COMPOUND: {
     // TODO: consider caching this value for perf
@@ -10184,6 +10353,7 @@ bool HLSLExternalSource::CanConvert(SourceLocation loc, Expr *sourceExpr,
       // We can only splat to target types that do not contain object/resource
       // types
       if (sourceSingleElementBuiltinType != nullptr &&
+          !m_sema->RequireCompleteType(loc, target, 0) &&
           hlsl::IsHLSLNumericOrAggregateOfNumericType(target)) {
         BuiltinType::Kind kind = sourceSingleElementBuiltinType->getKind();
         switch (kind) {
@@ -11160,11 +11330,18 @@ HLSLExternalSource::DeduceTemplateArgumentsForHLSL(
   QualType objectType = m_context->getTagDeclType(functionParentRecord);
 
   QualType functionTemplateTypeArg{};
-  if (ExplicitTemplateArgs != nullptr && ExplicitTemplateArgs->size() == 1) {
+  unsigned functionTemplateIntArg = 0;
+  if (ExplicitTemplateArgs != nullptr && ExplicitTemplateArgs->size() >= 1) {
     const TemplateArgument &firstTemplateArg =
         (*ExplicitTemplateArgs)[0].getArgument();
     if (firstTemplateArg.getKind() == TemplateArgument::ArgKind::Type)
       functionTemplateTypeArg = firstTemplateArg.getAsType();
+    if (ExplicitTemplateArgs->size() > 1) {
+      const TemplateArgument &secondTemplateArg =
+          (*ExplicitTemplateArgs)[1].getArgument();
+      functionTemplateIntArg =
+          GetIntegralTemplateArg(*m_context, secondTemplateArg);
+    }
   }
 
   // Handle subscript overloads.
@@ -11238,7 +11415,8 @@ HLSLExternalSource::DeduceTemplateArgumentsForHLSL(
   while (cursor != end) {
     size_t badArgIdx;
     if (!MatchArguments(cursor, objectType, objectElement,
-                        functionTemplateTypeArg, Args, &argTypes, badArgIdx)) {
+                        functionTemplateTypeArg, functionTemplateIntArg, Args,
+                        &argTypes, badArgIdx)) {
       ++cursor;
       continue;
     }
@@ -11281,8 +11459,9 @@ HLSLExternalSource::DeduceTemplateArgumentsForHLSL(
         if (!IsNull &&
             getSema()->RequireCompleteType(Loc, functionTemplateTypeArg, 0))
           return Sema::TemplateDeductionResult::TDK_Invalid;
-        if (IsNull || !hlsl::IsHLSLNumericOrAggregateOfNumericType(
-                          functionTemplateTypeArg)) {
+        if (IsNull || ExplicitTemplateArgs->size() > 1 ||
+            !hlsl::IsHLSLNumericOrAggregateOfNumericType(
+                functionTemplateTypeArg)) {
           getSema()->Diag(Loc, diag::err_hlsl_intrinsic_template_arg_numeric)
               << intrinsicName;
           DiagnoseTypeElements(
@@ -12011,540 +12190,19 @@ static bool CheckBarrierCall(Sema &S, FunctionDecl *FD, CallExpr *CE,
   return false;
 }
 
-// MatVec Ops
-static const unsigned kMatVecMulOutputVectorIdx = 0;
-static const unsigned kMatVecMulOutputIsUnsignedIdx = 1;
-static const unsigned kMatVecMulInputVectorIdx = 2;
-static const unsigned kMatVecMulIsInputUnsignedIdx = 3;
-static const unsigned kMatVecMulInputInterpretationIdx = 4;
-// static const unsigned kMatVecMulMatrixBufferIdx = 5;
-// static const unsigned kMatVecMulMatrixOffsetIdx = 6;
-static const unsigned kMatVecMulMatrixInterpretationIdx = 7;
-static const unsigned kMatVecMulMatrixMIdx = 8;
-static const unsigned kMatVecMulMatrixKIdx = 9;
-static const unsigned kMatVecMulMatrixLayoutIdx = 10;
-static const unsigned kMatVecMulMatrixTransposeIdx = 11;
-static const unsigned kMatVecMulMatrixStrideIdx = 12;
-
-// MatVecAdd
-const unsigned kMatVecMulAddBiasInterpretation = 15;
-
-static bool IsValidMatrixLayoutForMulAndMulAddOps(unsigned Layout) {
-  return Layout <=
-         static_cast<unsigned>(DXIL::LinalgMatrixLayout::OuterProductOptimal);
-}
-
-static bool IsOptimalTypeMatrixLayout(unsigned Layout) {
-  return (
-      Layout == (static_cast<unsigned>(DXIL::LinalgMatrixLayout::MulOptimal)) ||
-      (Layout ==
-       (static_cast<unsigned>(DXIL::LinalgMatrixLayout::OuterProductOptimal))));
-}
-
-static bool IsValidTransposeForMatrixLayout(unsigned Layout, bool Transposed) {
-  switch (static_cast<DXIL::LinalgMatrixLayout>(Layout)) {
-  case DXIL::LinalgMatrixLayout::RowMajor:
-  case DXIL::LinalgMatrixLayout::ColumnMajor:
-    return !Transposed;
-
-  default:
-    return true;
-  }
-}
-
-static bool IsPackedType(unsigned type) {
-  return (type == static_cast<unsigned>(DXIL::ComponentType::PackedS8x32) ||
-          type == static_cast<unsigned>(DXIL::ComponentType::PackedU8x32));
-}
-
-static bool IsValidLinalgTypeInterpretation(uint32_t Input, bool InRegister) {
-
-  switch (static_cast<DXIL::ComponentType>(Input)) {
-  case DXIL::ComponentType::I16:
-  case DXIL::ComponentType::U16:
-  case DXIL::ComponentType::I32:
-  case DXIL::ComponentType::U32:
-  case DXIL::ComponentType::F16:
-  case DXIL::ComponentType::F32:
-  case DXIL::ComponentType::U8:
-  case DXIL::ComponentType::I8:
-  case DXIL::ComponentType::F8_E4M3:
-  case DXIL::ComponentType::F8_E5M2:
-    return true;
-  case DXIL::ComponentType::PackedS8x32:
-  case DXIL::ComponentType::PackedU8x32:
-    return InRegister;
-  default:
-    return false;
-  }
-}
-
-static bool IsValidVectorAndMatrixDimensions(Sema &S, CallExpr *CE,
-                                             unsigned InputVectorSize,
-                                             unsigned OutputVectorSize,
-                                             unsigned MatrixK, unsigned MatrixM,
-                                             bool isInputPacked) {
-  // Check if output vector size equals to matrix dimension M
-  if (OutputVectorSize != MatrixM) {
-    Expr *OutputVector = CE->getArg(kMatVecMulOutputVectorIdx);
-    S.Diags.Report(
-        OutputVector->getExprLoc(),
-        diag::
-            err_hlsl_linalg_mul_muladd_output_vector_size_not_equal_to_matrix_M);
-    return false;
-  }
-
-  // Check if input vector size equals to matrix dimension K in the unpacked
-  // case.
-  // Check if input vector size equals the smallest number that can hold
-  // matrix dimension K values
-  const unsigned PackingFactor = isInputPacked ? 4 : 1;
-  unsigned MinInputVectorSize = (MatrixK + PackingFactor - 1) / PackingFactor;
-  if (InputVectorSize != MinInputVectorSize) {
-    Expr *InputVector = CE->getArg(kMatVecMulInputVectorIdx);
-    if (isInputPacked) {
-      S.Diags.Report(
-          InputVector->getExprLoc(),
-          diag::err_hlsl_linalg_mul_muladd_packed_input_vector_size_incorrect);
-      return false;
-    } else {
-      S.Diags.Report(
-          InputVector->getExprLoc(),
-          diag::
-              err_hlsl_linalg_mul_muladd_unpacked_input_vector_size_not_equal_to_matrix_K);
-      return false;
-    }
-  }
-
-  return true;
-}
-
-static void CheckCommonMulAndMulAddParameters(Sema &S, CallExpr *CE,
-                                              const hlsl::ShaderModel *SM) {
-  // Check if IsOutputUnsigned is a const parameter
-  bool IsOutputUnsignedFlagValue = false;
-  Expr *IsOutputUnsignedExpr = CE->getArg(kMatVecMulOutputIsUnsignedIdx);
-  llvm::APSInt IsOutputUnsignedExprVal;
-  if (IsOutputUnsignedExpr->isIntegerConstantExpr(IsOutputUnsignedExprVal,
-                                                  S.Context)) {
-    IsOutputUnsignedFlagValue = IsOutputUnsignedExprVal.getBoolValue();
-  } else {
-    S.Diags.Report(IsOutputUnsignedExpr->getExprLoc(), diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-
-  Expr *OutputVectorExpr = CE->getArg(kMatVecMulOutputVectorIdx);
-  unsigned OutputVectorSizeValue = 0;
-  if (IsHLSLVecType(OutputVectorExpr->getType())) {
-    OutputVectorSizeValue = GetHLSLVecSize(OutputVectorExpr->getType());
-    QualType OutputVectorType =
-        GetHLSLVecElementType(OutputVectorExpr->getType());
-    const Type *OutputVectorTypePtr = OutputVectorType.getTypePtr();
-
-    // Check if IsOutputUnsigned flag matches output vector type.
-    // Must be true for unsigned int outputs, false for signed int/float
-    // outputs.
-    if (IsOutputUnsignedFlagValue &&
-        !OutputVectorTypePtr->isUnsignedIntegerType()) {
-      DXASSERT_NOMSG(OutputVectorTypePtr->isSignedIntegerType() ||
-                     OutputVectorTypePtr->isFloatingType());
-      S.Diags.Report(IsOutputUnsignedExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_isunsigned_incorrect_for_given_type)
-          << "IsOuputUnsigned" << false
-          << (OutputVectorTypePtr->isSignedIntegerType() ? 1 : 0);
-      return;
-    } else if (!IsOutputUnsignedFlagValue &&
-               OutputVectorTypePtr->isUnsignedIntegerType()) {
-      S.Diags.Report(IsOutputUnsignedExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_isunsigned_incorrect_for_given_type)
-          << "IsOuputUnsigned" << true << 2;
-      return;
-    }
-  }
-
-  // Check if isInputUnsigned parameter is a constant
-  bool IsInputUnsignedFlagValue = false;
-  Expr *IsInputUnsignedExpr = CE->getArg(kMatVecMulIsInputUnsignedIdx);
-  llvm::APSInt IsInputUnsignedExprVal;
-  if (IsInputUnsignedExpr->isIntegerConstantExpr(IsInputUnsignedExprVal,
-                                                 S.Context)) {
-    IsInputUnsignedFlagValue = IsInputUnsignedExprVal.getBoolValue();
-  } else {
-    S.Diags.Report(IsInputUnsignedExpr->getExprLoc(), diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-
-  // Get InputInterpretation, check if it is constant
-  Expr *InputInterpretationExpr = CE->getArg(kMatVecMulInputInterpretationIdx);
-  llvm::APSInt InputInterpretationExprVal;
-  unsigned InputInterpretationValue = 0;
-  if (InputInterpretationExpr->isIntegerConstantExpr(InputInterpretationExprVal,
-                                                     S.Context)) {
-    InputInterpretationValue = InputInterpretationExprVal.getLimitedValue();
-    const bool InRegisterInterpretation = true;
-    if (!IsValidLinalgTypeInterpretation(InputInterpretationValue,
-                                         InRegisterInterpretation)) {
-      S.Diags.Report(InputInterpretationExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_interpretation_value_incorrect)
-          << std::to_string(InputInterpretationValue)
-          << InRegisterInterpretation;
-      return;
-    }
-  } else {
-    S.Diags.Report(InputInterpretationExpr->getExprLoc(),
-                   diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-
-  bool IsInputVectorPacked = IsPackedType(InputInterpretationValue);
-
-  // For packed types input vector type must be uint and isUnsigned must be
-  // true. The signedness is determined from the InputInterpretation
-  Expr *InputVectorExpr = CE->getArg(kMatVecMulInputVectorIdx);
-  unsigned InputVectorSizeValue = 0;
-  if (IsHLSLVecType(InputVectorExpr->getType())) {
-    InputVectorSizeValue = GetHLSLVecSize(InputVectorExpr->getType());
-    QualType InputVectorType =
-        GetHLSLVecElementType(InputVectorExpr->getType());
-    unsigned BitWidth = S.Context.getTypeSize(InputVectorType);
-    bool Is32Bit = (BitWidth == 32);
-    const Type *InputVectorTypePtr = InputVectorType.getTypePtr();
-
-    // Check if the isUnsigned flag setting
-    if (IsInputVectorPacked) {
-      // Check that the input vector element type is "32bit"
-      if (!Is32Bit) {
-        S.Diags.Report(
-            InputVectorExpr->getExprLoc(),
-            diag::err_hlsl_linalg_mul_muladd_packed_input_vector_must_be_uint);
-        return;
-      }
-
-      // Check that the input vector element type is an unsigned int
-      if (!InputVectorTypePtr->isUnsignedIntegerType()) {
-        S.Diags.Report(
-            InputVectorExpr->getExprLoc(),
-            diag::err_hlsl_linalg_mul_muladd_packed_input_vector_must_be_uint);
-        return;
-      }
-
-      // Check that isInputUnsigned is always true
-      // Actual signedness is inferred from the InputInterpretation
-      if (!IsInputUnsignedFlagValue) {
-        S.Diags.Report(
-            IsInputUnsignedExpr->getExprLoc(),
-            diag::
-                err_hlsl_linalg_mul_muladd_isUnsigned_for_packed_input_must_be_true);
-        return;
-      }
-    } else {
-      if (IsInputUnsignedFlagValue &&
-          !InputVectorTypePtr->isUnsignedIntegerType()) {
-        DXASSERT_NOMSG(InputVectorTypePtr->isSignedIntegerType() ||
-                       InputVectorTypePtr->isFloatingType());
-        S.Diags.Report(
-            IsInputUnsignedExpr->getExprLoc(),
-            diag::err_hlsl_linalg_isunsigned_incorrect_for_given_type)
-            << "IsInputUnsigned" << false
-            << (InputVectorTypePtr->isSignedIntegerType() ? 1 : 0);
-        return;
-      } else if (!IsInputUnsignedFlagValue &&
-                 InputVectorTypePtr->isUnsignedIntegerType()) {
-        S.Diags.Report(
-            IsInputUnsignedExpr->getExprLoc(),
-            diag::err_hlsl_linalg_isunsigned_incorrect_for_given_type)
-            << "IsInputUnsigned" << true << 2;
-        return;
-      }
-    }
-  }
-
-  // Get Matrix Dimensions M and K, check if they are constants
-  Expr *MatrixKExpr = CE->getArg(kMatVecMulMatrixKIdx);
-  llvm::APSInt MatrixKExprVal;
-  unsigned MatrixKValue = 0;
-  if (MatrixKExpr->isIntegerConstantExpr(MatrixKExprVal, S.Context)) {
-    MatrixKValue = MatrixKExprVal.getLimitedValue();
-  } else {
-    S.Diags.Report(MatrixKExpr->getExprLoc(), diag::err_expr_not_ice) << 0;
-    return;
-  }
-
-  Expr *MatrixMExpr = CE->getArg(kMatVecMulMatrixMIdx);
-  llvm::APSInt MatrixMExprVal;
-  unsigned MatrixMValue = 0;
-  if (MatrixMExpr->isIntegerConstantExpr(MatrixMExprVal, S.Context)) {
-    MatrixMValue = MatrixMExprVal.getLimitedValue();
-  } else {
-    S.Diags.Report(MatrixMExpr->getExprLoc(), diag::err_expr_not_ice) << 0;
-    return;
-  }
-
-  // Check MatrixM and MatrixK values are non-zero
-  if (MatrixMValue == 0) {
-    S.Diags.Report(MatrixMExpr->getExprLoc(),
-                   diag::err_hlsl_linalg_matrix_dim_must_be_greater_than_zero)
-        << std::to_string(DXIL::kSM69MaxVectorLength);
-    return;
-  }
-
-  if (MatrixKValue == 0) {
-    S.Diags.Report(MatrixKExpr->getExprLoc(),
-                   diag::err_hlsl_linalg_matrix_dim_must_be_greater_than_zero)
-        << std::to_string(DXIL::kSM69MaxVectorLength);
-    return;
-  }
-
-  // Check MatrixM and MatrixK values are less than max
-  // Matrix dimension cannot exceed largest vector length in a Mul/MulAdd
-  // operation.
-  if (MatrixMValue > DXIL::kSM69MaxVectorLength) {
-    S.Diags.Report(MatrixMExpr->getExprLoc(),
-                   diag::err_hlsl_linalg_mul_muladd_invalid_dim)
-        << 0 << std::to_string(DXIL::kSM69MaxVectorLength);
-    return;
-  }
-
-  // For packed input vectors 4 values are packed in a uint, so max Matrix K
-  // can be 4096
-  if (IsInputVectorPacked) {
-    const unsigned PackingFactor =
-        4; // Only supported packed formats: DATA_TYPE_(U)SINT8_T4_PACKED
-    if (MatrixKValue > DXIL::kSM69MaxVectorLength * PackingFactor) {
-      S.Diags.Report(MatrixKExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_mul_muladd_invalid_dim)
-          << 2 << std::to_string(DXIL::kSM69MaxVectorLength * PackingFactor);
-      return;
-    }
-  } else {
-    if (MatrixKValue > DXIL::kSM69MaxVectorLength) {
-      S.Diags.Report(MatrixKExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_mul_muladd_invalid_dim)
-          << 1 << std::to_string(DXIL::kSM69MaxVectorLength);
-      return;
-    }
-  }
-
-  if (!IsValidVectorAndMatrixDimensions(S, CE, InputVectorSizeValue,
-                                        OutputVectorSizeValue, MatrixKValue,
-                                        MatrixMValue, IsInputVectorPacked)) {
-    return;
-  }
-
-  // Get MatrixInterpretation, check if it is constant
-  // Make sure it is a valid value
-  Expr *MatrixInterpretationExpr =
-      CE->getArg(kMatVecMulMatrixInterpretationIdx);
-  llvm::APSInt MatrixInterpretationExprVal;
-  unsigned MatrixInterpretationValue = 0;
-  if (MatrixInterpretationExpr->isIntegerConstantExpr(
-          MatrixInterpretationExprVal, S.Context)) {
-    MatrixInterpretationValue = MatrixInterpretationExprVal.getLimitedValue();
-    const bool InRegisterInterpretation = false;
-    if (!IsValidLinalgTypeInterpretation(MatrixInterpretationValue,
-                                         InRegisterInterpretation)) {
-      S.Diags.Report(MatrixInterpretationExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_interpretation_value_incorrect)
-          << std::to_string(MatrixInterpretationValue)
-          << InRegisterInterpretation;
-      return;
-    }
-  } else {
-    S.Diags.Report(MatrixInterpretationExpr->getExprLoc(),
-                   diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-
-  // Get MatrixLayout, check if it is constant and valid value
-  Expr *MatrixLayoutExpr = CE->getArg(kMatVecMulMatrixLayoutIdx);
-  llvm::APSInt MatrixLayoutExprVal;
-  unsigned MatrixLayoutValue = 0;
-  if (MatrixLayoutExpr->isIntegerConstantExpr(MatrixLayoutExprVal, S.Context)) {
-    MatrixLayoutValue = MatrixLayoutExprVal.getLimitedValue();
-    if (!IsValidMatrixLayoutForMulAndMulAddOps(MatrixLayoutValue)) {
-      S.Diags.Report(MatrixLayoutExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_matrix_layout_invalid)
-          << std::to_string(MatrixLayoutValue)
-          << std::to_string(
-                 static_cast<unsigned>(DXIL::LinalgMatrixLayout::RowMajor))
-          << std::to_string(static_cast<unsigned>(
-                 DXIL::LinalgMatrixLayout::OuterProductOptimal));
-      return;
-    }
-  } else {
-    S.Diags.Report(MatrixLayoutExpr->getExprLoc(), diag::err_expr_not_ice) << 0;
-    return;
-  }
-
-  // Get MatrixTranspose, check if it is constant
-  Expr *MatrixTransposeExpr = CE->getArg(kMatVecMulMatrixTransposeIdx);
-  llvm::APSInt MatrixTransposeExprVal;
-  unsigned MatrixTransposeValue = 0;
-  if (MatrixTransposeExpr->isIntegerConstantExpr(MatrixTransposeExprVal,
-                                                 S.Context)) {
-    MatrixTransposeValue = MatrixTransposeExprVal.getBoolValue();
-    if (!IsValidTransposeForMatrixLayout(MatrixLayoutValue,
-                                         MatrixTransposeValue)) {
-
-      S.Diags.Report(MatrixTransposeExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_matrix_layout_is_not_transposable);
-      return;
-    }
-  } else {
-    S.Diags.Report(MatrixTransposeExpr->getExprLoc(), diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-
-  // Get MatrixStride, check if it is constant, if yes it should be zero
-  // for optimal layouts
-  Expr *MatrixStrideExpr = CE->getArg(kMatVecMulMatrixStrideIdx);
-  llvm::APSInt MatrixStrideExprVal;
-  unsigned MatrixStrideValue = 0;
-  if (MatrixStrideExpr->isIntegerConstantExpr(MatrixStrideExprVal, S.Context)) {
-    MatrixStrideValue = MatrixStrideExprVal.getLimitedValue();
-    if (IsOptimalTypeMatrixLayout(MatrixLayoutValue) &&
-        MatrixStrideValue != 0) {
-      S.Diags.Report(
-          MatrixStrideExpr->getExprLoc(),
-          diag::
-              err_hlsl_linalg_optimal_matrix_layout_matrix_stride_must_be_zero);
-      return;
-    }
-  }
-}
-
-static void CheckMulCall(Sema &S, FunctionDecl *FD, CallExpr *CE,
-                         const hlsl::ShaderModel *SM) {
-  CheckCommonMulAndMulAddParameters(S, CE, SM);
-}
-
-static void CheckMulAddCall(Sema &S, FunctionDecl *FD, CallExpr *CE,
-                            const hlsl::ShaderModel *SM) {
-  CheckCommonMulAndMulAddParameters(S, CE, SM);
-
-  // Check if BiasInterpretation is constant and a valid value
-  Expr *BiasInterpretationExpr = CE->getArg(kMatVecMulAddBiasInterpretation);
-  llvm::APSInt BiasInterpretationExprVal;
-  unsigned BiasInterpretationValue = 0;
-  if (BiasInterpretationExpr->isIntegerConstantExpr(BiasInterpretationExprVal,
-                                                    S.Context)) {
-    BiasInterpretationValue = BiasInterpretationExprVal.getLimitedValue();
-    const bool InRegisterInterpretation = false;
-    if (!IsValidLinalgTypeInterpretation(BiasInterpretationValue,
-                                         InRegisterInterpretation)) {
-      S.Diags.Report(BiasInterpretationExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_interpretation_value_incorrect)
-          << std::to_string(BiasInterpretationValue)
-          << InRegisterInterpretation;
-      return;
-    }
-  } else {
-    S.Diags.Report(BiasInterpretationExpr->getExprLoc(), diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-}
-
-// Linalg Outer Product Accumulate
-// OuterProductAccumulate builtin function parameters
-static const unsigned kOuterProdAccInputVector1Idx = 0;
-static const unsigned kOuterProdAccInputVector2Idx = 1;
-// static const unsigned kOuterProdAccMatrixBufferIdx = 2;
-// static const unsigned kOuterProdAccMatrixOffsetIdx = 3;
-static const unsigned kOuterProdAccMatrixInterpretationIdx = 4;
-static const unsigned kOuterProdAccMatrixLayoutIdx = 5;
-static const unsigned kOuterProdAccMatrixStrideIdx = 6;
-
-static void CheckOuterProductAccumulateCall(Sema &S, FunctionDecl *FD,
-                                            CallExpr *CE) {
-  // Check InputVector1 and InputVector2 are the same type
-  const Expr *InputVector1Expr = CE->getArg(kOuterProdAccInputVector1Idx);
-  const Expr *InputVector2Expr = CE->getArg(kOuterProdAccInputVector2Idx);
-  QualType InputVector1Type = InputVector1Expr->getType();
-  QualType InputVector2Type = InputVector2Expr->getType();
-
-  // Get the element types of the vectors
-  const QualType InputVector1ElementType =
-      GetHLSLVecElementType(InputVector1Type);
-  const QualType InputVector2ElementType =
-      GetHLSLVecElementType(InputVector2Type);
-
-  if (!S.Context.hasSameType(InputVector1ElementType,
-                             InputVector2ElementType)) {
-    S.Diags.Report(InputVector2Expr->getExprLoc(),
-                   diag::err_hlsl_linalg_outer_prod_acc_vector_type_mismatch);
-    return;
-  }
-
-  // Check Matrix Interpretation is a constant and a valid value
-  Expr *MatrixInterpretationExpr =
-      CE->getArg(kOuterProdAccMatrixInterpretationIdx);
-  llvm::APSInt MatrixInterpretationExprVal;
-  unsigned MatrixInterpretationValue = 0;
-  if (MatrixInterpretationExpr->isIntegerConstantExpr(
-          MatrixInterpretationExprVal, S.Context)) {
-    MatrixInterpretationValue = MatrixInterpretationExprVal.getLimitedValue();
-    const bool InRegisterInterpretation = false;
-    if (!IsValidLinalgTypeInterpretation(MatrixInterpretationValue,
-                                         InRegisterInterpretation)) {
-      S.Diags.Report(MatrixInterpretationExpr->getExprLoc(),
-                     diag::err_hlsl_linalg_interpretation_value_incorrect)
-          << std::to_string(MatrixInterpretationValue)
-          << InRegisterInterpretation;
-      return;
-    }
-  } else {
-    S.Diags.Report(MatrixInterpretationExpr->getExprLoc(),
-                   diag::err_expr_not_ice)
-        << 0;
-    return;
-  }
-
-  // Check Matrix Layout must be a constant and Training Optimal
-  Expr *MatrixLayoutExpr = CE->getArg(kOuterProdAccMatrixLayoutIdx);
-  llvm::APSInt MatrixLayoutExprVal;
-  unsigned MatrixLayoutValue = 0;
-  if (MatrixLayoutExpr->isIntegerConstantExpr(MatrixLayoutExprVal, S.Context)) {
-    MatrixLayoutValue = MatrixLayoutExprVal.getLimitedValue();
-    if (MatrixLayoutValue !=
-        static_cast<unsigned>(DXIL::LinalgMatrixLayout::OuterProductOptimal)) {
-      S.Diags.Report(
-          MatrixLayoutExpr->getExprLoc(),
-          diag::
-              err_hlsl_linalg_outer_prod_acc_matrix_layout_must_be_outer_prod_acc_optimal)
-          << std::to_string(static_cast<unsigned>(
-                 DXIL::LinalgMatrixLayout::OuterProductOptimal));
-      return;
-    }
-  } else {
-    S.Diags.Report(MatrixLayoutExpr->getExprLoc(), diag::err_expr_not_ice) << 0;
-    return;
-  }
-
-  // Matrix Stride must be zero (Training Optimal matrix layout)
-  Expr *MatrixStrideExpr = CE->getArg(kOuterProdAccMatrixStrideIdx);
-  llvm::APSInt MatrixStrideExprVal;
-  unsigned MatrixStrideValue = 0;
-  if (MatrixStrideExpr->isIntegerConstantExpr(MatrixStrideExprVal, S.Context)) {
-    MatrixStrideValue = MatrixStrideExprVal.getLimitedValue();
-    if (MatrixStrideValue != 0) {
-      S.Diags.Report(
-          MatrixStrideExpr->getExprLoc(),
-          diag::
-              err_hlsl_linalg_optimal_matrix_layout_matrix_stride_must_be_zero);
-      return;
-    }
-  }
-}
-
 #ifdef ENABLE_SPIRV_CODEGEN
-static bool CheckVKBufferPointerCast(Sema &S, FunctionDecl *FD, CallExpr *CE,
-                                     bool isStatic) {
+static bool CheckVKBufferPointerCast(Sema &S, CallExpr *CE, bool isStatic) {
+  const auto *callee = dyn_cast<DeclRefExpr>(CE->getCallee()->IgnoreImpCasts());
+  if (callee && callee->hasExplicitTemplateArgs() &&
+      callee->getNumTemplateArgs() > 2) {
+    StringRef castName =
+        isStatic ? "static_pointer_cast" : "reinterpret_pointer_cast";
+    S.Diags.Report(CE->getExprLoc(),
+                   diag::err_template_arg_list_different_arity)
+        << /*too many*/ 1 << /*function template*/ 1 << castName;
+    return true;
+  }
+
   const Expr *argExpr = CE->getArg(0);
   QualType srcType = argExpr->getType();
   QualType destType = CE->getType();
@@ -12658,15 +12316,6 @@ void Sema::CheckHLSLFunctionCall(FunctionDecl *FDecl, CallExpr *TheCall) {
   case hlsl::IntrinsicOp::IOP_Barrier:
     CheckBarrierCall(*this, FDecl, TheCall, SM);
     break;
-  case hlsl::IntrinsicOp::IOP___builtin_MatVecMul:
-    CheckMulCall(*this, FDecl, TheCall, SM);
-    break;
-  case hlsl::IntrinsicOp::IOP___builtin_MatVecMulAdd:
-    CheckMulAddCall(*this, FDecl, TheCall, SM);
-    break;
-  case hlsl::IntrinsicOp::IOP___builtin_OuterProductAccumulate:
-    CheckOuterProductAccumulateCall(*this, FDecl, TheCall);
-    break;
   case hlsl::IntrinsicOp::IOP_GetAttributeAtVertex:
     // See #hlsl-specs/issues/181. Feature is broken. For SPIR-V we want
     // to limit the scope, and fail gracefully in some cases.
@@ -12691,10 +12340,10 @@ void Sema::CheckHLSLFunctionCall(FunctionDecl *FDecl, CallExpr *TheCall) {
     break;
 #ifdef ENABLE_SPIRV_CODEGEN
   case hlsl::IntrinsicOp::IOP_Vkreinterpret_pointer_cast:
-    CheckVKBufferPointerCast(*this, FDecl, TheCall, false);
+    CheckVKBufferPointerCast(*this, TheCall, false);
     break;
   case hlsl::IntrinsicOp::IOP_Vkstatic_pointer_cast:
-    CheckVKBufferPointerCast(*this, FDecl, TheCall, true);
+    CheckVKBufferPointerCast(*this, TheCall, true);
     break;
 #endif
   default:
@@ -18275,8 +17924,8 @@ ConvertLinAlgMatrixComponentTypeToString(hlsl::DXIL::ComponentType CompType) {
     return "ComponentType::U8";
   case DXIL::ComponentType::I8:
     return "ComponentType::I8";
-  case DXIL::ComponentType::F8_E4M3:
-    return "ComponentType::F8_E4M3";
+  case DXIL::ComponentType::F8_E4M3FN:
+    return "ComponentType::F8_E4M3FN";
   case DXIL::ComponentType::F8_E5M2:
     return "ComponentType::F8_E5M2";
   default:

@@ -1087,11 +1087,6 @@ class db_dxil(object):
                 "library",
                 "raygeneration",
             )
-        for i in (
-            "MatVecMul,MatVecMulAdd,OuterProductAccumulate,VectorAccumulate"
-        ).split(","):
-            self.name_idx[i].category = "Linear Algebra Operations"
-            self.name_idx[i].shader_model = 6, 10
         # End of core DXIL ops
         self.populate_categories_and_models_ExperimentalOps()
 
@@ -1168,7 +1163,7 @@ class db_dxil(object):
         for i in insts(
             "LinAlgMatrixQueryAccumulatorLayout,LinAlgMatrixLoadFromDescriptor,"
             + "LinAlgMatrixAccumulateToDescriptor,LinAlgMatVecMul,"
-            + "LinAlgMatVecMulAdd,LinAlgMatrixOuterProduct"
+            + "LinAlgMatVecMulAdd,LinAlgMatrixOuterProduct,LinAlgConvert"
         ):
             i.category = "Linear Algebra Operations"
             i.shader_model = experimental_sm
@@ -1186,8 +1181,6 @@ class db_dxil(object):
             i.shader_model = experimental_sm
             i.shader_stages = (
                 "compute",
-                "mesh",
-                "amplification",
             )
 
         for i in insts("DebugBreak", "IsDebuggerPresent"):
@@ -6075,94 +6068,7 @@ class db_dxil(object):
             counters=("tex_store",),
         )
 
-        add_dxil_op(
-            "MatVecMul",
-            "MatVecMul",
-            "Multiplies a MxK dimension matrix and a K sized input vector",
-            "<hfwi,<hfwi",
-            "ro",
-            [
-                db_dxil_param(0, "$x0", "outputVector", "output vector"),
-                db_dxil_param(2, "$x1", "inputVector", "input vector"),
-                db_dxil_param(3, "i1", "isInputUnsigned", "is input unsigned"),
-                db_dxil_param(4, "i32", "inputInterpretation", "input interpretation"),
-                db_dxil_param(5, "res", "matrixBuffer", "matrix resource"),
-                db_dxil_param(6, "i32", "matrixOffset", "matrix offset"),
-                db_dxil_param(7, "i32", "matrixIntepretation", "matrix intepretation"),
-                db_dxil_param(8, "i32", "matrixM", "matrix M dimension"),
-                db_dxil_param(9, "i32", "matrixK", "matrix K dimension"),
-                db_dxil_param(10, "i32", "matrixLayout", "matrix layout"),
-                db_dxil_param(11, "i1", "matrixTranspose", "matrix transpose"),
-                db_dxil_param(12, "i32", "matrixStride", "matrix stride"),
-                db_dxil_param(13, "i1", "isOutputUnsigned", "is output unsigned"),
-            ],
-        )
-
-        add_dxil_op(
-            "MatVecMulAdd",
-            "MatVecMulAdd",
-            "multiplies a MxK dimension matrix and a K sized input vector and adds an M-sized bias vector",
-            "<hfwi,<hfwi",
-            "ro",
-            [
-                db_dxil_param(0, "$x0", "outputVector", "output vector"),
-                db_dxil_param(2, "$x1", "inputVector", "input vector"),
-                db_dxil_param(3, "i1", "isInputUnsigned", "is input unsigned"),
-                db_dxil_param(4, "i32", "inputInterpretation", "input interpretation"),
-                db_dxil_param(5, "res", "matrixBuffer", "matrix resource"),
-                db_dxil_param(6, "i32", "matrixOffset", "matrix offset"),
-                db_dxil_param(7, "i32", "matrixIntepretation", "matrix intepretation"),
-                db_dxil_param(8, "i32", "matrixM", "matrix M dimension"),
-                db_dxil_param(9, "i32", "matrixK", "matrix K dimension"),
-                db_dxil_param(10, "i32", "matrixLayout", "matrix layout"),
-                db_dxil_param(11, "i1", "matrixTranspose", "matrix transpose"),
-                db_dxil_param(12, "i32", "matrixStride", "matrix stride"),
-                db_dxil_param(13, "res", "biasBuffer", "bias vector resource"),
-                db_dxil_param(14, "i32", "biasOffset", "bias vector offset"),
-                db_dxil_param(
-                    15, "i32", "biasIntepretation", "bias vector intepretation"
-                ),
-                db_dxil_param(16, "i1", "isOutputUnsigned", "is output unsigned"),
-            ],
-        )
-
-        add_dxil_op(
-            "OuterProductAccumulate",
-            "OuterProductAccumulate",
-            "Computes the outer product between column vectors and an MxN matrix is accumulated component-wise atomically (with device scope) in memory",
-            "<hfwi,<hfwi",
-            "",
-            [
-                db_dxil_param(0, "v", "", ""),
-                db_dxil_param(2, "$x0", "inputVector1", "input vector 1"),
-                db_dxil_param(3, "$x1", "inputVector2", "input vector 2"),
-                db_dxil_param(4, "res", "matrixBuffer", "matrix resource"),
-                db_dxil_param(5, "i32", "matrixOffset", "matrix offset"),
-                db_dxil_param(
-                    6,
-                    "i32",
-                    "matrixIntepretation",
-                    "matrix intepretation",
-                    is_const=True,
-                ),
-                db_dxil_param(7, "i32", "matrixLayout", "matrix layout", is_const=True),
-                db_dxil_param(8, "i32", "matrixStride", "matrix stride"),
-            ],
-        )
-
-        add_dxil_op(
-            "VectorAccumulate",
-            "VectorAccumulate",
-            "Accumulates the components of a vector component-wise atomically (with device scope) to the corresponding elements of an array in memory",
-            "<hfwi",
-            "",
-            [
-                db_dxil_param(0, "v", "", ""),
-                db_dxil_param(2, "$o", "inputVector", "input vector 1"),
-                db_dxil_param(3, "res", "arrayBuffer", "output array resource"),
-                db_dxil_param(4, "i32", "arrayOffset", "output array offset"),
-            ],
-        )
+        reserve_dxil_op_range("ReservedD", 4)
 
         # Long Vector Reduction
         add_dxil_op(
@@ -6364,7 +6270,7 @@ class db_dxil(object):
             "LinAlgFillMatrix",
             "LinAlgFillMatrix",
             "fills a matrix with a scalar value",
-            "o,hfwi",
+            "o,hfdwil",
             "",
             [
                 db_dxil_param(0, "$x0", "", "resulting matrix"),
@@ -6404,6 +6310,7 @@ class db_dxil(object):
                     "number of bytes between the start of each row or column",
                 ),
                 db_dxil_param(5, "i32", "layout", "memory layout of matrix elements"),
+                db_dxil_param(6, "i32", "align", "alignment of matrix elements"),
             ],
         )
 
@@ -6411,7 +6318,7 @@ class db_dxil(object):
             "LinAlgMatrixLoadFromMemory",
             "LinAlgMatrixLoadFromMemory",
             "fills a matrix with data from a groupshared array",
-            "o,hfwi",
+            "o,hfdwil",
             "",
             [
                 db_dxil_param(0, "$x0", "", "resulting matrix"),
@@ -6460,7 +6367,7 @@ class db_dxil(object):
             "LinAlgMatrixGetElement",
             "LinAlgMatrixGetElement",
             "returns the element of the matrix corresponding to the provided thread-local index",
-            "hfwi,o",
+            "hfdwil,o",
             "",
             [
                 db_dxil_param(0, "$x0", "", "operation result"),
@@ -6475,7 +6382,7 @@ class db_dxil(object):
             "LinAlgMatrixSetElement",
             "LinAlgMatrixSetElement",
             "sets the element of the matrix corresponding to the provided thread-local index",
-            "o,o,hfwi",
+            "o,o,hfdwil",
             "",
             [
                 db_dxil_param(0, "$x0", "", "resulting matrix"),
@@ -6505,6 +6412,7 @@ class db_dxil(object):
                     "number of bytes between the start of each row or column",
                 ),
                 db_dxil_param(6, "i32", "layout", "memory layout of matrix elements"),
+                db_dxil_param(7, "i32", "align", "alignment of matrix elements"),
             ],
         )
 
@@ -6512,7 +6420,7 @@ class db_dxil(object):
             "LinAlgMatrixStoreToMemory",
             "LinAlgMatrixStoreToMemory",
             "stores a matrix to groupshared memory",
-            "o,hfwi",
+            "o,hfdwil",
             "",
             [
                 db_dxil_param(0, "v", "", ""),
@@ -6572,13 +6480,14 @@ class db_dxil(object):
             "LinAlgMatVecMul",
             "LinAlgMatVecMul",
             "Multiplies a MxK dimension matrix and a K sized input vector",
-            "<hfwi,o,<hfwi",
+            "<hfdwil,o,<hfdwil",
             "",
             [
                 db_dxil_param(0, "$x0", "", "operation result"),
                 db_dxil_param(2, "$x1", "matrix", "A matrix to multiply"),
-                db_dxil_param(3, "$x2", "inputVector", "K dim vector to multiply"),
-                db_dxil_param(4, "i32", "interpretation", "vector interpretation type"),
+                db_dxil_param(3, "i1", "isOutputSigned", "true if output is signed"),
+                db_dxil_param(4, "$x2", "inputVector", "K dim vector to multiply"),
+                db_dxil_param(5, "i32", "interpretation", "vector interpretation type"),
             ],
         )
 
@@ -6586,18 +6495,19 @@ class db_dxil(object):
             "LinAlgMatVecMulAdd",
             "LinAlgMatVecMulAdd",
             "Multiplies a MxK dimension matrix and a K sized input vector then adds a M sized bias vector",
-            "<hfwi,o,<hfwi,<hfwi",
+            "<hfdwil,o,<hfdwil,<hfdwil",
             "",
             [
                 db_dxil_param(0, "$x0", "", "operation result"),
                 db_dxil_param(2, "$x1", "matrix", "A matrix to multiply"),
-                db_dxil_param(3, "$x2", "inputVector", "K dim vector to multiply"),
+                db_dxil_param(3, "i1", "isOutputSigned", "true if output is signed"),
+                db_dxil_param(4, "$x2", "inputVector", "K dim vector to multiply"),
                 db_dxil_param(
-                    4, "i32", "inputInterpretation", "input vector interpretation type"
+                    5, "i32", "inputInterpretation", "input vector interpretation type"
                 ),
-                db_dxil_param(5, "$x3", "biasVector", "M dim vector to add"),
+                db_dxil_param(6, "$x3", "biasVector", "M dim vector to add"),
                 db_dxil_param(
-                    6, "i32", "biasInterpretation", "bias vector interpretation type"
+                    7, "i32", "biasInterpretation", "bias vector interpretation type"
                 ),
             ],
         )
@@ -6622,6 +6532,7 @@ class db_dxil(object):
                     "number of bytes between the start of each row or column",
                 ),
                 db_dxil_param(6, "i32", "layout", "memory layout of matrix elements"),
+                db_dxil_param(7, "i32", "align", "alignment of matrix elements"),
             ],
         )
 
@@ -6629,7 +6540,7 @@ class db_dxil(object):
             "LinAlgMatrixAccumulateToMemory",
             "LinAlgMatrixAccumulateToMemory",
             "accumulates a matrix to groupshared memory",
-            "o,hfwi",
+            "o,hfdwil",
             "",
             [
                 db_dxil_param(0, "v", "", ""),
@@ -6652,7 +6563,7 @@ class db_dxil(object):
             "LinAlgMatrixOuterProduct",
             "LinAlgMatrixOuterProduct",
             "Outer products an M sized vector and a N sized vector producing an MxN matrix",
-            "o,<hfwi,<hfwi",
+            "o,<hfdwil,<hfdwil",
             "",
             [
                 db_dxil_param(0, "$x0", "", "resulting matrix"),
@@ -6661,7 +6572,25 @@ class db_dxil(object):
             ],
         )
 
-        op_table.reserve_dxil_op_range("ReservedD", 3, 1)
+        add_dxil_op(
+            "LinAlgConvert",
+            "LinAlgConvert",
+            "Convert vector components from one interpretation to another",
+            "<hfdwil,<hfdwil",
+            "",
+            [
+                db_dxil_param(0, "$x0", "", "operation result"),
+                db_dxil_param(2, "$x1", "inputVector", "vector to convert"),
+                db_dxil_param(
+                    3, "i32", "inputInterpretation", "input vector interpretation type"
+                ),
+                db_dxil_param(
+                    4, "i32", "outputInterpretation", "output vector interpretation type"
+                ),
+            ],
+        )
+
+        op_table.reserve_dxil_op_range("ReservedE", 2)
 
         # Debugging intrinsics
         add_dxil_op(
@@ -7203,6 +7132,12 @@ class db_dxil(object):
             "hlsl-dxil-non-uniform-resource-index-instrumentation",
             "DxilNonUniformResourceIndexInstrumentation",
             "HLSL DXIL NonUniformResourceIndex instrumentation for PIX",
+            [],
+        )
+        add_pass(
+            "hlsl-dxil-debugbreak-instrumentation",
+            "DxilDebugBreakInstrumentation",
+            "HLSL DXIL DebugBreak instrumentation for PIX",
             [],
         )
 
@@ -8686,67 +8621,6 @@ class db_dxil(object):
             "reordercoherent requires SM 6.9 or later.",
         )
 
-        # Linalg ops
-        self.add_valrule_msg(
-            "Instr.MatVecOpIsUnsignedFlagsAreConst",
-            "In Linalg Mul/MulAdd functions, IsUnsigned flag is a constant.",
-            "%0 is not a constant value",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgInterpretationParamAreConst",
-            "In Linalg operations, Interpretation value is a constant.",
-            "%0 is not a constant value",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgInvalidRegisterInterpValue",
-            "From Register Interpretation value must be valid.",
-            "'%0' is not a valid %1 interpretation value",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgInvalidMemoryInterpValue",
-            "In Memory Interpolation value must be valid.",
-            "'%0' is not a valid %1 interpretation value",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgMatrixShapeParamsAreConst",
-            "Matrix Layout, Dimensions and isTranspose are constants",
-            "'%0' is not a constant value",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgInvalidMatrixLayoutValueForMatVecOps",
-            "Matrix Layout for Linalg Mul/MulAdd operation must be valid.",
-            "matrix layout value '%0' is not valid. Must be between [%1 - %2]",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgMatrixStrideZeroForOptimalLayouts",
-            "For optimal layouts, matrix stride must be zero.",
-            "matrix stride must be a constant zero for optimal layouts",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgMatrixLayoutNotTransposable",
-            "Row Major and Column Major matrix layouts are not transposable.",
-            "%0 matrix layout is not transposable",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgNotAnUnsignedType",
-            "Unsigned flag set for a float signed type",
-            "IsUnsigned flag set to true for a float type '%0' vector",
-        )
-
-        self.add_valrule_msg(
-            "Instr.LinalgInvalidMatrixLayoutValueForOuterProductAccumulate",
-            "Matrix Layout for Linalg Mul/MulAdd operation must be valid.",
-            "matrix layout value '%0' is not valid for outerproductaccumulate, must be '%1'",
-        )
-
         # Some legacy rules:
         # - space is only supported for shader targets 5.1 and higher
         # - multiple rules regarding derivatives, which isn't a supported feature for DXIL
@@ -9653,7 +9527,7 @@ class db_hlsl(object):
             acceleration_struct | ray_desc | RayQuery | DxHitObject |
             Node\w* | RWNode\w* | EmptyNode\w* |
             AnyNodeOutput\w* | NodeOutputRecord\w* | GroupShared\w* |
-            VkBufferPointer | LinAlgMatrix | VkSampledTexture2D | VkSampledTexture2DArray
+            VkBufferPointer | LinAlgMatrix | VkSampledTexture1D | VkSampledTexture1DArray | VkSampledTexture2D | VkSampledTexture2DArray
             $)""",
             flags=re.VERBOSE,
         )

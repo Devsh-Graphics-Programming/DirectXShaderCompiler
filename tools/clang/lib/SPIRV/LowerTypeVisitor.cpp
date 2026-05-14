@@ -333,7 +333,8 @@ const SpirvType *LowerTypeVisitor::lowerType(const SpirvType *type,
   else if (isa<VoidType>(type) || isa<ScalarType>(type) ||
            isa<MatrixType>(type) || isa<ImageType>(type) ||
            isa<SamplerType>(type) || isa<SampledImageType>(type) ||
-           isa<FunctionType>(type) || isa<StructType>(type)) {
+           isa<FunctionType>(type) || isa<StructType>(type) ||
+           isa<BufferEXTType>(type) || isa<UntypedPointerKHRType>(type)) {
     return type;
   }
   // Vectors could contain a hybrid type
@@ -849,8 +850,7 @@ const SpirvType *LowerTypeVisitor::lowerVkTypeInVkNamespace(
     assert(visitedTypeStack.size() == visitedTypeStackSize);
     return pointerType;
   }
-  if (name == "SampledTexture2D" || name == "SampledTexture2DArray" ||
-      name == "SampledTexture2DMS" || name == "SampledTexture2DMSArray") {
+  if (name.startswith("SampledTexture")) {
     const auto sampledType = hlsl::GetHLSLResourceResultType(type);
     auto loweredType = lowerType(getElementType(astContext, sampledType), rule,
                                  /*isRowMajor*/ llvm::None, srcLoc);
@@ -861,13 +861,20 @@ const SpirvType *LowerTypeVisitor::lowerVkTypeInVkNamespace(
       loweredType = spvContext.getUIntType(32);
     }
 
-    const bool isArray =
-        (name == "SampledTexture2DArray" || name == "SampledTexture2DMSArray");
-    const bool isMS =
-        (name == "SampledTexture2DMS" || name == "SampledTexture2DMSArray");
+    constexpr size_t sampledTexturePrefixLength = sizeof("SampledTexture") - 1;
+    StringRef suffix = name.drop_front(sampledTexturePrefixLength);
+    const spv::Dim dimension =
+        suffix.startswith("1D")
+            ? spv::Dim::Dim1D
+            : (suffix.startswith("2D")
+                   ? spv::Dim::Dim2D
+                   : (suffix.startswith("3D") ? spv::Dim::Dim3D
+                                              : spv::Dim::Cube));
+    const bool isArray = suffix.endswith("Array");
+    const bool isMS = suffix.find("MS") != StringRef::npos;
 
     const auto *imageType = spvContext.getImageType(
-        loweredType, spv::Dim::Dim2D, ImageType::WithDepth::No, isArray, isMS,
+        loweredType, dimension, ImageType::WithDepth::No, isArray, isMS,
         ImageType::WithSampler::Yes, spv::ImageFormat::Unknown);
     return spvContext.getSampledImageType(imageType);
   }

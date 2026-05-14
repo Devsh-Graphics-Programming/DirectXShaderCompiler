@@ -183,9 +183,9 @@ enum class ComponentType : uint32_t {
   PackedU8x32 = 18,
 
   // BEGIN NEW FOR SM 6.9
-  U8 = 19,
-  I8 = 20,
-  F8_E4M3 = 21,
+  I8 = 19,
+  U8 = 20,
+  F8_E4M3FN = 21,
   F8_E5M2 = 22,
   // END
 
@@ -202,6 +202,15 @@ enum class MatrixScope : uint32_t {
   Thread = 0,
   Wave = 1,
   ThreadGroup = 2,
+};
+
+enum class LinalgMatrixLayout : uint32_t {
+  RowMajor = 0,
+  ColumnMajor = 1,
+  MulOptimal = 2,
+  MulOptimalTranspose = 3,
+  OuterProductOptimal = 4,
+  OuterProductOptimalTranspose = 5,
 };
 
 // Must match D3D_INTERPOLATION_MODE
@@ -524,9 +533,8 @@ static const OpCodeTableID TableID = OpCodeTableID::ExperimentalOps;
 // Enumeration for ExperimentalOps DXIL operations
 enum class OpCode : unsigned {
   //
-  ReservedD1 = 30, // reserved
-  ReservedD2 = 31, // reserved
-  ReservedD3 = 32, // reserved
+  ReservedE0 = 31, // reserved
+  ReservedE1 = 32, // reserved
 
   // Debugging
   DebugBreak = 33,        // triggers a breakpoint if a debugger is attached
@@ -545,6 +553,8 @@ enum class OpCode : unsigned {
       9, // returns committed triangle vertices in object space as <9 x float>
 
   // Linear Algebra Operations
+  LinAlgConvert =
+      30, // Convert vector components from one interpretation to another
   LinAlgCopyConvertMatrix =
       13, // Converts and copies the element and use type of the source matrix
           // to the destination matrix with optional transpose
@@ -647,6 +657,10 @@ enum class OpCode : unsigned {
   ReservedC7 = 300,  // reserved
   ReservedC8 = 301,  // reserved
   ReservedC9 = 302,  // reserved
+  ReservedD0 = 305,  // reserved
+  ReservedD1 = 306,  // reserved
+  ReservedD2 = 307,  // reserved
+  ReservedD3 = 308,  // reserved
 
   // Amplification shader instructions
   DispatchMesh = 173, // Amplification shader intrinsic DispatchMesh
@@ -875,19 +889,6 @@ enum class OpCode : unsigned {
   // Library create handle from resource struct (like HL intrinsic)
   CreateHandleForLib =
       160, // create resource handle from resource struct for library
-
-  // Linear Algebra Operations
-  MatVecMul =
-      305, // Multiplies a MxK dimension matrix and a K sized input vector
-  MatVecMulAdd = 306, // multiplies a MxK dimension matrix and a K sized input
-                      // vector and adds an M-sized bias vector
-  OuterProductAccumulate =
-      307, // Computes the outer product between column vectors and an MxN
-           // matrix is accumulated component-wise atomically (with device
-           // scope) in memory
-  VectorAccumulate = 308, // Accumulates the components of a vector
-                          // component-wise atomically (with device scope) to
-                          // the corresponding elements of an array in memory
 
   // Mesh shader instructions
   EmitIndices = 169, // emit a primitive's vertex indices in a mesh shader
@@ -1351,12 +1352,13 @@ enum class OpCode : unsigned {
       ExperimentalOps,
       LinAlgMatrixOuterProduct), // Outer products an M sized vector and a N
                                  // sized vector producing an MxN matrix
-  // ReservedD1 = 0x8000001E, 2147483678U, -2147483618
-  EXP_OPCODE(ExperimentalOps, ReservedD1), // reserved
-  // ReservedD2 = 0x8000001F, 2147483679U, -2147483617
-  EXP_OPCODE(ExperimentalOps, ReservedD2), // reserved
-  // ReservedD3 = 0x80000020, 2147483680U, -2147483616
-  EXP_OPCODE(ExperimentalOps, ReservedD3), // reserved
+  // LinAlgConvert = 0x8000001E, 2147483678U, -2147483618
+  EXP_OPCODE(ExperimentalOps, LinAlgConvert), // Convert vector components from
+                                              // one interpretation to another
+  // ReservedE0 = 0x8000001F, 2147483679U, -2147483617
+  EXP_OPCODE(ExperimentalOps, ReservedE0), // reserved
+  // ReservedE1 = 0x80000020, 2147483680U, -2147483616
+  EXP_OPCODE(ExperimentalOps, ReservedE1), // reserved
   // DebugBreak = 0x80000021, 2147483681U, -2147483615
   EXP_OPCODE(ExperimentalOps,
              DebugBreak), // triggers a breakpoint if a debugger is attached
@@ -1522,6 +1524,7 @@ enum class OpCodeClass : unsigned {
   CreateHandleForLib,
 
   // Linear Algebra Operations
+  LinAlgConvert,
   LinAlgCopyConvertMatrix,
   LinAlgFillMatrix,
   LinAlgMatVecMul,
@@ -1541,10 +1544,6 @@ enum class OpCodeClass : unsigned {
   LinAlgMatrixSetElement,
   LinAlgMatrixStoreToDescriptor,
   LinAlgMatrixStoreToMemory,
-  MatVecMul,
-  MatVecMulAdd,
-  OuterProductAccumulate,
-  VectorAccumulate,
 
   // Mesh shader instructions
   EmitIndices,
@@ -1731,7 +1730,7 @@ enum class OpCodeClass : unsigned {
   NodeOutputIsValid,
   OutputComplete,
 
-  NumOpClasses = 225, // exclusive last value of enumeration
+  NumOpClasses = 222, // exclusive last value of enumeration
 };
 // OPCODECLASS-ENUM:END
 
@@ -1910,29 +1909,6 @@ const unsigned kHitObjectMakeMiss_NumOp = 11;
 const unsigned kHitObjectTraceRay_RayDescOpIdx = 7;
 const unsigned kHitObjectTraceRay_PayloadOpIdx = 15;
 const unsigned kHitObjectTraceRay_NumOp = 16;
-
-// MatVec Ops
-const unsigned kMatVecMulInputVectorIdx = 1;
-const unsigned kMatVecMulIsInputUnsignedIdx = 2;
-const unsigned kMatVecMulInputInterpretationIdx = 3;
-const unsigned kMatVecMulMatrixBufferIdx = 4;
-const unsigned kMatVecMulMatrixOffsetIdx = 5;
-const unsigned kMatVecMulMatrixInterpretationIdx = 6;
-const unsigned kMatVecMulMatrixMIdx = 7;
-const unsigned kMatVecMulMatrixKIdx = 8;
-const unsigned kMatVecMulMatrixLayoutIdx = 9;
-const unsigned kMatVecMulMatrixTransposeIdx = 10;
-const unsigned kMatVecMulMatrixStrideIdx = 11;
-const unsigned kMatVecMulIsOutputUnsignedIdx = 12;
-
-// MatVecAdd
-const unsigned kMatVecMulAddBiasInterpretation = 14;
-const unsigned kMatVecMulAddIsOutputUnsignedIdx = 15;
-
-// Outer Product Accumulate
-const unsigned kOuterProdAccMatrixInterpretation = 5;
-const unsigned kOuterProdAccMatrixLayout = 6;
-const unsigned kOuterProdAccMatrixStride = 7;
 
 // TODO: add operand index for all the OpCodeClass.
 } // namespace OperandIndex
@@ -2505,13 +2481,6 @@ extern const char *kDxLinAlgMatrixTypePrefix;
 extern const char *kHostLayoutTypePrefix;
 
 extern const char *kWaveOpsIncludeHelperLanesString;
-
-enum class LinalgMatrixLayout : uint32_t {
-  RowMajor = 0,
-  ColumnMajor = 1,
-  MulOptimal = 2,
-  OuterProductOptimal = 3,
-};
 
 } // namespace DXIL
 

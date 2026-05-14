@@ -9919,236 +9919,6 @@ struct DxilInst_RawBufferVectorStore {
   }
 };
 
-/// This instruction Multiplies a MxK dimension matrix and a K sized input
-/// vector
-struct DxilInst_MatVecMul {
-  llvm::Instruction *Instr;
-  // Construction and identification
-  DxilInst_MatVecMul(llvm::Instruction *pInstr) : Instr(pInstr) {}
-  operator bool() const {
-    return hlsl::OP::IsDxilOpFuncCallInst(Instr, hlsl::OP::OpCode::MatVecMul);
-  }
-  // Validation support
-  bool isAllowed() const { return true; }
-  bool isArgumentListValid() const {
-    if (13 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
-      return false;
-    return true;
-  }
-  // Metadata
-  bool requiresUniformInputs() const { return false; }
-  // Operand indexes
-  enum OperandIdx {
-    arg_inputVector = 1,
-    arg_isInputUnsigned = 2,
-    arg_inputInterpretation = 3,
-    arg_matrixBuffer = 4,
-    arg_matrixOffset = 5,
-    arg_matrixIntepretation = 6,
-    arg_matrixM = 7,
-    arg_matrixK = 8,
-    arg_matrixLayout = 9,
-    arg_matrixTranspose = 10,
-    arg_matrixStride = 11,
-    arg_isOutputUnsigned = 12,
-  };
-  // Accessors
-  llvm::Value *get_inputVector() const { return Instr->getOperand(1); }
-  void set_inputVector(llvm::Value *val) { Instr->setOperand(1, val); }
-  llvm::Value *get_isInputUnsigned() const { return Instr->getOperand(2); }
-  void set_isInputUnsigned(llvm::Value *val) { Instr->setOperand(2, val); }
-  llvm::Value *get_inputInterpretation() const { return Instr->getOperand(3); }
-  void set_inputInterpretation(llvm::Value *val) { Instr->setOperand(3, val); }
-  llvm::Value *get_matrixBuffer() const { return Instr->getOperand(4); }
-  void set_matrixBuffer(llvm::Value *val) { Instr->setOperand(4, val); }
-  llvm::Value *get_matrixOffset() const { return Instr->getOperand(5); }
-  void set_matrixOffset(llvm::Value *val) { Instr->setOperand(5, val); }
-  llvm::Value *get_matrixIntepretation() const { return Instr->getOperand(6); }
-  void set_matrixIntepretation(llvm::Value *val) { Instr->setOperand(6, val); }
-  llvm::Value *get_matrixM() const { return Instr->getOperand(7); }
-  void set_matrixM(llvm::Value *val) { Instr->setOperand(7, val); }
-  llvm::Value *get_matrixK() const { return Instr->getOperand(8); }
-  void set_matrixK(llvm::Value *val) { Instr->setOperand(8, val); }
-  llvm::Value *get_matrixLayout() const { return Instr->getOperand(9); }
-  void set_matrixLayout(llvm::Value *val) { Instr->setOperand(9, val); }
-  llvm::Value *get_matrixTranspose() const { return Instr->getOperand(10); }
-  void set_matrixTranspose(llvm::Value *val) { Instr->setOperand(10, val); }
-  llvm::Value *get_matrixStride() const { return Instr->getOperand(11); }
-  void set_matrixStride(llvm::Value *val) { Instr->setOperand(11, val); }
-  llvm::Value *get_isOutputUnsigned() const { return Instr->getOperand(12); }
-  void set_isOutputUnsigned(llvm::Value *val) { Instr->setOperand(12, val); }
-};
-
-/// This instruction multiplies a MxK dimension matrix and a K sized input
-/// vector and adds an M-sized bias vector
-struct DxilInst_MatVecMulAdd {
-  llvm::Instruction *Instr;
-  // Construction and identification
-  DxilInst_MatVecMulAdd(llvm::Instruction *pInstr) : Instr(pInstr) {}
-  operator bool() const {
-    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
-                                          hlsl::OP::OpCode::MatVecMulAdd);
-  }
-  // Validation support
-  bool isAllowed() const { return true; }
-  bool isArgumentListValid() const {
-    if (16 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
-      return false;
-    return true;
-  }
-  // Metadata
-  bool requiresUniformInputs() const { return false; }
-  // Operand indexes
-  enum OperandIdx {
-    arg_inputVector = 1,
-    arg_isInputUnsigned = 2,
-    arg_inputInterpretation = 3,
-    arg_matrixBuffer = 4,
-    arg_matrixOffset = 5,
-    arg_matrixIntepretation = 6,
-    arg_matrixM = 7,
-    arg_matrixK = 8,
-    arg_matrixLayout = 9,
-    arg_matrixTranspose = 10,
-    arg_matrixStride = 11,
-    arg_biasBuffer = 12,
-    arg_biasOffset = 13,
-    arg_biasIntepretation = 14,
-    arg_isOutputUnsigned = 15,
-  };
-  // Accessors
-  llvm::Value *get_inputVector() const { return Instr->getOperand(1); }
-  void set_inputVector(llvm::Value *val) { Instr->setOperand(1, val); }
-  llvm::Value *get_isInputUnsigned() const { return Instr->getOperand(2); }
-  void set_isInputUnsigned(llvm::Value *val) { Instr->setOperand(2, val); }
-  llvm::Value *get_inputInterpretation() const { return Instr->getOperand(3); }
-  void set_inputInterpretation(llvm::Value *val) { Instr->setOperand(3, val); }
-  llvm::Value *get_matrixBuffer() const { return Instr->getOperand(4); }
-  void set_matrixBuffer(llvm::Value *val) { Instr->setOperand(4, val); }
-  llvm::Value *get_matrixOffset() const { return Instr->getOperand(5); }
-  void set_matrixOffset(llvm::Value *val) { Instr->setOperand(5, val); }
-  llvm::Value *get_matrixIntepretation() const { return Instr->getOperand(6); }
-  void set_matrixIntepretation(llvm::Value *val) { Instr->setOperand(6, val); }
-  llvm::Value *get_matrixM() const { return Instr->getOperand(7); }
-  void set_matrixM(llvm::Value *val) { Instr->setOperand(7, val); }
-  llvm::Value *get_matrixK() const { return Instr->getOperand(8); }
-  void set_matrixK(llvm::Value *val) { Instr->setOperand(8, val); }
-  llvm::Value *get_matrixLayout() const { return Instr->getOperand(9); }
-  void set_matrixLayout(llvm::Value *val) { Instr->setOperand(9, val); }
-  llvm::Value *get_matrixTranspose() const { return Instr->getOperand(10); }
-  void set_matrixTranspose(llvm::Value *val) { Instr->setOperand(10, val); }
-  llvm::Value *get_matrixStride() const { return Instr->getOperand(11); }
-  void set_matrixStride(llvm::Value *val) { Instr->setOperand(11, val); }
-  llvm::Value *get_biasBuffer() const { return Instr->getOperand(12); }
-  void set_biasBuffer(llvm::Value *val) { Instr->setOperand(12, val); }
-  llvm::Value *get_biasOffset() const { return Instr->getOperand(13); }
-  void set_biasOffset(llvm::Value *val) { Instr->setOperand(13, val); }
-  llvm::Value *get_biasIntepretation() const { return Instr->getOperand(14); }
-  void set_biasIntepretation(llvm::Value *val) { Instr->setOperand(14, val); }
-  llvm::Value *get_isOutputUnsigned() const { return Instr->getOperand(15); }
-  void set_isOutputUnsigned(llvm::Value *val) { Instr->setOperand(15, val); }
-};
-
-/// This instruction Computes the outer product between column vectors and an
-/// MxN matrix is accumulated component-wise atomically (with device scope) in
-/// memory
-struct DxilInst_OuterProductAccumulate {
-  llvm::Instruction *Instr;
-  // Construction and identification
-  DxilInst_OuterProductAccumulate(llvm::Instruction *pInstr) : Instr(pInstr) {}
-  operator bool() const {
-    return hlsl::OP::IsDxilOpFuncCallInst(
-        Instr, hlsl::OP::OpCode::OuterProductAccumulate);
-  }
-  // Validation support
-  bool isAllowed() const { return true; }
-  bool isArgumentListValid() const {
-    if (8 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
-      return false;
-    return true;
-  }
-  // Metadata
-  bool requiresUniformInputs() const { return false; }
-  // Operand indexes
-  enum OperandIdx {
-    arg_inputVector1 = 1,
-    arg_inputVector2 = 2,
-    arg_matrixBuffer = 3,
-    arg_matrixOffset = 4,
-    arg_matrixIntepretation = 5,
-    arg_matrixLayout = 6,
-    arg_matrixStride = 7,
-  };
-  // Accessors
-  llvm::Value *get_inputVector1() const { return Instr->getOperand(1); }
-  void set_inputVector1(llvm::Value *val) { Instr->setOperand(1, val); }
-  llvm::Value *get_inputVector2() const { return Instr->getOperand(2); }
-  void set_inputVector2(llvm::Value *val) { Instr->setOperand(2, val); }
-  llvm::Value *get_matrixBuffer() const { return Instr->getOperand(3); }
-  void set_matrixBuffer(llvm::Value *val) { Instr->setOperand(3, val); }
-  llvm::Value *get_matrixOffset() const { return Instr->getOperand(4); }
-  void set_matrixOffset(llvm::Value *val) { Instr->setOperand(4, val); }
-  llvm::Value *get_matrixIntepretation() const { return Instr->getOperand(5); }
-  void set_matrixIntepretation(llvm::Value *val) { Instr->setOperand(5, val); }
-  int32_t get_matrixIntepretation_val() const {
-    return (int32_t)(llvm::dyn_cast<llvm::ConstantInt>(Instr->getOperand(5))
-                         ->getZExtValue());
-  }
-  void set_matrixIntepretation_val(int32_t val) {
-    Instr->setOperand(5, llvm::Constant::getIntegerValue(
-                             llvm::IntegerType::get(Instr->getContext(), 32),
-                             llvm::APInt(32, (uint64_t)val)));
-  }
-  llvm::Value *get_matrixLayout() const { return Instr->getOperand(6); }
-  void set_matrixLayout(llvm::Value *val) { Instr->setOperand(6, val); }
-  int32_t get_matrixLayout_val() const {
-    return (int32_t)(llvm::dyn_cast<llvm::ConstantInt>(Instr->getOperand(6))
-                         ->getZExtValue());
-  }
-  void set_matrixLayout_val(int32_t val) {
-    Instr->setOperand(6, llvm::Constant::getIntegerValue(
-                             llvm::IntegerType::get(Instr->getContext(), 32),
-                             llvm::APInt(32, (uint64_t)val)));
-  }
-  llvm::Value *get_matrixStride() const { return Instr->getOperand(7); }
-  void set_matrixStride(llvm::Value *val) { Instr->setOperand(7, val); }
-};
-
-/// This instruction Accumulates the components of a vector component-wise
-/// atomically (with device scope) to the corresponding elements of an array in
-/// memory
-struct DxilInst_VectorAccumulate {
-  llvm::Instruction *Instr;
-  // Construction and identification
-  DxilInst_VectorAccumulate(llvm::Instruction *pInstr) : Instr(pInstr) {}
-  operator bool() const {
-    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
-                                          hlsl::OP::OpCode::VectorAccumulate);
-  }
-  // Validation support
-  bool isAllowed() const { return true; }
-  bool isArgumentListValid() const {
-    if (4 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
-      return false;
-    return true;
-  }
-  // Metadata
-  bool requiresUniformInputs() const { return false; }
-  // Operand indexes
-  enum OperandIdx {
-    arg_inputVector = 1,
-    arg_arrayBuffer = 2,
-    arg_arrayOffset = 3,
-  };
-  // Accessors
-  llvm::Value *get_inputVector() const { return Instr->getOperand(1); }
-  void set_inputVector(llvm::Value *val) { Instr->setOperand(1, val); }
-  llvm::Value *get_arrayBuffer() const { return Instr->getOperand(2); }
-  void set_arrayBuffer(llvm::Value *val) { Instr->setOperand(2, val); }
-  llvm::Value *get_arrayOffset() const { return Instr->getOperand(3); }
-  void set_arrayOffset(llvm::Value *val) { Instr->setOperand(3, val); }
-};
-
 /// This instruction Bitwise AND reduction of the vector returning a scalar
 struct DxilInst_VectorReduceAnd {
   llvm::Instruction *Instr;
@@ -10606,7 +10376,7 @@ struct DxilInst_LinAlgMatrixLoadFromDescriptor {
   // Validation support
   bool isAllowed() const { return true; }
   bool isArgumentListValid() const {
-    if (5 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
       return false;
     return true;
   }
@@ -10618,6 +10388,7 @@ struct DxilInst_LinAlgMatrixLoadFromDescriptor {
     arg_offset = 2,
     arg_stride = 3,
     arg_layout = 4,
+    arg_align = 5,
   };
   // Accessors
   llvm::Value *get_handle() const { return Instr->getOperand(1); }
@@ -10628,6 +10399,8 @@ struct DxilInst_LinAlgMatrixLoadFromDescriptor {
   void set_stride(llvm::Value *val) { Instr->setOperand(3, val); }
   llvm::Value *get_layout() const { return Instr->getOperand(4); }
   void set_layout(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_align() const { return Instr->getOperand(5); }
+  void set_align(llvm::Value *val) { Instr->setOperand(5, val); }
 };
 
 /// This instruction fills a matrix with data from a groupshared array
@@ -10805,7 +10578,7 @@ struct DxilInst_LinAlgMatrixStoreToDescriptor {
   // Validation support
   bool isAllowed() const { return true; }
   bool isArgumentListValid() const {
-    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+    if (7 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
       return false;
     return true;
   }
@@ -10818,6 +10591,7 @@ struct DxilInst_LinAlgMatrixStoreToDescriptor {
     arg_offset = 3,
     arg_stride = 4,
     arg_layout = 5,
+    arg_align = 6,
   };
   // Accessors
   llvm::Value *get_matrix() const { return Instr->getOperand(1); }
@@ -10830,6 +10604,8 @@ struct DxilInst_LinAlgMatrixStoreToDescriptor {
   void set_stride(llvm::Value *val) { Instr->setOperand(4, val); }
   llvm::Value *get_layout() const { return Instr->getOperand(5); }
   void set_layout(llvm::Value *val) { Instr->setOperand(5, val); }
+  llvm::Value *get_align() const { return Instr->getOperand(6); }
+  void set_align(llvm::Value *val) { Instr->setOperand(6, val); }
 };
 
 /// This instruction stores a matrix to groupshared memory
@@ -10968,7 +10744,7 @@ struct DxilInst_LinAlgMatVecMul {
   // Validation support
   bool isAllowed() const { return true; }
   bool isArgumentListValid() const {
-    if (4 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+    if (5 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
       return false;
     return true;
   }
@@ -10977,16 +10753,19 @@ struct DxilInst_LinAlgMatVecMul {
   // Operand indexes
   enum OperandIdx {
     arg_matrix = 1,
-    arg_inputVector = 2,
-    arg_interpretation = 3,
+    arg_isOutputSigned = 2,
+    arg_inputVector = 3,
+    arg_interpretation = 4,
   };
   // Accessors
   llvm::Value *get_matrix() const { return Instr->getOperand(1); }
   void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
-  llvm::Value *get_inputVector() const { return Instr->getOperand(2); }
-  void set_inputVector(llvm::Value *val) { Instr->setOperand(2, val); }
-  llvm::Value *get_interpretation() const { return Instr->getOperand(3); }
-  void set_interpretation(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_isOutputSigned() const { return Instr->getOperand(2); }
+  void set_isOutputSigned(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_inputVector() const { return Instr->getOperand(3); }
+  void set_inputVector(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_interpretation() const { return Instr->getOperand(4); }
+  void set_interpretation(llvm::Value *val) { Instr->setOperand(4, val); }
 };
 
 /// This instruction Multiplies a MxK dimension matrix and a K sized input
@@ -11002,7 +10781,7 @@ struct DxilInst_LinAlgMatVecMulAdd {
   // Validation support
   bool isAllowed() const { return true; }
   bool isArgumentListValid() const {
-    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+    if (7 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
       return false;
     return true;
   }
@@ -11011,22 +10790,25 @@ struct DxilInst_LinAlgMatVecMulAdd {
   // Operand indexes
   enum OperandIdx {
     arg_matrix = 1,
-    arg_inputVector = 2,
-    arg_inputInterpretation = 3,
-    arg_biasVector = 4,
-    arg_biasInterpretation = 5,
+    arg_isOutputSigned = 2,
+    arg_inputVector = 3,
+    arg_inputInterpretation = 4,
+    arg_biasVector = 5,
+    arg_biasInterpretation = 6,
   };
   // Accessors
   llvm::Value *get_matrix() const { return Instr->getOperand(1); }
   void set_matrix(llvm::Value *val) { Instr->setOperand(1, val); }
-  llvm::Value *get_inputVector() const { return Instr->getOperand(2); }
-  void set_inputVector(llvm::Value *val) { Instr->setOperand(2, val); }
-  llvm::Value *get_inputInterpretation() const { return Instr->getOperand(3); }
-  void set_inputInterpretation(llvm::Value *val) { Instr->setOperand(3, val); }
-  llvm::Value *get_biasVector() const { return Instr->getOperand(4); }
-  void set_biasVector(llvm::Value *val) { Instr->setOperand(4, val); }
-  llvm::Value *get_biasInterpretation() const { return Instr->getOperand(5); }
-  void set_biasInterpretation(llvm::Value *val) { Instr->setOperand(5, val); }
+  llvm::Value *get_isOutputSigned() const { return Instr->getOperand(2); }
+  void set_isOutputSigned(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_inputVector() const { return Instr->getOperand(3); }
+  void set_inputVector(llvm::Value *val) { Instr->setOperand(3, val); }
+  llvm::Value *get_inputInterpretation() const { return Instr->getOperand(4); }
+  void set_inputInterpretation(llvm::Value *val) { Instr->setOperand(4, val); }
+  llvm::Value *get_biasVector() const { return Instr->getOperand(5); }
+  void set_biasVector(llvm::Value *val) { Instr->setOperand(5, val); }
+  llvm::Value *get_biasInterpretation() const { return Instr->getOperand(6); }
+  void set_biasInterpretation(llvm::Value *val) { Instr->setOperand(6, val); }
 };
 
 /// This instruction accumulates a matrix to a RWByteAddressBuffer
@@ -11042,7 +10824,7 @@ struct DxilInst_LinAlgMatrixAccumulateToDescriptor {
   // Validation support
   bool isAllowed() const { return true; }
   bool isArgumentListValid() const {
-    if (6 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+    if (7 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
       return false;
     return true;
   }
@@ -11055,6 +10837,7 @@ struct DxilInst_LinAlgMatrixAccumulateToDescriptor {
     arg_offset = 3,
     arg_stride = 4,
     arg_layout = 5,
+    arg_align = 6,
   };
   // Accessors
   llvm::Value *get_matrix() const { return Instr->getOperand(1); }
@@ -11067,6 +10850,8 @@ struct DxilInst_LinAlgMatrixAccumulateToDescriptor {
   void set_stride(llvm::Value *val) { Instr->setOperand(4, val); }
   llvm::Value *get_layout() const { return Instr->getOperand(5); }
   void set_layout(llvm::Value *val) { Instr->setOperand(5, val); }
+  llvm::Value *get_align() const { return Instr->getOperand(6); }
+  void set_align(llvm::Value *val) { Instr->setOperand(6, val); }
 };
 
 /// This instruction accumulates a matrix to groupshared memory
@@ -11139,6 +10924,40 @@ struct DxilInst_LinAlgMatrixOuterProduct {
   void set_vectorA(llvm::Value *val) { Instr->setOperand(1, val); }
   llvm::Value *get_vectorB() const { return Instr->getOperand(2); }
   void set_vectorB(llvm::Value *val) { Instr->setOperand(2, val); }
+};
+
+/// This instruction Convert vector components from one interpretation to
+/// another
+struct DxilInst_LinAlgConvert {
+  llvm::Instruction *Instr;
+  // Construction and identification
+  DxilInst_LinAlgConvert(llvm::Instruction *pInstr) : Instr(pInstr) {}
+  operator bool() const {
+    return hlsl::OP::IsDxilOpFuncCallInst(Instr,
+                                          hlsl::OP::OpCode::LinAlgConvert);
+  }
+  // Validation support
+  bool isAllowed() const { return true; }
+  bool isArgumentListValid() const {
+    if (4 != llvm::dyn_cast<llvm::CallInst>(Instr)->getNumArgOperands())
+      return false;
+    return true;
+  }
+  // Metadata
+  bool requiresUniformInputs() const { return false; }
+  // Operand indexes
+  enum OperandIdx {
+    arg_inputVector = 1,
+    arg_inputInterpretation = 2,
+    arg_outputInterpretation = 3,
+  };
+  // Accessors
+  llvm::Value *get_inputVector() const { return Instr->getOperand(1); }
+  void set_inputVector(llvm::Value *val) { Instr->setOperand(1, val); }
+  llvm::Value *get_inputInterpretation() const { return Instr->getOperand(2); }
+  void set_inputInterpretation(llvm::Value *val) { Instr->setOperand(2, val); }
+  llvm::Value *get_outputInterpretation() const { return Instr->getOperand(3); }
+  void set_outputInterpretation(llvm::Value *val) { Instr->setOperand(3, val); }
 };
 
 /// This instruction triggers a breakpoint if a debugger is attached

@@ -3,16 +3,20 @@
 
 #include <atlcomcli.h>
 #include <d3d12.h>
+#include <memory>
 #include <optional>
+#include <string>
 #include <windows.h>
 
+#include "ShaderOpTest.h"
 #include "dxc/Support/dxcapi.use.h"
 
-// D3D_SHADER_MODEL_6_10 is not yet in the released Windows SDK.
-// Define locally so the tests can target SM 6.10.
-// Once the public SDK ships with this, a compile break (redefinition error)
-// will signal that this local definition should be removed.
+// D3D_SHADER_MODEL_6_10 is not yet in the released Windows SDK. Define locally
+// so the test can query 6.10 driver support. This should be removed once
+// widely supported.
+#if defined(D3D12_PREVIEW_SDK_VERSION) && D3D12_PREVIEW_SDK_VERSION < 720
 static const D3D_SHADER_MODEL D3D_SHADER_MODEL_6_10 = (D3D_SHADER_MODEL)0x6a;
+#endif
 
 // Local highest shader model known to DXC. Update this when adding support
 // for new shader models. Unlike D3D_HIGHEST_SHADER_MODEL from the SDK,
@@ -73,5 +77,34 @@ bool isFallbackPathEnabled();
 UINT getMaxGroupSharedMemoryCS(ID3D12Device *Device);
 UINT getMaxGroupSharedMemoryAS(ID3D12Device *Device);
 UINT getMaxGroupSharedMemoryMS(ID3D12Device *Device);
+
+/// Create a ShaderOp for a compute shader dispatch.
+std::unique_ptr<st::ShaderOp>
+createComputeOp(const char *Source, const char *Target, const char *RootSig,
+                const char *Args = nullptr, UINT DispatchX = 1,
+                UINT DispatchY = 1, UINT DispatchZ = 1);
+
+/// Add a UAV buffer resource to a ShaderOp.
+void addUAVBuffer(st::ShaderOp *Op, const char *Name, UINT64 Width,
+                  bool ReadBack, const char *Init = "zero");
+
+/// Add a SRV buffer resource to a ShaderOp.
+void addSRVBuffer(st::ShaderOp *Op, const char *Name, UINT64 Width,
+                  const char *Init = "zero");
+
+/// Bind a resource to a root view parameter by index.
+void addRootView(st::ShaderOp *Op, UINT Index, const char *ResName);
+
+/// Run a programmatically-built ShaderOp and return the result.
+std::shared_ptr<st::ShaderOpTestResult>
+runShaderOp(ID3D12Device *Device, dxc::SpecificDllLoader &DxcSupport,
+            std::unique_ptr<st::ShaderOp> Op,
+            st::ShaderOpTest::TInitCallbackFn InitCallback = nullptr);
+
+/// Compiles an HLSL shader using the DXC API to verify it is well-formed.
+/// Fails the test on compile error.
+void compileShader(dxc::SpecificDllLoader &DxcSupport, const char *Source,
+                   const char *Target, const std::string &Args,
+                   bool VerboseLogging = false);
 
 #endif // HLSLEXECTESTUTILS_H

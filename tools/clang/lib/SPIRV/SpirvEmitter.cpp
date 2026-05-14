@@ -699,7 +699,7 @@ SpirvEmitter::SpirvEmitter(CompilerInstance &ci)
   }
 }
 
-std::vector<SpirvVariable *>
+std::vector<SpirvVariableLike *>
 SpirvEmitter::getInterfacesForEntryPoint(SpirvFunction *entryPoint) {
   auto stageVars = declIdMapper.collectStageVars(entryPoint);
   if (!featureManager.isTargetEnvVulkan1p1Spirv1p4OrAbove())
@@ -711,20 +711,28 @@ SpirvEmitter::getInterfacesForEntryPoint(SpirvFunction *entryPoint) {
   // declIdMapper keeps the mapping between variables with Input or Output
   // storage class and their storage class, we have to rely on
   // declIdMapper.collectStageVars() to collect them.
-  llvm::SetVector<SpirvVariable *> interfaces(stageVars.begin(),
-                                              stageVars.end());
+  llvm::SetVector<SpirvVariableLike *> interfaces(stageVars.begin(),
+                                                  stageVars.end());
+
   for (auto *moduleVar : spvBuilder.getModule()->getVariables()) {
-    if (moduleVar->getStorageClass() != spv::StorageClass::Input &&
-        moduleVar->getStorageClass() != spv::StorageClass::Output) {
-      if (auto *varEntry =
-              declIdMapper.getRayTracingStageVarEntryFunction(moduleVar)) {
-        if (varEntry != entryPoint)
-          continue;
-      }
+    if (moduleVar->getStorageClass() == spv::StorageClass::Input ||
+        moduleVar->getStorageClass() == spv::StorageClass::Output)
+      continue;
+
+    auto *untypedVar = dyn_cast<SpirvUntypedVariableKHR>(moduleVar);
+    if (untypedVar) {
       interfaces.insert(moduleVar);
+      continue;
     }
+
+    if (auto *varEntry = declIdMapper.getRayTracingStageVarEntryFunction(
+            cast<SpirvVariable>(moduleVar))) {
+      if (varEntry != entryPoint)
+        continue;
+    }
+    interfaces.insert(moduleVar);
   }
-  std::vector<SpirvVariable *> interfacesInVector;
+  std::vector<SpirvVariableLike *> interfacesInVector;
   interfacesInVector.reserve(interfaces.size());
   for (auto *interface : interfaces) {
     interfacesInVector.push_back(interface);
@@ -1716,8 +1724,8 @@ void SpirvEmitter::doFunctionDecl(const FunctionDecl *decl) {
   for (uint32_t i = 0; i < decl->getNumParams(); ++i) {
     const ParmVarDecl *paramDecl = decl->getParamDecl(i);
     QualType paramType = paramDecl->getType();
-    auto *param =
-        declIdMapper.createFnParam(paramDecl, i + 1 + isNonStaticMemberFn);
+    auto *param = declIdMapper.createFnParam(
+        paramDecl, i + 1 + isNonStaticMemberFn, !isEntry);
     if (isEntry) {
       handleNodePayloadArrayType(paramDecl, param);
     }
@@ -2980,12 +2988,12 @@ void SpirvEmitter::doReturnStmt(const ReturnStmt *stmt) {
       declIdMapper.createResourceHeap(decl, resourceType);
     }
 
-    // Update counter variable associated with function returns
-    tryToAssignCounterVar(curFunction, retVal);
-
     auto *retInfo = loadIfGLValue(retVal);
     if (!retInfo)
       return;
+
+    // Update counter variable associated with function returns
+    tryToAssignCounterVar(curFunction, retVal);
 
     auto retType = retVal->getType();
     if (retInfo->getLayoutRule() != SpirvLayoutRule::Void &&
@@ -4450,8 +4458,13 @@ SpirvEmitter::processBufferTextureGetDimensions(const CXXMemberCallExpr *expr) {
 
   if ((typeName == "Texture1D" && numArgs > 1) ||
       (typeName == "Texture2D" && numArgs > 2) ||
+      (typeName == "SampledTexture1D" && numArgs > 1) ||
+      (typeName == "SampledTexture1DArray" && numArgs > 2) ||
       (typeName == "SampledTexture2D" && numArgs > 2) ||
       (typeName == "SampledTexture2DArray" && numArgs > 3) ||
+      (typeName == "SampledTextureCUBE" && numArgs > 2) ||
+      (typeName == "SampledTextureCUBEArray" && numArgs > 3) ||
+      (typeName == "SampledTexture3D" && numArgs > 3) ||
       (typeName == "TextureCube" && numArgs > 2) ||
       (typeName == "Texture3D" && numArgs > 3) ||
       (typeName == "Texture1DArray" && numArgs > 2) ||
@@ -5137,7 +5150,7 @@ bool SpirvEmitter::tryToAssignCounterVar(const DeclaratorDecl *dstDecl,
 
   // Handle AssocCounter#1 (see CounterVarFields comment)
   if (const auto *dstPair =
-          declIdMapper.createOrGetCounterIdAliasPair(dstDecl)) {
+          declIdMapper.getOrCreateCounterIdAliasPair(dstDecl)) {
     auto *srcCounter = getFinalACSBufferCounterInstruction(srcExpr);
     if (!srcCounter) {
       emitFatalError("cannot find the associated counter variable",
@@ -5245,13 +5258,13 @@ const CounterIdAliasPair *
 SpirvEmitter::getFinalACSBufferCounter(const Expr *expr) {
   // AssocCounter#1: referencing some stand-alone variable
   if (const auto *decl = getReferencedDef(expr))
-    return declIdMapper.createOrGetCounterIdAliasPair(decl);
+    return declIdMapper.getOrCreateCounterIdAliasPair(decl);
 
   const Expr *expr_withoutcasts = expr->IgnoreParenCasts();
   if (isResourceDescriptorHeap(expr_withoutcasts->getType())) {
     const Expr *base = nullptr;
     getDescriptorHeapOperands(expr_withoutcasts, &base, /* index= */ nullptr);
-    return declIdMapper.createOrGetCounterIdAliasPair(getReferencedDef(base));
+    return declIdMapper.getOrCreateCounterIdAliasPair(getReferencedDef(base));
   }
 
   // AssocCounter#2: referencing some non-struct field
@@ -5262,7 +5275,7 @@ SpirvEmitter::getFinalACSBufferCounter(const Expr *expr) {
       (base && isa<CXXThisExpr>(base))
           ? getOrCreateDeclForMethodObject(cast<CXXMethodDecl>(curFunction))
           : getReferencedDef(base);
-  return declIdMapper.getCounterIdAliasPair(decl, &rawIndices);
+  return declIdMapper.getOrCreateCounterIdAliasPair(decl, &rawIndices);
 }
 
 const CounterVarFields *SpirvEmitter::getIntermediateACSBufferCounter(
@@ -6694,6 +6707,33 @@ SpirvEmitter::doCXXOperatorCallExpr(const CXXOperatorCallExpr *expr,
       auto *var = declIdMapper.createResourceHeap(decl, resourceType);
 
       auto *index = doExpr(indexExpr);
+
+      if (spirvOptions.useDescriptorHeap) {
+        emitWarning("SPV_EXT_descriptor_heap support is incomplete.",
+                    baseExpr->getExprLoc());
+        needsLegalization = true;
+
+        if (isAKindOfStructuredOrByteBuffer(resourceType)) {
+          emitError("UAV support not implemented with non-emulated heaps.",
+                    expr->getExprLoc());
+          return nullptr;
+        }
+
+        const auto *untypedType = spvContext.getUntypedPointerKHRType(
+            spv::StorageClass::UniformConstant);
+        LowerTypeVisitor lowerTypeVisitor(astContext, spvContext, spirvOptions,
+                                          spvBuilder);
+        const SpirvType *handleType =
+            lowerTypeVisitor.lowerType(resourceType, SpirvLayoutRule::Void,
+                                       llvm::None, baseExpr->getExprLoc());
+        const auto *arrayType =
+            spvContext.getRuntimeArrayType(handleType, llvm::None);
+        auto *untypedAccessChainPtr = spvBuilder.createUntypedAccessChainKHR(
+            untypedType, arrayType, var, index, baseExpr->getExprLoc());
+        return spvBuilder.createLoad(resourceType, untypedAccessChainPtr,
+                                     baseExpr->getExprLoc(), range);
+      }
+
       auto *accessChainPtr = spvBuilder.createAccessChain(
           resourceType, var, index, baseExpr->getExprLoc(), range);
 
