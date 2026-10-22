@@ -107,6 +107,8 @@ if(DXC_ENABLE_ETW)
   add_compile_definitions(DXC_ENABLE_ETW)
 endif()
 
+option(DXC_OPTIMIZE_FOR_SIZE "Use MSVC /Os for Windows Release builds" OFF)
+
 # adjust link option to enable debugging from kernel mode; not compatible with incremental linking
 if(NOT CMAKE_VERSION VERSION_LESS "3.13" AND MSVC AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID STREQUAL "ARM64EC")
   add_link_options(/DEBUGTYPE:CV,FIXUP,PDATA /INCREMENTAL:NO)
