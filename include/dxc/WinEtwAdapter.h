@@ -15,6 +15,8 @@
 // provide trace events, and consume trace events.
 #define EventRegisterMicrosoft_Windows_DXCompiler_API()
 #define EventUnregisterMicrosoft_Windows_DXCompiler_API()
+#define EventRegisterMicrosoft_Windows_DxcRuntime_API()
+#define EventUnregisterMicrosoft_Windows_DxcRuntime_API()
 #define DxcEtw_DXCompilerCreateInstance_Start()
 #define DxcEtw_DXCompilerCreateInstance_Stop(hr)
 #define DxcEtw_DXCompilerInitialization_Start()
@@ -29,5 +31,9 @@
 #define DxcEtw_DXCompilerPreprocess_Stop(hr)
 #define DxcEtw_DxcValidation_Start()
 #define DxcEtw_DxcValidation_Stop(hr)
+#define DxcRuntimeEtw_DxcRuntimeInitialization_Start()
+#define DxcRuntimeEtw_DxcRuntimeInitialization_Stop(hr)
+#define DxcRuntimeEtw_DxcRuntimeShutdown_Start()
+#define DxcRuntimeEtw_DxcRuntimeShutdown_Stop(hr)
 
 #endif // LLVM_SUPPORT_WIN_ETW_ADAPTER_H
