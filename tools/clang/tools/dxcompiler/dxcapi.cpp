@@ -21,7 +21,7 @@
 #include "dxc/config.h"
 #include "dxc/dxcisense.h"
 #include "dxc/dxctools.h"
-#ifdef _WIN32
+#if defined(_WIN32) && defined(DXC_ENABLE_ETW)
 #include "dxcetw.h"
 #endif
 #include "dxc/DxilContainer/DxcContainerBuilder.h"

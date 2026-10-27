@@ -16,14 +16,15 @@
 #include "dxc/Support/Global.h"
 #include "dxc/Support/WinIncludes.h"
 
-#include "Tracing/DxcRuntimeEtw.h"
-
 #define DXC_API_IMPORT
 
 #include "dxc/config.h"
 #include "dxc/dxcisense.h"
 #include "dxc/dxctools.h"
+#ifdef DXC_ENABLE_ETW
+#include "Tracing/DxcRuntimeEtw.h"
 #include "dxcetw.h"
+#endif // DXC_ENABLE_ETW
 
 #include "DxbcConverter.h"
 

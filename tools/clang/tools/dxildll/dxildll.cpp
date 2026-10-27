@@ -22,7 +22,7 @@
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/ManagedStatic.h"
 #include <algorithm>
-#ifdef _WIN32
+#if defined(_WIN32) && defined(DXC_ENABLE_ETW)
 #include "Tracing/DxcRuntimeEtw.h"
 #include "dxc/Tracing/dxcetw.h"
 #endif

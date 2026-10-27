@@ -14,7 +14,9 @@
 #include "dxc/Support/Global.h"
 #include "dxc/Support/HLSLOptions.h"
 #include "dxc/config.h"
+#ifdef DXC_ENABLE_ETW
 #include "dxcetw.h"
+#endif // DXC_ENABLE_ETW
 #include "dxillib.h"
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/ManagedStatic.h"

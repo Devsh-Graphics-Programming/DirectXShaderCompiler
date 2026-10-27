@@ -52,7 +52,7 @@
 #include "dxc/Support/dxcapi.use.h"
 #include "dxc/Support/microcom.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(DXC_ENABLE_ETW)
 #include "dxcetw.h"
 #endif
 #include "dxcompileradapter.h"

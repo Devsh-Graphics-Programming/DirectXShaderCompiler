@@ -26,7 +26,7 @@
 #include "dxc/Support/Global.h"
 #include "dxc/Support/dxcapi.impl.h"
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(DXC_ENABLE_ETW)
 #include "dxcetw.h"
 #endif
 
