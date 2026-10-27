@@ -198,9 +198,6 @@
 #define OutputDebugStringA(msg) fputs(msg, stderr)
 #define OutputDebugFormatA(...) fprintf(stderr, __VA_ARGS__)
 
-// I have no idea if I don't break something like INSTALL targets, requires CI tests
-#include "WinEtwAdapter.h"
-
 #define UInt32Add UIntAdd
 #define Int32ToUInt32 IntToUInt
 
@@ -1041,5 +1038,35 @@ public:
 #endif // __cplusplus
 
 #endif // _WIN32
+
+#if !defined(_WIN32) || !defined(DXC_ENABLE_ETW)
+
+// Event Tracing for Windows (ETW) provides application programmers the ability
+// to start and stop event tracing sessions, instrument an application to
+// provide trace events, and consume trace events.
+#define EventRegisterMicrosoft_Windows_DXCompiler_API()
+#define EventUnregisterMicrosoft_Windows_DXCompiler_API()
+#define EventRegisterMicrosoft_Windows_DxcRuntime_API()
+#define EventUnregisterMicrosoft_Windows_DxcRuntime_API()
+#define DxcEtw_DXCompilerCreateInstance_Start()
+#define DxcEtw_DXCompilerCreateInstance_Stop(hr)
+#define DxcEtw_DXCompilerInitialization_Start()
+#define DxcEtw_DXCompilerInitialization_Stop(hr)
+#define DxcEtw_DXCompilerShutdown_Start()
+#define DxcEtw_DXCompilerShutdown_Stop(hr)
+#define DxcEtw_DXCompilerCompile_Start()
+#define DxcEtw_DXCompilerCompile_Stop(hr)
+#define DxcEtw_DXCompilerDisassemble_Start()
+#define DxcEtw_DXCompilerDisassemble_Stop(hr)
+#define DxcEtw_DXCompilerPreprocess_Start()
+#define DxcEtw_DXCompilerPreprocess_Stop(hr)
+#define DxcEtw_DxcValidation_Start()
+#define DxcEtw_DxcValidation_Stop(hr)
+#define DxcRuntimeEtw_DxcRuntimeInitialization_Start()
+#define DxcRuntimeEtw_DxcRuntimeInitialization_Stop(hr)
+#define DxcRuntimeEtw_DxcRuntimeShutdown_Start()
+#define DxcRuntimeEtw_DxcRuntimeShutdown_Stop(hr)
+
+#endif // !defined(_WIN32) || !defined(DXC_ENABLE_ETW)
 
 #endif // LLVM_SUPPORT_WIN_ADAPTER_H
