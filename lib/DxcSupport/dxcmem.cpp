@@ -67,7 +67,7 @@ IMalloc *DxcGetThreadMallocNoRef() throw() {
     // And if you're overriding the `new`&`delete` operators globally,
     // its nice to not have them depend on global state or deference nullptrs.
     if (!g_pDefaultMalloc)
-      CoGetMalloc(1, &g_pDefaultMalloc);
+      DxcCoGetMalloc(1, &g_pDefaultMalloc);
     return g_pDefaultMalloc;
   }
 
